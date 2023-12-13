@@ -1,0 +1,116 @@
+---
+type Props = {
+  title: string;
+  class?: string;
+};
+
+const { title, class: className } = Astro.props;
+---
+
+<div class="window">
+  <div class="titlebar">
+    <div class="accent"></div>
+    <div>
+      <div class="circle">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+        >
+          <circle cx="5" cy="5" r="5"></circle>
+        </svg>
+      </div>
+      <h1>
+        {title}
+      </h1>
+      <div class="inverted">27612</div>
+      <div class="x inverted">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 10 10"
+        >
+          <path d="M1 1l8 8m0-8L1 9"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class:list={[className, "content"]}>
+    <slot />
+  </div>
+</div>
+
+<style>
+  /* retro macos, 2000 era, sepia */
+  .window {
+    background-color: var(--color-secondary);
+    border: 0.2rem solid var(--color-primary);
+    border-bottom-width: 0.4rem;
+    min-width: 40rem;
+    min-height: 20rem;
+    border-top-left-radius: 0.6rem;
+    border-top-right-radius: 0.6rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .titlebar {
+    background-color: var(--color-primary);
+    border-bottom: 0.2rem solid var(--color-primary);
+
+    .accent {
+      height: 0.2rem;
+      background-color: var(--color-secondary);
+      border-bottom: 0.2rem solid var(--color-primary);
+    }
+
+    > div {
+      height: 1.6rem;
+      display: flex;
+      align-items: stretch;
+      font-size: 0.8rem;
+
+      > div {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+      }
+    }
+
+    .inverted {
+      color: var(--color-primary);
+      padding: 0 0.5rem;
+      background-color: var(--color-secondary);
+      border-left: 0.2rem solid var(--color-primary);
+    }
+
+    .x svg {
+      stroke: var(--color-primary);
+      stroke-width: 2;
+    }
+
+    .circle {
+      margin: 0 0.5rem;
+      fill: var(--color-brand);
+    }
+
+    h1 {
+      margin: 0;
+      padding: 0;
+      flex: 1;
+      font-size: 1rem;
+      font-weight: 400;
+      color: white;
+    }
+  }
+
+  .content {
+    flex: 1;
+    padding: 10px;
+    overflow: auto;
+    color: var(--color-primary);
+  }
+</style>

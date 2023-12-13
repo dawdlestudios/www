@@ -1,0 +1,38 @@
+---
+type Props = {
+  variant: "primary" | "secondary"; // Add more variants as needed
+  invert?: boolean;
+};
+
+const { variant = "primary", invert } = Astro.props;
+
+// Create a list of classes based on the props
+const buttonClasses = {
+  button: true,
+  [variant]: true,
+  invert: invert || false,
+};
+---
+
+<button type="button" class:list={buttonClasses}>
+  <slot />
+</button>
+
+<style>
+  button {
+    background-color: var(--color-brand-light);
+    border: none;
+    color: var(--color-secondary);
+    position: relative;
+    font-size: 1rem;
+    padding: 0.2rem 1.8rem;
+    padding-top: 0.3rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 0.2rem solid var(--color-primary);
+
+    &:first-letter {
+      font-weight: 700;
+    }
+  }
+</style>
