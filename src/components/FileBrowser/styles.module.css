@@ -1,0 +1,87 @@
+.root {
+  flex: 1;
+  border-top: 1px solid #fff;
+
+  .breadcrumbs {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #fff;
+
+    h1 {
+      font-size: 1rem;
+      margin-right: auto;
+    }
+
+    button {
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: #fff;
+    }
+  }
+
+  .items {
+    padding: 1rem 0;
+  }
+
+  .item {
+    cursor: pointer;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    transition: background 0.2s ease-in-out;
+
+    .icon {
+    }
+
+    &:hover {
+      background: #0c161d;
+    }
+
+    h1 {
+      font-size: 1rem;
+      margin-right: auto;
+
+      span {
+        font-size: 0.8rem;
+        color: #fff;
+        margin-left: 0.5rem;
+      }
+    }
+
+    h3 {
+      font-size: 0.8rem;
+    }
+  }
+
+  nav {
+    border-bottom: 1px solid #fff;
+    display: flex;
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0.5rem;
+      border-right: 1px solid #fff;
+      color: #fff;
+      &:hover {
+        color: #ffffffba;
+      }
+    }
+
+    input {
+      flex: 1;
+      border: none;
+      color: #fff;
+      background: none;
+      padding: 0.5rem;
+      outline: none;
+    }
+  }
+}

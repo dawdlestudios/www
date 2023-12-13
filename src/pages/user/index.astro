@@ -1,0 +1,29 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { FileBrowser } from "../../components/FileBrowser";
+---
+
+<Layout title="dawdle.space">
+  <main>
+    <h1>Welcome (user)!</h1>
+  </main>
+  <section class="files">
+    <FileBrowser />
+  </section>
+</Layout>
+
+<style>
+  main {
+    flex: 1;
+    max-width: 800px;
+    padding: 1rem;
+  }
+
+  .files {
+    flex: 1;
+
+    h2 {
+      padding: 1rem;
+    }
+  }
+</style>
