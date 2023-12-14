@@ -1,6 +1,7 @@
 .root {
   flex: 1;
-  border-top: 1px solid #fff;
+  border: 1px solid #fff;
+  margin: 1rem;
 
   .breadcrumbs {
     padding: 1rem;

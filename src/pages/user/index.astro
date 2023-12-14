@@ -1,16 +1,13 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import SettingsLayout from "../../layouts/SettingsLayout.astro";
 import { FileBrowser } from "../../components/FileBrowser";
 ---
 
-<Layout title="dawdle.space">
-  <main>
-    <h1>Welcome (user)!</h1>
-  </main>
+<SettingsLayout title="dawdle.space">
   <section class="files">
     <FileBrowser />
   </section>
-</Layout>
+</SettingsLayout>
 
 <style>
   main {
@@ -21,6 +18,7 @@ import { FileBrowser } from "../../components/FileBrowser";
 
   .files {
     flex: 1;
+    display: flex;
 
     h2 {
       padding: 1rem;

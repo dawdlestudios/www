@@ -27,20 +27,21 @@ const { title } = Astro.props;
       </div>
     </header>
     <ul class="tabs">
-      <li><a data-active href="/">home</a></li>
-      <li><a href="/">members</a></li>
-      <li><a href="/">projects</a></li>
-      <li><a href="/">chat</a></li>
-      <li><a href="/">sign up</a></li>
+      <li data-active><a href="/">home</a></li>
+      <li><a href="/sites">sites</a></li>
+      <li><a href="/wiki">wiki</a></li>
+      <li><a href="/chat">chat</a></li>
+      <li><a href="/join">join</a></li>
     </ul>
     <div class="page">
       <slot />
     </div>
     <div class="footer">
       <a href="https://henry.dawdle.space">made by ~henry</a>
-      <a href="/">contact</a>
-      <a href="/">imprint</a>
-      <a href="/">privacy</a>
+      <a href="/contact">contact</a>
+      <a href="/imprint">imprint</a>
+      <a href="/privacy">privacy</a>
+      <a href="/rules">rules</a>
     </div>
     <style>
       .footer {
@@ -70,16 +71,19 @@ const { title } = Astro.props;
           color: #54827b;
           font-weight: 400;
 
-          &[data-active] {
-            color: #fff;
-          }
-
           &:hover {
             color: #fff;
           }
         }
 
         li {
+          &[data-active] {
+            background: #ffffff;
+            a {
+              color: #000000;
+            }
+          }
+
           padding: 0.5rem 0;
           border-right: 1px solid #fff;
         }
