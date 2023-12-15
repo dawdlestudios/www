@@ -5,10 +5,39 @@ h4,
 h5,
 h6,
 p {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  opacity: 0.8;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  color: #8be2ff;
+  transition: color 0.1s ease-in-out;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+input,
+textarea {
+  resize: none;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  background-color: #ffffff1b;
+  padding: 0.4rem 0.6rem;
+  color: #fff;
+}
+
+input[type="submit"] {
+  margin-top: 1rem;
+  display: inline-flex;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+  cursor: pointer;
+  width: fit-content;
 }

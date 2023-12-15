@@ -1,0 +1,56 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Login">
+  <main>
+    <h1>Login</h1>
+    <form action="/api/login" method="POST">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" />
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" />
+      <input type="submit" value="Login" />
+    </form>
+    <div class="ssh">
+      <p>
+        If you've added your SSH key to your account, you can also connect to
+        your account using <a href="https://www.openssh.com/">OpenSSH</a>:
+      </p>
+      <pre><code>ssh username@dawdle.space</code></pre>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .ssh {
+    margin-top: 2rem;
+    h3 {
+      margin-bottom: 1rem;
+    }
+    pre {
+      background: #00000066;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+  }
+
+  h1 {
+    margin-bottom: 1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    padding: 1rem;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 40rem;
+  }
+</style>
