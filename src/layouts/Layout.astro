@@ -26,9 +26,9 @@ const url = new URL(Astro.request.url);
     <li data-active={url.pathname.startsWith("/wiki")}>
       <a href="/wiki">wiki</a>
     </li>
-    <li data-active={url.pathname.startsWith("/chat")}>
+    <!-- <li data-active={url.pathname.startsWith("/chat")}>
       <a href="/chat">chat</a>
-    </li>
+    </li> -->
     <li
       data-active={url.pathname.startsWith("/join") ||
         url.pathname.startsWith("/login")}
