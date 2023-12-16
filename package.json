@@ -16,6 +16,7 @@
     "@fontsource-variable/lexend": "^5.0.18",
     "@fontsource-variable/victor-mono": "^5.0.3",
     "@monaco-editor/react": "^4.6.0",
+    "@portaljs/remark-wiki-link": "^1.1.2",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.17",
     "astro": "^4.0.5",

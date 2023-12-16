@@ -5,19 +5,43 @@ interface Props {
   title: string;
 }
 const { title } = Astro.props;
+const username = "{user}";
 ---
 
 <Layout title={title}>
   <main>
-    <h2>Welcome (user)!</h2>
+    <h2>
+      Welcome {username}!
+      <a href={`https://{username}.dawdle.space`}
+        >&#10697; {username}.dawdle.space</a
+      >
+    </h2>
+    <p>
+      You can upload files to your account below. Alternatively, you can also
+      connect via <a href="/wiki/ssh">SSH</a> or using a folder on your computer
+      with <a href="/wiki/webdav">WebDAV</a>. If your new here, check out the
+      <a href="/wiki">wiki</a> for more information.
+    </p>
   </main>
   <ul>
     <li data-active><a href="/user">Your Files</a></li>
+    <li data-active><a href="/user">Settings</a></li>
   </ul>
   <slot />
 </Layout>
 
 <style>
+  h2 {
+    font-size: 1.2rem;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
   main {
     background: #141f28;
     padding: 2rem;
