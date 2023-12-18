@@ -29,10 +29,7 @@ const url = new URL(Astro.request.url);
     <!-- <li data-active={url.pathname.startsWith("/chat")}>
       <a href="/chat">chat</a>
     </li> -->
-    <li
-      data-active={url.pathname.startsWith("/join") ||
-        url.pathname.startsWith("/login")}
-    >
+    <li id="nav-join" transition:persist>
       <a href="/join">join</a>
     </li>
   </ul>
@@ -47,6 +44,16 @@ const url = new URL(Astro.request.url);
     <a href="/terms">terms</a>
   </div>
 </Base>
+
+<script>
+  import { getUser } from "../utils/auth";
+  const username = getUser();
+  if (username) {
+    const el = document.querySelector("#nav-join a") as HTMLAnchorElement;
+    el.textContent = username;
+    el.href = "/user";
+  }
+</script>
 
 <style>
   .footer {

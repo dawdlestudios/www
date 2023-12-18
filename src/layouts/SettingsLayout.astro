@@ -5,15 +5,14 @@ interface Props {
   title: string;
 }
 const { title } = Astro.props;
-const username = "{user}";
 ---
 
 <Layout title={title}>
-  <main>
+  <main id="settings">
     <h2>
-      Welcome {username}!
-      <a href={`https://{username}.dawdle.space`}
-        >&#10697; {username}.dawdle.space</a
+      Welcome&nbsp;<span data-username></span>!
+      <a href="#" data-user-page
+        >&#10697; <span data-username></span>.dawdle.space</a
       >
     </h2>
     <p>
@@ -30,6 +29,31 @@ const username = "{user}";
   <slot />
 </Layout>
 
+<script>
+  import { getUser } from "../utils/auth";
+  const username = getUser();
+
+  const setUsername = () => {
+    if (!username) {
+      location.href = "/login";
+      return;
+    }
+
+    document
+      .querySelectorAll("#settings [data-username]")
+      .forEach((el) => (el.textContent = username));
+
+    (
+      document.querySelectorAll(
+        "#settings [data-user-page]"
+      ) as NodeListOf<HTMLAnchorElement>
+    ).forEach((el) => (el.href = `https://${username}.dawdle.space`));
+  };
+
+  document.addEventListener("astro:after-swap", () => setUsername());
+  setUsername();
+</script>
+
 <style>
   h2 {
     font-size: 1.2rem;
@@ -37,9 +61,12 @@ const username = "{user}";
     padding: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     margin-bottom: 1rem;
     flex-wrap: wrap;
+
+    a {
+      margin-left: auto;
+    }
   }
 
   main {

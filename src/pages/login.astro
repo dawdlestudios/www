@@ -4,12 +4,15 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout title="Login">
   <main>
-    <h1>Login</h1>
-    <form action="/api/login" method="POST">
+    <h1>
+      Login
+      <span data-login-error class="error"></span>
+    </h1>
+    <form id="loginform">
       <label for="username">Username</label>
-      <input type="text" name="username" id="username" />
+      <input required type="text" name="username" id="username" />
       <label for="password">Password</label>
-      <input type="password" name="password" id="password" />
+      <input required type="password" name="password" id="password" />
       <input type="submit" value="Login" />
     </form>
     <div class="ssh">
@@ -21,6 +24,42 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </main>
 </Layout>
+
+<script>
+  const handleSubmit = (e: SubmitEvent) => {
+    console.log("submit");
+    e.preventDefault();
+    e.stopPropagation();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const payload = {
+      username: formData.get("username"),
+      password: formData.get("password"),
+    };
+
+    fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    }).then((res) => {
+      if (res.status === 200) {
+        window.location.href = "/user";
+      } else {
+        const error = document.querySelector("[data-login-error]");
+        error!.textContent = "Invalid username or password";
+      }
+    });
+
+    e.preventDefault();
+  };
+
+  document.addEventListener("astro:page-load", () => {
+    const form = document.getElementById("loginform");
+    form?.addEventListener("submit", handleSubmit);
+    console.log(form);
+  });
+</script>
 
 <style>
   .ssh {
@@ -37,6 +76,11 @@ import Layout from "../layouts/Layout.astro";
 
   h1 {
     margin-bottom: 1rem;
+
+    .error {
+      color: red;
+      font-size: 0.8rem;
+    }
   }
 
   form {
