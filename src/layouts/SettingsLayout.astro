@@ -5,6 +5,7 @@ interface Props {
   title: string;
 }
 const { title } = Astro.props;
+const url = new URL(Astro.request.url);
 ---
 
 <Layout title={title}>
@@ -23,8 +24,15 @@ const { title } = Astro.props;
     </p>
   </main>
   <ul>
-    <li data-active><a href="/user">Your Files</a></li>
-    <li data-active><a href="/user">Settings</a></li>
+    <li data-active={url.pathname === "/user"}>
+      <a href="/user">Your Files</a>
+    </li>
+    <li data-active={url.pathname === "/user/settings"}>
+      <a href="/user/settings">Settings</a>
+    </li>
+    <li class="signout">
+      <a href="/user/logout">Sign Out</a>
+    </li>
   </ul>
   <slot />
 </Layout>
@@ -82,14 +90,31 @@ const { title } = Astro.props;
     border-bottom: 1px solid #fff;
     border-top: 1px solid #fff;
 
+    li[data-active] {
+      background: #fff;
+      a {
+        color: #141f28;
+        font-weight: 800;
+      }
+    }
+
     li {
       padding: 0.5rem 0;
       border-right: 1px solid #fff;
       font-size: 0.8rem;
 
       a {
-        padding: 0 1.2rem;
-        color: #fff;
+        color: #54827b;
+        text-decoration: none;
+        padding: 0 1.5rem;
+      }
+    }
+
+    li.signout {
+      margin-left: auto;
+      border: none;
+      a {
+        padding: 0 0.7rem;
       }
     }
   }

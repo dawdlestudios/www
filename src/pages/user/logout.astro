@@ -1,0 +1,40 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Logout">
+  <main>
+    <p>Logging out...</p>
+  </main>
+</Layout>
+
+<style>
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+
+  p {
+    font-size: 1.5rem;
+  }
+</style>
+
+<script>
+  import { getUser } from "../../utils/auth";
+
+  document.addEventListener(
+    "astro:page-load",
+    async () => {
+      if (getUser()) {
+        await fetch("/api/logout", { method: "POST" });
+      }
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 400);
+    },
+    { once: true }
+  );
+</script>
