@@ -1,3 +1,9 @@
+html {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #939b9a #080f14;
+}
+
 h1,
 h2,
 h3,
