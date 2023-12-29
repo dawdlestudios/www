@@ -2,7 +2,9 @@
 import Layout from "../../layouts/Layout.astro";
 
 import { getCollection } from "astro:content";
-const wikiEntries = await getCollection("wiki");
+const wikiEntries = (await getCollection("wiki")).filter(
+  (entry) => entry.data.draft !== true,
+);
 ---
 
 <Layout title="Wiki Overview">
