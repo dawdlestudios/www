@@ -17,18 +17,18 @@
     "@fontsource-variable/victor-mono": "^5.0.3",
     "@monaco-editor/react": "^4.6.0",
     "@portaljs/remark-wiki-link": "^1.1.2",
-    "@types/react": "^18.2.46",
+    "@types/react": "^18.2.47",
     "@types/react-dom": "^18.2.18",
-    "astro": "^4.1.0",
+    "astro": "^4.1.1",
     "astro-capo": "^0.0.1",
-    "lucide-react": "^0.304.0",
+    "lucide-react": "^0.307.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.3.3",
     "webdav": "^5.3.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.4.1",
+    "@biomejs/biome": "^1.5.0",
     "postcss-preset-env": "^9.3.0"
   }
 }

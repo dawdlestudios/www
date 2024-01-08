@@ -1,18 +1,48 @@
-import { demoFiles } from "./demo";
 import { icons, type FileType } from "./icons";
 import { formatSize, sortFiles } from "./util";
 import styles from "./styles.module.css";
+import { useCallback, useEffect, useState } from "react";
+import { createWebDAVClient } from "./webdav";
+import type { FileStat } from "webdav";
+import { getUser } from "../../utils/auth";
+import { RefreshCcw } from "lucide-react";
 
 export type File = {
 	name: string;
+	fullPath: string;
 	type: FileType;
 	size: number;
 	lastModified: number;
-	createDate: number;
 };
 
+const toFile = (file: FileStat): File => ({
+	name: file.basename,
+	fullPath: file.filename,
+	type: file.type,
+	size: file.size,
+	lastModified: +new Date(file.lastmod),
+});
+
+const webdav = createWebDAVClient();
+const username = getUser();
+
 export const FileBrowser = () => {
-	const files = sortFiles(demoFiles);
+	const [directory, setDirectory] = useState("");
+	const [files, setFiles] = useState<File[]>([]);
+	const [loading, setLoading] = useState(false);
+
+	const loadDirectory = useCallback(async (path: string) => {
+		setLoading(true);
+		const files = (await webdav.getDirectoryContents(path)) as FileStat[];
+		setFiles(sortFiles(files.map(toFile)));
+		setLoading(false);
+	}, []);
+
+	useEffect(() => {
+		loadDirectory(directory);
+	}, [loadDirectory, directory]);
+
+	console.log(directory);
 
 	return (
 		<div className={styles.root}>
@@ -21,27 +51,88 @@ export const FileBrowser = () => {
 				<button type="button">new folder</button>
 				<button type="button">upload</button>
 				<input type="text" placeholder="search..." />
+				<RefreshCcw
+					onClick={() => {
+						console.log("refresh");
+						loadDirectory(directory);
+					}}
+				/>
 			</nav>
 			<div className="title">
-				<BreadCrumbs path="home/username" />
+				<BreadCrumbs
+					goto={(path) => setDirectory(path)}
+					path={`home/${username}${directory}`}
+				/>
 			</div>
-			<div className={styles.items}>
-				{files.map((file) => (
-					<FileBrowserItem key={file.name} file={file} />
-				))}
-			</div>
+			<Directory
+				canGoBack={directory !== ""}
+				goBack={() => {
+					setDirectory(directory.split("/").slice(0, -1).join("/"));
+				}}
+				loading={loading}
+				files={files}
+				onClickFile={(file) => {
+					if (file.type === "directory") {
+						setDirectory(file.fullPath);
+					}
+				}}
+			/>
 		</div>
 	);
 };
 
-const BreadCrumbs = ({ path }: { path: string }) => {
-	const crumbs = path.split("/");
-	const [first, ...rest] = crumbs;
+const Directory = (props: {
+	loading: boolean;
+	files: File[];
+	onClickFile: (file: File) => void;
+	canGoBack: boolean;
+	goBack: () => void;
+}) => {
+	if (props.loading) {
+		return (
+			<div className={styles.items}>
+				<div className={styles.loading}>{/* loading... */}</div>
+			</div>
+		);
+	}
+
+	return (
+		<div className={styles.items}>
+			{props.canGoBack && (
+				<FileBrowserItem
+					key=".."
+					file={{
+						name: "..",
+						fullPath: "..",
+						type: "directory",
+						size: 0,
+						lastModified: 0,
+					}}
+					onClick={props.goBack}
+				/>
+			)}
+			{props.files.map((file) => (
+				<FileBrowserItem
+					key={file.name}
+					file={file}
+					onClick={() => props.onClickFile(file)}
+				/>
+			))}
+		</div>
+	);
+};
+
+const BreadCrumbs = ({
+	path,
+	goto,
+}: { path: string; goto: (path: string) => void }) => {
+	const crumbs = path.split("/").filter((crumb) => crumb !== "");
+	const [first, user, ...rest] = crumbs;
 
 	return (
 		<div className={styles.breadcrumbs}>
 			<button type="button" className={styles.crumb}>
-				/{first}
+				/{first}/{user}
 			</button>
 			{rest.map((crumb) => (
 				<button type="button" key={crumb} className={styles.crumb}>
@@ -53,30 +144,37 @@ const BreadCrumbs = ({ path }: { path: string }) => {
 	);
 };
 
-const FileBrowserItem = ({ file }: { file: File }) => {
+const FileBrowserItem = ({
+	file,
+	onClick,
+}: { file: File; onClick: () => void }) => {
 	return (
-		<div className={styles.item}>
-			<FileIcon className={styles.icon} type={file.type} />
+		<button type="button" className={styles.item} onClick={onClick}>
+			{file.name === ".." ? (
+				<FileIcon type=".." className={styles.icon} />
+			) : (
+				<FileIcon type={file.type} className={styles.icon} />
+			)}
 			<h1 className={styles.name}>
 				{file.name}
-				{file.type !== "folder" && <span>({formatSize(file.size)})</span>}
+				{file.type !== "directory" && <span>({formatSize(file.size)})</span>}
 			</h1>
 			<h3 className={styles.date}>
-				{Intl.DateTimeFormat("en-US", {
-					month: "short",
-					day: "numeric",
-					year: "numeric",
-				}).format(file.createDate)}
+				{!!file.lastModified &&
+					Intl.DateTimeFormat("en-US", {
+						month: "short",
+						day: "numeric",
+						year: "numeric",
+					}).format(file.lastModified)}
 			</h3>
-		</div>
+		</button>
 	);
 };
 
 const FileIcon = ({
 	type,
 	className,
-}: { className: string; type: FileType }) => {
+}: { className: string; type: keyof typeof icons }) => {
 	const File = icons[type];
-
 	return <File className={className} />;
 };

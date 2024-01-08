@@ -4,10 +4,12 @@ import {
 	FileMusic,
 	FileImage,
 	FileCode,
+	Folder,
+	ArrowUp,
 } from "lucide-react";
 
 export type FileType =
-	| "folder"
+	| "directory"
 	| "file"
 	| "image"
 	| "audio"
@@ -16,8 +18,8 @@ export type FileType =
 	| "archive"
 	| "other";
 
-export const icons: Record<FileType, typeof File> = {
-	folder: File,
+export const icons = {
+	directory: Folder,
 	file: File,
 	image: FileImage,
 	audio: FileMusic,
@@ -25,4 +27,5 @@ export const icons: Record<FileType, typeof File> = {
 	code: FileCode,
 	archive: FileArchive,
 	other: File,
-};
+	"..": ArrowUp,
+} as const;

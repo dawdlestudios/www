@@ -17,11 +17,11 @@ export function formatSize(size: number): string {
 
 export function sortFiles(
 	files: File[],
-	sort: "date" | "name" | "type" = "date",
+	sort: "date" | "name" | "type" = "name",
 ): File[] {
 	// folders are always first
-	const folders = files.filter((file) => file.type === "folder");
-	const rest = files.filter((file) => file.type !== "folder");
+	const folders = files.filter((file) => file.type === "directory");
+	const rest = files.filter((file) => file.type !== "directory");
 
 	switch (sort) {
 		case "date":
@@ -29,8 +29,16 @@ export function sortFiles(
 				...folders,
 				...rest.sort((a, b) => b.lastModified - a.lastModified),
 			];
-		case "name":
-			return [...folders, ...rest.sort((a, b) => a.name.localeCompare(b.name))];
+		case "name": {
+			const a = rest
+				.filter((file) => file.name[0] === ".")
+				.sort((a, b) => a.name.localeCompare(b.name));
+			const b = rest
+				.filter((file) => file.name[0] !== ".")
+				.sort((a, b) => a.name.localeCompare(b.name));
+
+			return [...folders, ...a, ...b];
+		}
 		case "type":
 			return [...folders, ...rest.sort((a, b) => a.type.localeCompare(b.type))];
 	}
