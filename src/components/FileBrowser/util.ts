@@ -1,4 +1,6 @@
+import React from "react";
 import type { File } from ".";
+import { navigate } from "astro:transitions/client";
 
 export function formatSize(size: number): string {
 	if (size < 1024) {
@@ -43,3 +45,29 @@ export function sortFiles(
 			return [...folders, ...rest.sort((a, b) => a.type.localeCompare(b.type))];
 	}
 }
+
+export const useHash = (): [string, (newHash: string) => void] => {
+	const [hash, setHash] = React.useState(() => window.location.hash);
+
+	const hashChangeHandler = React.useCallback(() => {
+		setHash(window.location.hash);
+	}, []);
+
+	React.useEffect(() => {
+		window.addEventListener("hashchange", hashChangeHandler);
+		return () => {
+			window.removeEventListener("hashchange", hashChangeHandler);
+		};
+	}, [hashChangeHandler]);
+
+	const updateHash = React.useCallback(
+		(newHash: string) => {
+			if (newHash !== hash) {
+				window.location.hash = newHash;
+			}
+		},
+		[hash],
+	);
+
+	return [hash.slice(1), updateHash];
+};

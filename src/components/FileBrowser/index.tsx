@@ -1,11 +1,15 @@
+import { useCallback, useEffect, useState } from "react";
+
+import type { FileStat } from "webdav";
+import { RefreshCcw } from "lucide-react";
+import { navigate } from "astro:transitions/client";
+
+import styles from "./styles.module.css";
+
+import { getUser } from "../../utils/auth";
+import { createWebDAVClient } from "./webdav";
 import { icons, type FileType } from "./icons";
 import { formatSize, sortFiles } from "./util";
-import styles from "./styles.module.css";
-import { useCallback, useEffect, useState } from "react";
-import { createWebDAVClient } from "./webdav";
-import type { FileStat } from "webdav";
-import { getUser } from "../../utils/auth";
-import { RefreshCcw } from "lucide-react";
 
 export type File = {
 	name: string;
@@ -27,7 +31,7 @@ const webdav = createWebDAVClient();
 const username = getUser();
 
 export const FileBrowser = () => {
-	const [directory, setDirectory] = useState("");
+	const [directory, setDirectory] = useState(location.hash.slice(1));
 	const [files, setFiles] = useState<File[]>([]);
 	const [loading, setLoading] = useState(false);
 
@@ -38,11 +42,25 @@ export const FileBrowser = () => {
 		setLoading(false);
 	}, []);
 
+	const changeDirectory = useCallback((path: string) => {
+		setDirectory(path);
+		navigate(`${window.location.href.split("#")[0]}${path && `#${path}`}`);
+	}, []);
+
+	useEffect(() => {
+		const onLoad = () => setDirectory(location.hash.slice(1));
+		const hashChangeHandler = () => setDirectory(location.hash.slice(1));
+		window.addEventListener("hashchange", hashChangeHandler);
+		document.addEventListener("astro:page-load", onLoad);
+		return () => {
+			window.removeEventListener("hashchange", hashChangeHandler);
+			document.removeEventListener("astro:page-load", onLoad);
+		};
+	});
+
 	useEffect(() => {
 		loadDirectory(directory);
 	}, [loadDirectory, directory]);
-
-	console.log(directory);
 
 	return (
 		<div className={styles.root}>
@@ -53,27 +71,26 @@ export const FileBrowser = () => {
 				<input type="text" placeholder="search..." />
 				<RefreshCcw
 					onClick={() => {
-						console.log("refresh");
 						loadDirectory(directory);
 					}}
 				/>
 			</nav>
 			<div className="title">
 				<BreadCrumbs
-					goto={(path) => setDirectory(path)}
+					goto={changeDirectory}
 					path={`home/${username}${directory}`}
 				/>
 			</div>
 			<Directory
 				canGoBack={directory !== ""}
 				goBack={() => {
-					setDirectory(directory.split("/").slice(0, -1).join("/"));
+					changeDirectory(directory.split("/").slice(0, -1).join("/"));
 				}}
 				loading={loading}
 				files={files}
 				onClickFile={(file) => {
 					if (file.type === "directory") {
-						setDirectory(file.fullPath);
+						changeDirectory(file.fullPath);
 					}
 				}}
 			/>
