@@ -2,6 +2,22 @@ html {
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: #939b9a #080f14;
+  font-family: "Victor Mono Variable", monospace;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  height: 100dvh;
+  box-sizing: border-box;
+  display: flex;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 h1,

@@ -71,7 +71,9 @@
   }
 
   nav {
-    border: 1px solid #fff;
+    --nav-border: #8bd3ff5a;
+
+    border: 1px solid var(--nav-border);
     display: flex;
     align-items: center;
 
@@ -80,7 +82,7 @@
       border: none;
       background: none;
       padding: 0.5rem;
-      border-right: 1px solid #fff;
+      border-right: 1px solid var(--nav-border);
       color: #fff;
       &:hover {
         color: #ffffffba;
@@ -92,6 +94,7 @@
       height: 1rem;
       margin-right: 0.5rem;
       cursor: pointer;
+      margin-left: auto;
     }
 
     input {

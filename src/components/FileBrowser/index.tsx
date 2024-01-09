@@ -68,7 +68,7 @@ export const FileBrowser = () => {
 				<button type="button">new file</button>
 				<button type="button">new folder</button>
 				<button type="button">upload</button>
-				<input type="text" placeholder="search..." />
+				{/* <input type="text" placeholder="search..." /> */}
 				<RefreshCcw
 					onClick={() => {
 						loadDirectory(directory);

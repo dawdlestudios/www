@@ -5,7 +5,7 @@ title: Creating Websites
 ## HTML, CSS, and JavaScript
 
 To create a Website, you need to learn some basics of HTML. Don't worry, for a simple site, it's easy as copying and pasting some text.
-New users automatically get a folder called `public` in their home directory. This folder is accessible from the internet at `https://<username>.dawdle.space/`. 
+New users automatically get a folder called `public` in their home directory. This folder is accessible from the internet at `https://<username>.dawdle.space/`.
 To get started, you should have a file called `public/index.html` with a simple HTML page you can use as a starting point for you to edit. You can also put other files in this folder, like images, CSS, and JavaScript files or create subfolders to organize your site.
 
 HTML is a markup language, which means you can use tags to define the structure of your page. For example, to create a heading, you can use the `<h1>` tag:
@@ -27,7 +27,7 @@ This will create a page with a heading that says "Hello World!". You can also us
 
 In case you want to create a more advanced site like a blog or a site with multiple pages, you can use a static site generator. A static site generator is a program that takes your files, processes them, and creates a static website that you can upload to your server. Often times, there are many themes available that you can use to customize the look of your site without having to write any HTML or CSS yourself.
 
-We've already installed a few on the server. More information about them can be found [here](/wiki/static-site-generators). 
+We've already installed a few on the server. More information about them can be found [here](/wiki/static-site-generators).
 
 ## Where to put your files
 
@@ -47,6 +47,6 @@ public/cat.jpg        https://<username>.dawdle.space/cat.jpg
 To prevent abuse, we only allow certain file types to be used for your website. Contact staff if you need a file type added to this list.
 Only these will be served with the correct MIME type, all other files will be served as `text/plain` or `application/octet-stream`.
 
-* Images: `.jpg`, `.jpeg`, `.png`, `.gif`, `.svg`, `.webp`
-* Hypermedia: `.html`, `.htm`, `.css`, `.js`
-* Other:  `.json`, `.txt`, `.mp3`, `.oog`, `woff`, `woff2`, `.pdf`, `.ico`, `.xml`, `.webmanifest`, `.ttf`, `.eot`
+- Images: `.jpg`, `.jpeg`, `.png`, `.gif`, `.svg`, `.webp`
+- Hypermedia: `.html`, `.htm`, `.css`, `.js`
+- Other: `.json`, `.txt`, `.mp3`, `.oog`, `woff`, `woff2`, `.pdf`, `.ico`, `.xml`, `.webmanifest`, `.ttf`, `.eot`

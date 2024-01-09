@@ -27,7 +27,6 @@ import Layout from "../layouts/Layout.astro";
 
 <script>
   const handleSubmit = (e: SubmitEvent) => {
-    console.log("submit");
     e.preventDefault();
     e.stopPropagation();
     const formData = new FormData(e.target as HTMLFormElement);
@@ -57,7 +56,6 @@ import Layout from "../layouts/Layout.astro";
   document.addEventListener("astro:page-load", () => {
     const form = document.getElementById("loginform");
     form?.addEventListener("submit", handleSubmit);
-    console.log(form);
   });
 </script>
 
