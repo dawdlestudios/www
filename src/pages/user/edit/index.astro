@@ -1,0 +1,40 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+---
+
+<Layout title="dawdle.space - editor">
+  <main id="dawdle-editor"></main>
+</Layout>
+
+<script>
+  const goBack = (e: MessageEvent) => {
+    if (e.data.type === "goBack") {
+      history.back();
+    }
+  };
+
+  document.addEventListener("astro:page-load", () => {
+    const wrapper = document.getElementById("dawdle-editor")!;
+    if (!wrapper) return;
+
+    // create iframe
+    const iframe = document.createElement("iframe");
+    iframe.src = `/user/edit/embed#${location.hash.slice(1)}`;
+    document.getElementById("dawdle-editor")!.replaceChildren(iframe);
+
+    // if iframe goes back, go back
+    window.removeEventListener("message", goBack);
+    window.addEventListener("message", goBack);
+  });
+</script>
+
+<style>
+  main {
+    flex: 1;
+    display: flex;
+    :global(iframe) {
+      flex: 1;
+      border: none;
+    }
+  }
+</style>

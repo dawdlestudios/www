@@ -3,6 +3,7 @@ import BG from "../components/BG.astro";
 import Base from "../layouts/Base.astro";
 interface Props {
   title: string;
+  maxWidth?: string;
 }
 const props = Astro.props;
 const url = new URL(Astro.request.url);
@@ -176,7 +177,7 @@ const url = new URL(Astro.request.url);
   }
 
   body {
-    max-width: 800px;
+    max-width: var(--max-width, 800px);
     flex: 1;
     display: flex;
     margin: 0;

@@ -29,6 +29,16 @@
       background: transparent;
       cursor: pointer;
       color: #fff;
+      font-weight: 600;
+
+      &:last-of-type {
+        font-weight: 400;
+        color: #9ab1c4;
+      }
+
+      > .slash {
+        color: #9ab1c4;
+      }
     }
   }
 

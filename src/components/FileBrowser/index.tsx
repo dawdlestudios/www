@@ -90,8 +90,9 @@ export const FileBrowser = () => {
 				files={files}
 				onClickFile={(file) => {
 					if (file.type === "directory") {
-						changeDirectory(file.fullPath);
+						return changeDirectory(file.fullPath);
 					}
+					navigate(`/user/edit#${file.fullPath}`);
 				}}
 			/>
 		</div>
@@ -149,11 +150,17 @@ const BreadCrumbs = ({
 	return (
 		<div className={styles.breadcrumbs}>
 			<button type="button" className={styles.crumb}>
-				/{first}/{user}
+				<span className={styles.slash}>{"/"}</span>
+				{first}
 			</button>
+			<button type="button" className={styles.crumb}>
+				<span className={styles.slash}>{"/"}</span>
+				{user}
+			</button>
+
 			{rest.map((crumb) => (
 				<button type="button" key={crumb} className={styles.crumb}>
-					{"/"}
+					<span className={styles.slash}>{"/"}</span>
 					{crumb}
 				</button>
 			))}

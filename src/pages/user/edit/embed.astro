@@ -1,0 +1,21 @@
+---
+import { Editor } from "../../../components/Editor";
+import Base from "../../../layouts/Base.astro";
+---
+
+<Base title="Editor">
+  <main>
+    <Editor client:only />
+  </main>
+</Base>
+
+<style>
+  main {
+    margin: 0;
+    padding: 0;
+    background-color: #080f14;
+    color: #fff;
+    display: flex;
+    flex: 1;
+  }
+</style>
