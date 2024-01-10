@@ -135,11 +135,23 @@ const ChatMessageComp = ({ message }: { message: ChatMessage }) => {
 	);
 };
 
-const socketUrl = `${window.location.protocol === "https:" ? "wss" : "ws"}://${
-	window.location.host
-}/api/chat`;
+const socketUrl = () =>
+	`${window.location.protocol === "https:" ? "wss" : "ws"}://${
+		window.location.host
+	}/api/chat`;
 
 const useChat = () => {
+	if (typeof window === "undefined") {
+		return {
+			error: "connecting...",
+			rooms: [],
+			currentRoom: undefined,
+			messages: [],
+			sendMessage: () => {},
+			changeRoom: () => {},
+		};
+	}
+
 	const [rooms, setRooms] = useState<string[]>([]);
 	const [currentRoom, setCurrentRoom] = useState<string | undefined>(undefined);
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -199,9 +211,9 @@ const useChat = () => {
 		[currentRoom, addMessage],
 	);
 
-	const ws = useWebSocket(socketUrl, {
+	const ws = useWebSocket(socketUrl(), {
 		onMessage: handleWsMessage,
-		shouldReconnect: (closeEvent) => true,
+		shouldReconnect: () => true,
 		onError: (e) => {
 			console.error(e);
 			setError("error, reconnecting...");
@@ -232,6 +244,6 @@ const useChat = () => {
 		currentRoom,
 		messages,
 		sendMessage,
-		changeRoom: (room: string) => {},
+		changeRoom: () => {},
 	};
 };

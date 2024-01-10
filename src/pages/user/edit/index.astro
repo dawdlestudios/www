@@ -1,12 +1,24 @@
 ---
+import { Editor } from "../../../components/Editor";
 import Layout from "../../../layouts/Layout.astro";
+
+import "./../../../components/Editor/editor.module.css";
+import "monaco-editor/min/vs/editor/editor.main.css";
+
+// I can't figure out why this isn't included anymore after switching pages.
+// It's no where to be found in the source of monaco or monaco react.
+// but it gets included in the dom (but only on the first page load)
+import "./../../../components/Editor/fallback.css";
 ---
 
 <Layout title="dawdle.space - editor">
-  <main id="dawdle-editor"></main>
+  <!-- <main id="dawdle-editor"></main> -->
+  <main>
+    <Editor client:load />
+  </main>
 </Layout>
 
-<script>
+<!-- <script>
   const goBack = (e: MessageEvent) => {
     if (e.data.type === "goBack") {
       history.back();
@@ -26,15 +38,15 @@ import Layout from "../../../layouts/Layout.astro";
     window.removeEventListener("message", goBack);
     window.addEventListener("message", goBack);
   });
-</script>
+</script> -->
 
 <style>
   main {
     flex: 1;
     display: flex;
-    :global(iframe) {
+    /* :global(iframe) {
       flex: 1;
       border: none;
-    }
+    } */
   }
 </style>

@@ -1,6 +1,5 @@
 import React from "react";
 import type { File } from ".";
-import { navigate } from "astro:transitions/client";
 
 export function formatSize(size: number): string {
 	if (size < 1024) {

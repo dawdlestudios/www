@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
 import type { FileStat } from "webdav";
-import { RefreshCcw } from "lucide-react";
 import { navigate } from "astro:transitions/client";
 
 import styles from "./styles.module.css";
@@ -30,10 +29,18 @@ const toFile = (file: FileStat): File => ({
 const webdav = createWebDAVClient();
 const username = getUser();
 
+let location: Location;
+if (typeof window !== "undefined") {
+	location = window.location;
+} else {
+	location = {} as Location;
+}
+
 export const FileBrowser = () => {
-	const [directory, setDirectory] = useState(location.hash.slice(1));
+	const [directory, setDirectory] = useState(location?.hash?.slice(1));
 	const [files, setFiles] = useState<File[]>([]);
-	const [loading, setLoading] = useState(false);
+	const [active, setActive] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	const loadDirectory = useCallback(async (path: string) => {
 		setLoading(true);
@@ -41,6 +48,8 @@ export const FileBrowser = () => {
 		setFiles(sortFiles(files.map(toFile)));
 		setLoading(false);
 	}, []);
+
+	useEffect(() => setActive(true), []);
 
 	const changeDirectory = useCallback((path: string) => {
 		setDirectory(path);
@@ -64,21 +73,20 @@ export const FileBrowser = () => {
 
 	return (
 		<div className={styles.root}>
-			<nav>
+			{/* <nav>
 				<button type="button">new file</button>
 				<button type="button">new folder</button>
 				<button type="button">upload</button>
-				{/* <input type="text" placeholder="search..." /> */}
 				<RefreshCcw
 					onClick={() => {
 						loadDirectory(directory);
 					}}
 				/>
-			</nav>
+			</nav> */}
 			<div className="title">
 				<BreadCrumbs
 					goto={changeDirectory}
-					path={`home/${username}${directory}`}
+					path={active ? `home/${username}${directory}` : "/home/"}
 				/>
 			</div>
 			<Directory

@@ -1,9 +1,10 @@
 ---
+import { Chat } from "../../components/Chat/chat";
 import Layout from "../../layouts/Layout.astro";
 ---
 
 <Layout title="dawdle.space/chat">
-  <iframe src="/chat/embed" frameborder="0"></iframe>
+  <Chat client:load />
 </Layout>
 
 <style>
