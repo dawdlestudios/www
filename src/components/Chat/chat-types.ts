@@ -1,23 +1,31 @@
 export type ChatRequest =
 	| {
 			type: "message";
-			room: string;
 			message: string;
+			room: string;
 	  }
 	| {
 			type: "join";
 			room: string;
 	  };
 
+export type ChatMessage = {
+	room: string;
+	username: string;
+	message: string;
+	time: number;
+};
+
 export const request = (req: ChatRequest) => JSON.stringify(req);
 
 export type ChatResponse =
-	| {
+	| ({
 			type: "message";
+	  } & ChatMessage)
+	| {
+			type: "roomHistory";
 			room: string;
-			message: string;
-			username: string;
-			time: number;
+			history: ChatMessage[];
 	  }
 	| {
 			type: "info";

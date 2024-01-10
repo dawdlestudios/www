@@ -1,7 +1,7 @@
 import useWebSocket from "react-use-websocket";
 import styles from "./chat.module.css";
-import { useState } from "react";
-import { request, type ChatResponse } from "./chat-types";
+import { useCallback, useState } from "react";
+import { request, type ChatResponse, type ChatMessage } from "./chat-types";
 import { getUser } from "../../utils/auth";
 import isUrlHttp from "is-url-http";
 
@@ -11,9 +11,9 @@ const roles: Record<string, string> = {
 };
 
 export const Chat = () => {
-	const { messages, sendMessage } = useChat();
+	const { messages, sendMessage, error, currentRoom } = useChat();
 
-	const messagesByDay: [string, Message[]][] = messages.reduce(
+	const messagesByDay: [string, ChatMessage[]][] = messages.reduce(
 		(acc, msg) => {
 			const date = Intl.DateTimeFormat("en-US", {
 				weekday: "long",
@@ -30,7 +30,7 @@ export const Chat = () => {
 
 			return acc;
 		},
-		[] as [string, Message[]][],
+		[] as [string, ChatMessage[]][],
 	);
 
 	return (
@@ -49,14 +49,18 @@ export const Chat = () => {
 			<section className={styles.main}>
 				<h2>Messages</h2>
 				<div className={styles.messages}>
+					{!error && currentRoom && (
+						<div className={styles.room}>Connected to #{currentRoom}</div>
+					)}
 					{messagesByDay.map(([date, msgs], i) => (
 						<div key={`${date}-${i}`}>
 							<div className={styles.date}>{date}</div>
 							{msgs.map((msg, i) => (
-								<ChatMessage message={msg} key={`${msg.time}-${i}`} />
+								<ChatMessageComp message={msg} key={`${msg.time}-${i}`} />
 							))}
 						</div>
 					))}
+					{error && <div className={styles.error}>{error}</div>}
 				</div>
 				<form
 					id="chat-form"
@@ -75,16 +79,16 @@ export const Chat = () => {
 	);
 };
 
-const ChatMessage = ({ message }: { message: Message }) => {
-	let role = roles?.[message.user] || "user";
-	if (message.user.startsWith("guest")) role = "guest";
-	const me = message.user === getUser();
+const ChatMessageComp = ({ message }: { message: ChatMessage }) => {
+	let role = roles?.[message.username] || "user";
+	if (message.username.startsWith("guest")) role = "guest";
+	const me = message.username === getUser();
 
 	return (
 		<div key={message.time}>
-			{message.user === "system" ? null : (
+			{message.username === "system" ? null : (
 				<div className={styles.username} data-role={role} data-me={me}>
-					{message.user}
+					{message.username}
 				</div>
 			)}
 
@@ -138,7 +142,8 @@ const socketUrl = `${window.location.protocol === "https:" ? "wss" : "ws"}://${
 const useChat = () => {
 	const [rooms, setRooms] = useState<string[]>([]);
 	const [currentRoom, setCurrentRoom] = useState<string | undefined>(undefined);
-	const [messages, setMessages] = useState<Message[]>([]);
+	const [messages, setMessages] = useState<ChatMessage[]>([]);
+	const [error, setError] = useState<string | undefined>("connecting...");
 
 	const addMessage = (
 		username: string,
@@ -151,62 +156,82 @@ const useChat = () => {
 			...prev,
 			{
 				room,
-				user: username,
+				username,
 				message,
 				time,
 			},
 		]);
 	};
 
-	const handleWsMessage = (event: MessageEvent) => {
-		let msg: ChatResponse;
-		try {
-			msg = JSON.parse(event.data);
-		} catch (e) {
-			return;
-		}
+	const handleWsMessage = useCallback(
+		(event: MessageEvent) => {
+			let msg: ChatResponse;
+			try {
+				msg = JSON.parse(event.data);
+			} catch (e) {
+				return;
+			}
 
-		if (msg.type === "message") {
-			addMessage(msg.username, msg.message, msg.room, msg.time);
-			return;
-		}
-		if (msg.type === "info") {
-			console.log("info", msg, currentRoom);
-			setRooms(msg.publicRooms || []);
-			if (!currentRoom) setCurrentRoom(msg.defaultRoom);
-			return;
-		}
+			if (msg.type === "message") {
+				console.log("message", msg);
+				const { username, message, room, time } = msg;
+				addMessage(username, message, room, time);
+				return;
+			}
+			if (msg.type === "info") {
+				console.log("info", msg, currentRoom);
+				setRooms(msg.publicRooms || []);
+				if (!currentRoom) setCurrentRoom(msg.defaultRoom);
+				return;
+			}
+			if (msg.type === "roomHistory") {
+				console.log("roomHistory", msg, currentRoom);
+				if (!currentRoom || msg.room === currentRoom) setMessages(msg.history);
+				return;
+			}
+			if (msg.type === "error") {
+				console.error("error", msg);
+				return;
+			}
 
-		console.log(msg);
-	};
+			console.log("unknown message", msg);
+		},
+		[currentRoom, addMessage],
+	);
 
 	const ws = useWebSocket(socketUrl, {
 		onMessage: handleWsMessage,
 		shouldReconnect: (closeEvent) => true,
+		onError: (e) => {
+			console.error(e);
+			setError("error, reconnecting...");
+		},
+		onClose: (e) => {
+			console.log(e);
+			setError("disconnected, reconnecting...");
+		},
+		onOpen: (e) => {
+			console.log(e);
+			setError(undefined);
+		},
+		onReconnectStop: (e) => {
+			console.log(e);
+			setError(`failed to reconnect after ${e} attempts`);
+		},
 	});
 
 	const sendMessage = (message: string) => {
-		console.log(
-			request({ type: "message", message, room: currentRoom as string }),
-		);
-
 		ws.sendMessage(
 			request({ type: "message", message, room: currentRoom as string }),
 		);
 	};
 
 	return {
+		error,
 		rooms,
 		currentRoom,
 		messages,
 		sendMessage,
 		changeRoom: (room: string) => {},
 	};
-};
-
-type Message = {
-	room: string;
-	user: string;
-	message: string;
-	time: number;
 };
