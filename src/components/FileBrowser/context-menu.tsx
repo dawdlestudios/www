@@ -38,8 +38,7 @@ export const ContextMenu = (props: {
 					}
 
 					setTarget(null);
-				}}
-			>
+				}}>
 				{props.items.map((child) => child.element)}
 			</RadixContextMenu.Trigger>
 			<RadixContextMenu.Portal>
@@ -78,22 +77,16 @@ const Content = ({
 			<>
 				<Dialog
 					content={
-						<InputDialog
-							buttonText="Create Folder"
-							label="Folder Name"
-							onCreate={onCreateFolder}
-						/>
+						<InputDialog buttonText="Create Folder" label="Folder Name" onCreate={onCreateFolder} />
 					}
-					title="Create New Folder"
-				>
+					title="Create New Folder">
 					{({ onClick }) => (
 						<RadixContextMenu.Item
 							onSelect={(e) => {
 								onClick();
 								e.preventDefault();
 							}}
-							className={styles.ContextMenuItem}
-						>
+							className={styles.ContextMenuItem}>
 							Create New Folder
 							<div className={styles.RightSlot}>
 								<FolderIcon size={16} />
@@ -110,16 +103,14 @@ const Content = ({
 							onCreate={onCreateFile}
 						/>
 					}
-					title="Create New File"
-				>
+					title="Create New File">
 					{({ onClick }) => (
 						<RadixContextMenu.Item
 							onSelect={(e) => {
 								onClick();
 								e.preventDefault();
 							}}
-							className={styles.ContextMenuItem}
-						>
+							className={styles.ContextMenuItem}>
 							Create New File
 							<div className={styles.RightSlot}>
 								<FileIcon size={16} />
@@ -140,25 +131,20 @@ const Content = ({
 						label="New Name"
 						defaultValue={target.name}
 						onCreate={(newName) => {
-							const newPath = target.fullPath.replace(
-								new RegExp(`${target.name}$`),
-								newName,
-							);
+							const newPath = target.fullPath.replace(new RegExp(`${target.name}$`), newName);
 
 							onRename(target, newPath);
 						}}
 					/>
 				}
-				title="Rename"
-			>
+				title="Rename">
 				{({ onClick }) => (
 					<RadixContextMenu.Item
 						onSelect={(e) => {
 							onClick();
 							e.preventDefault();
 						}}
-						className={styles.ContextMenuItem}
-					>
+						className={styles.ContextMenuItem}>
 						Rename
 						<div className={styles.RightSlot}>
 							<Edit size={16} />
@@ -171,8 +157,7 @@ const Content = ({
 					className={styles.ContextMenuItem}
 					onSelect={() => {
 						onEdit(target);
-					}}
-				>
+					}}>
 					Edit
 					<div className={styles.RightSlot}>
 						<Edit size={16} />

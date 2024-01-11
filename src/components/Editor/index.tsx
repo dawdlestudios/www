@@ -19,14 +19,9 @@ export const Editor = () => {
 
 export const initMonaco = async () => {
 	if (typeof window !== "undefined") {
-		const {
-			cssWorker,
-			editorWorker,
-			htmlWorker,
-			jsonWorker,
-			tsWorker,
-			monaco,
-		} = await import("./monaco");
+		const { cssWorker, editorWorker, htmlWorker, jsonWorker, tsWorker, monaco } = await import(
+			"./monaco"
+		);
 		self.MonacoEnvironment = {
 			getWorker(_, label) {
 				if (label === "json") {

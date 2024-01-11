@@ -1,0 +1,9 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { ClaimUsername } from "../../components/Claim";
+import "../../components/Claim/claim.module.css";
+---
+
+<Layout title="Claim your account">
+  <ClaimUsername client:only />
+</Layout>

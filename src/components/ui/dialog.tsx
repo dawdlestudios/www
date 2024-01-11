@@ -25,23 +25,16 @@ export const Dialog = ({
 				if (!o)
 					// timeout so we don't trigger ourselves
 					setTimeout(() => {
-						document.dispatchEvent(
-							new KeyboardEvent("keydown", { key: "Escape" }),
-						);
+						document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
 					}, 0);
-			}}
-		>
+			}}>
 			{children({
 				onClick: () => setOpen(true),
 			})}
 			<RadixDialog.Portal>
 				<RadixDialog.Overlay className={styles.DialogOverlay} />
 				<RadixDialog.Content className={styles.DialogContent}>
-					{title && (
-						<RadixDialog.Title className={styles.DialogTitle}>
-							{title}
-						</RadixDialog.Title>
-					)}
+					{title && <RadixDialog.Title className={styles.DialogTitle}>{title}</RadixDialog.Title>}
 
 					{description && (
 						<RadixDialog.Description className={styles.DialogDescription}>
@@ -51,11 +44,7 @@ export const Dialog = ({
 
 					{content}
 					<RadixDialog.Close asChild>
-						<button
-							type="button"
-							className={styles.IconButton}
-							aria-label="Close"
-						>
+						<button type="button" className={styles.IconButton} aria-label="Close">
 							<X />
 						</button>
 					</RadixDialog.Close>

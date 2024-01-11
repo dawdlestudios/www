@@ -1,126 +1,98 @@
 import useSWR from "swr";
 import styles from "./settings.module.css";
 import { X } from "lucide-react";
+import { fetchJson, removePublicKey, type MeResponse, addPublicKey } from "../../utils/api";
 
-const fetchJson = async <T,>(url: string) => {
-	const response = await fetch(url);
-	return response.json() as Promise<T>;
-};
-
-type MeResponse = {
-	username: string;
-	public_keys?: [string, string][];
-};
-
-const removeKey = async (name: string) => {
-	const response = await fetch("/api/public_key", {
-		body: JSON.stringify({ name }),
-		headers: { "Content-Type": "application/json" },
-		method: "DELETE",
-	});
-
-	if (!response.ok) {
-		throw new Error("Something went wrong");
-	}
-};
-
-const addKey = async (event: React.FormEvent<HTMLFormElement>) => {
-	event.preventDefault();
-	const form = event.currentTarget;
-	const body = new FormData(form);
-	const response = await fetch("/api/public_key", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			name: body.get("name"),
-			key: body.get("key"),
-		}),
-	});
-
-	if (response.ok) {
-		form.reset();
-	} else {
-		(
-			form.querySelector("textarea[name=key]") as HTMLInputElement
-		)?.setCustomValidity("Invalid key");
-
-		form.reportValidity();
-	}
-};
+const SAMPLE_KEY =
+	"e.g ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKpHLbfvXYR+OUXeh4GSpX26FJUUbT4UV2lOunYNH3a henry@mypc";
 
 export const UserSettings = () => {
-	const { data, error, isLoading, mutate } = useSWR<MeResponse>(
-		"/api/me",
-		fetchJson,
-	);
-	console.log("data", isLoading, data);
+	const { data, error, isLoading, mutate } = useSWR<MeResponse>("/api/me", fetchJson);
+
+	if (isLoading) {
+		return <p>Loading...</p>;
+	}
+
+	if (error || !data) {
+		return <p>An error occurred.</p>;
+	}
+
+	const onAddNewKey = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const data = new FormData(e.currentTarget);
+		const [name, key] = [data.get("name") as string, data.get("key") as string];
+		addPublicKey(name, key)
+			.then(() => {
+				e.currentTarget.reset();
+				mutate();
+			})
+			.catch((e) => {
+				(e.currentTarget.querySelector("textarea[name=key]") as HTMLInputElement)?.setCustomValidity(
+					"Invalid key",
+				);
+				e.currentTarget.reportValidity();
+			});
+	};
 
 	return (
 		<div className={styles.settings}>
-			<h1>User Settings</h1>
-			{isLoading && <p>Loading...</p>}
-			{error && <p>Error: {error}</p>}
-			{data && (
-				<>
-					<h2>Public Keys</h2>
-					<p>
-						To connect using <a href="/wiki/ssh">SSH</a>, add your public key
-						here.
-					</p>
-					<ul>
-						{data.public_keys?.length === 0 && (
-							<li>
-								<p>No keys added yet.</p>
-							</li>
-						)}
-						{data.public_keys?.map(([name, key]) => (
-							<li key={name}>
-								<div>
-									<span>{name}</span>
-									<code>{key}</code>
-								</div>
-								<button
-									type="button"
-									onClick={() => {
-										removeKey(name)
-											.then(() => mutate())
-											.catch((e) => console.error(e));
-									}}
-								>
-									<X color="white" />
-								</button>
-							</li>
-						))}
-					</ul>
+			<h2>Public Keys</h2>
+			<p>
+				To connect using <a href="/wiki/ssh">SSH</a>, add your public key here.
+			</p>
+			<ul>
+				{data.public_keys?.length === 0 && (
+					<li>
+						<p>No keys added yet.</p>
+					</li>
+				)}
 
-					<form
-						className={styles.form}
-						action="/api/me/keys"
-						method="POST"
-						onSubmit={(e) => {
-							e.preventDefault();
-							addKey(e).then(() => mutate());
-						}}
-					>
-						<h3>Add a new key</h3>
-						<p>Only Ed25519 keys in OpenSSH format are supported.</p>
-						<label>Name</label>
-						<input required type="text" name="name" />
-						<label>Key</label>
-						<textarea
-							required
-							name="key"
-							placeholder={
-								"e.g ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKpHLbfvXYR+OUXeh4GSpX26FJUUbT4UV2lOunYNH3a henry@mypc"
-							}
-						/>
-						<input type="submit" value="Add" />
-					</form>
+				{data.public_keys?.map(([name, key]) => (
+					<li key={name}>
+						<div>
+							<span>{name}</span>
+							<code>{key}</code>
+						</div>
+						<button
+							type="button"
+							onClick={() => {
+								removePublicKey(name)
+									.then(() => mutate())
+									.catch((e) => console.error(e));
+							}}>
+							<X color="white" />
+						</button>
+					</li>
+				))}
+			</ul>
 
-					<h2>Custom Domains</h2>
-					<p>Coming soon...</p>
-				</>
-			)}
+			<form className={styles.keys} onSubmit={onAddNewKey}>
+				<b>Add a new key</b>
+				<p>Only Ed25519 keys in OpenSSH format are supported.</p>
+				<label htmlFor="add_key_name">Name</label>
+				<input id="add_key_name" required type="text" name="name" />
+				<label htmlFor="add_key">Key</label>
+				<textarea id="add_key" required name="key" placeholder={SAMPLE_KEY} />
+				<input type="submit" value="Add" />
+			</form>
+
+			<form className={styles.pw}>
+				<h2>Password</h2>
+				<label htmlFor="userPassword">Current password</label>
+				<input id="userPassword" required type="password" autoComplete="current-password" />
+				<label htmlFor="newUserPassword">New password</label>
+				<input
+					id="newUserPassword"
+					minLength={10}
+					required
+					type="password"
+					autoComplete="new-password"
+				/>
+				<input type="submit" value="Change" />
+			</form>
+
+			<h2>Custom Domains</h2>
+			<p>Coming soon...</p>
 		</div>
 	);
 };

@@ -3,6 +3,11 @@
 	"organizeImports": {
 		"enabled": true
 	},
+	"formatter": {
+		"lineWidth": 100,
+		"indentStyle": "tab",
+		"indentWidth": 1
+	},
 	"linter": {
 		"enabled": true,
 		"rules": {

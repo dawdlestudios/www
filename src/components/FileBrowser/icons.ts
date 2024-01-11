@@ -1,12 +1,4 @@
-import {
-	FileArchive,
-	File,
-	FileMusic,
-	FileImage,
-	FileCode,
-	Folder,
-	ArrowUp,
-} from "lucide-react";
+import { FileArchive, File, FileMusic, FileImage, FileCode, Folder, ArrowUp } from "lucide-react";
 
 export type FileType =
 	| "directory"

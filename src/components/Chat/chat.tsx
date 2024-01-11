@@ -67,10 +67,7 @@ export const Chat = () => {
 							</div>
 						))}
 					{loaded && error && (
-						<div
-							className={styles.error}
-							data-connecting={error === "connecting..." && "true"}
-						>
+						<div className={styles.error} data-connecting={error === "connecting..." && "true"}>
 							{error}
 						</div>
 					)}
@@ -82,8 +79,7 @@ export const Chat = () => {
 						const form = e.target as HTMLFormElement;
 						sendMessage(new FormData(form).get("msg") as string);
 						form.reset();
-					}}
-				>
+					}}>
 					<input name="msg" type="text" />
 					<button type="submit">Send</button>
 				</form>
@@ -110,12 +106,7 @@ const ChatMessageComp = ({ message }: { message: ChatMessage }) => {
 					let formattedMessage: JSX.Element | undefined = undefined;
 					if (isUrlHttp(line))
 						formattedMessage = (
-							<a
-								href={line}
-								target="_blank"
-								rel="noopener noreferrer"
-								key={`link-${i}`}
-							>
+							<a href={line} target="_blank" rel="noopener noreferrer" key={`link-${i}`}>
 								{line}
 							</a>
 						);
@@ -149,9 +140,7 @@ const ChatMessageComp = ({ message }: { message: ChatMessage }) => {
 };
 
 const socketUrl = () =>
-	`${window.location.protocol === "https:" ? "wss" : "ws"}://${
-		window.location.host
-	}/api/chat`;
+	`${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}/api/chat`;
 
 const useChat = () => {
 	if (typeof window === "undefined") {
@@ -170,12 +159,7 @@ const useChat = () => {
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
 	const [error, setError] = useState<string | undefined>("connecting...");
 
-	const addMessage = (
-		username: string,
-		message: string,
-		room: string,
-		time: number,
-	) => {
+	const addMessage = (username: string, message: string, room: string, time: number) => {
 		if (room !== currentRoom) return;
 		setMessages((prev) => [
 			...prev,
@@ -246,9 +230,7 @@ const useChat = () => {
 	});
 
 	const sendMessage = (message: string) => {
-		ws.sendMessage(
-			request({ type: "message", message, room: currentRoom as string }),
-		);
+		ws.sendMessage(request({ type: "message", message, room: currentRoom as string }));
 	};
 
 	return {

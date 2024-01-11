@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Editor as EditorMonaco, type OnMount } from "@monaco-editor/react";
-import styles from "./editor.module.css";
+
 import { ArrowLeft, Save } from "lucide-react";
-import { getUser } from "../../utils/auth";
+import { Editor as EditorMonaco, type OnMount } from "@monaco-editor/react";
+
 import { createWebDAVClient } from "../FileBrowser/webdav";
 import { disabledFileTypes } from "./disabled-files";
+import { getUser } from "../../utils/auth";
+import styles from "./editor.module.css";
 
 import type { editor } from "monaco-editor";
 
@@ -70,23 +72,15 @@ export const Editor = () => {
 
 		let lang = undefined;
 		if (
-			fileName.endsWith(".zshrc") ||
-			fileName.endsWith(".zshenv") ||
-			fileName.endsWith(".zprofile") ||
-			fileName.endsWith(".zlogin") ||
-			fileName.endsWith(".zlogout") ||
-			fileName.endsWith(".zsh") ||
-			fileName.endsWith(".zsh-theme")
+			[".zshrc", ".zshenv", ".zprofile", ".zlogin", ".zlogout", ".zsh", ".zsh-theme"].includes(
+				fileName.split("/").pop() as string,
+			)
 		) {
 			lang = "shell";
 		}
 
 		editor.setModel(
-			monaco.editor.createModel(
-				fileValue.current || "",
-				lang,
-				monaco.Uri.file(fileName),
-			),
+			monaco.editor.createModel(fileValue.current || "", lang, monaco.Uri.file(fileName)),
 		);
 
 		editorRef.current = editor;
@@ -108,6 +102,7 @@ export const Editor = () => {
 	};
 
 	let loadingMessage = null;
+
 	if (active && !fileName) loadingMessage = <div>Missing file path.</div>;
 	if (active && disabledFileTypes.includes(fileName?.split(".").pop() || ""))
 		loadingMessage = <div>File type not supported.</div>;
@@ -120,10 +115,8 @@ export const Editor = () => {
 				<button
 					type="button"
 					onClick={() => {
-						// window.parent.postMessage({ type: "goBack" }, "*");
 						window.history.back();
-					}}
-				>
+					}}>
 					<ArrowLeft size={17} />
 					back
 				</button>
@@ -137,12 +130,7 @@ export const Editor = () => {
 						</span>,
 					])}
 				</h2>
-				<button
-					type="button"
-					onClick={() =>
-						editorRef.current?.trigger(undefined, "save", undefined)
-					}
-				>
+				<button type="button" onClick={() => editorRef.current?.trigger(undefined, "save", undefined)}>
 					<Save size={17} />
 					Save
 				</button>

@@ -10,7 +10,6 @@ import { createWebDAVClient } from "./webdav";
 import { icons, type FileType } from "./icons";
 import { formatSize, sortFiles } from "./util";
 import { ContextMenu } from "./context-menu";
-import { RefreshCcw } from "lucide-react";
 
 export type DawdleFile = {
 	name: string;
@@ -77,28 +76,18 @@ export const FileBrowser = () => {
 		loadDirectory(directory);
 	}, [loadDirectory, directory]);
 
+	const path = active ? `home/${username}${directory}` : "/home/";
+
 	return (
 		<div className={styles.root}>
-			{/* <nav>
-				<button type="button">new file</button>
-				<button type="button">new folder</button>
-				<button type="button">upload</button>
-				<RefreshCcw
-					onClick={() => {
-						loadDirectory(directory);
-					}}
-				/>
-			</nav> */}
-			<div className="title">
-				<BreadCrumbs
-					goto={changeDirectory}
-					path={active ? `home/${username}${directory}` : "/home/"}
-				/>
+			<div>
+				<BreadCrumbs goto={changeDirectory} path={path} />
 			</div>
 			<Directory
 				canGoBack={directory !== ""}
 				goBack={() => {
-					changeDirectory(directory.split("/").slice(0, -1).join("/"));
+					const newDir = directory.split("/").slice(0, -1).join("/");
+					changeDirectory(newDir);
 				}}
 				loading={loading}
 				files={files}
@@ -113,6 +102,14 @@ export const FileBrowser = () => {
 			/>
 		</div>
 	);
+};
+
+const DOT_DOT_FILE: DawdleFile = {
+	name: "..",
+	fullPath: "..",
+	type: "directory",
+	size: 0,
+	lastModified: 0,
 };
 
 const Directory = (props: {
@@ -135,31 +132,19 @@ const Directory = (props: {
 	return (
 		<div className={styles.items}>
 			{props.canGoBack && (
-				<FileBrowserItem
-					fileIndex={-1}
-					key=".."
-					file={{
-						name: "..",
-						fullPath: "..",
-						type: "directory",
-						size: 0,
-						lastModified: 0,
-					}}
-					onClick={props.goBack}
-				/>
+				<FileBrowserItem fileIndex={-1} key=".." file={DOT_DOT_FILE} onClick={props.goBack} />
 			)}
+
 			<ContextMenu
 				refresh={props.refresh}
 				onEdit={(file) => {
-					console.log("edit", file);
 					navigate(`/user/edit#${file.fullPath}`);
 				}}
 				onRemove={(file) => {
-					// webdav.deleteFile(file.fullPath);
+					webdav.deleteFile(file.fullPath);
 					props.refresh();
 				}}
 				onMove={(file, newPath) => {
-					console.log("rename", file, newPath);
 					webdav.moveFile(file.fullPath, newPath);
 					props.refresh();
 				}}
@@ -172,6 +157,7 @@ const Directory = (props: {
 					props.refresh();
 				}}
 				items={props.files.map((file, i) => ({
+					file,
 					element: (
 						<FileBrowserItem
 							fileIndex={i}
@@ -180,17 +166,13 @@ const Directory = (props: {
 							onClick={() => props.onClickFile(file)}
 						/>
 					),
-					file,
 				}))}
 			/>
 		</div>
 	);
 };
 
-const BreadCrumbs = ({
-	path,
-	goto,
-}: { path: string; goto: (path: string) => void }) => {
+const BreadCrumbs = ({ path, goto }: { path: string; goto: (path: string) => void }) => {
 	const crumbs = path.split("/").filter((crumb) => crumb !== "");
 	const [first, user, ...rest] = crumbs;
 
@@ -221,12 +203,7 @@ const FileBrowserItem = ({
 	onClick,
 }: { file: DawdleFile; fileIndex: number; onClick: () => void }) => {
 	return (
-		<button
-			type="button"
-			className={styles.item}
-			onClick={onClick}
-			data-file={fileIndex}
-		>
+		<button type="button" className={styles.item} onClick={onClick} data-file={fileIndex}>
 			{file.name === ".." ? (
 				<FileIcon type=".." className={styles.icon} />
 			) : (
@@ -248,10 +225,7 @@ const FileBrowserItem = ({
 	);
 };
 
-const FileIcon = ({
-	type,
-	className,
-}: { className: string; type: keyof typeof icons }) => {
+const FileIcon = ({ type, className }: { className: string; type: keyof typeof icons }) => {
 	const File = icons[type];
 	return <File className={className} />;
 };

@@ -26,10 +26,7 @@ export function sortFiles(
 
 	switch (sort) {
 		case "date":
-			return [
-				...folders,
-				...rest.sort((a, b) => b.lastModified - a.lastModified),
-			];
+			return [...folders, ...rest.sort((a, b) => b.lastModified - a.lastModified)];
 		case "name": {
 			const a = rest
 				.filter((file) => file.name[0] === ".")
