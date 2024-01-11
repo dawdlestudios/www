@@ -10,6 +10,7 @@ import { createWebDAVClient } from "./webdav";
 import { icons, type FileType } from "./icons";
 import { formatSize, sortFiles } from "./util";
 import { ContextMenu } from "./context-menu";
+import { RefreshCcw } from "lucide-react";
 
 export type DawdleFile = {
 	name: string;
@@ -72,6 +73,10 @@ export const FileBrowser = () => {
 		loadDirectory(directory);
 	}, [loadDirectory, directory]);
 
+	const refresh = useCallback(() => {
+		loadDirectory(directory);
+	}, [loadDirectory, directory]);
+
 	return (
 		<div className={styles.root}>
 			{/* <nav>
@@ -97,6 +102,8 @@ export const FileBrowser = () => {
 				}}
 				loading={loading}
 				files={files}
+				path={directory}
+				refresh={refresh}
 				onClickFile={(file) => {
 					if (file.type === "directory") {
 						return changeDirectory(file.fullPath);
@@ -113,7 +120,9 @@ const Directory = (props: {
 	files: DawdleFile[];
 	onClickFile: (file: DawdleFile) => void;
 	canGoBack: boolean;
+	path: string;
 	goBack: () => void;
+	refresh: () => void;
 }) => {
 	if (props.loading) {
 		return (
@@ -140,6 +149,28 @@ const Directory = (props: {
 				/>
 			)}
 			<ContextMenu
+				refresh={props.refresh}
+				onEdit={(file) => {
+					console.log("edit", file);
+					navigate(`/user/edit#${file.fullPath}`);
+				}}
+				onRemove={(file) => {
+					// webdav.deleteFile(file.fullPath);
+					props.refresh();
+				}}
+				onMove={(file, newPath) => {
+					console.log("rename", file, newPath);
+					webdav.moveFile(file.fullPath, newPath);
+					props.refresh();
+				}}
+				onCreateFile={(name) => {
+					webdav.putFileContents(`${props.path}/${name}`, "");
+					props.refresh();
+				}}
+				onCreateFolder={(name) => {
+					webdav.createDirectory(`${props.path}/${name}`);
+					props.refresh();
+				}}
 				items={props.files.map((file, i) => ({
 					element: (
 						<FileBrowserItem

@@ -32,10 +32,7 @@ export const Dialog = ({
 			}}
 		>
 			{children({
-				onClick: () => {
-					console.log("asdfasdfasdf");
-					setOpen(true);
-				},
+				onClick: () => setOpen(true),
 			})}
 			<RadixDialog.Portal>
 				<RadixDialog.Overlay className={styles.DialogOverlay} />
