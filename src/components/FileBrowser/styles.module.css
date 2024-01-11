@@ -45,9 +45,15 @@
   .items {
     padding: 1rem 0;
     flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .item {
+    > * {
+      pointer-events: none;
+    }
+
     cursor: pointer;
     padding: 0.6rem 1rem;
     display: flex;

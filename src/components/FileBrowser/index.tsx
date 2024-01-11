@@ -9,8 +9,9 @@ import { getUser } from "../../utils/auth";
 import { createWebDAVClient } from "./webdav";
 import { icons, type FileType } from "./icons";
 import { formatSize, sortFiles } from "./util";
+import { ContextMenu } from "./context-menu";
 
-export type File = {
+export type DawdleFile = {
 	name: string;
 	fullPath: string;
 	type: FileType;
@@ -18,7 +19,7 @@ export type File = {
 	lastModified: number;
 };
 
-const toFile = (file: FileStat): File => ({
+const toFile = (file: FileStat): DawdleFile => ({
 	name: file.basename,
 	fullPath: file.filename,
 	type: file.type,
@@ -38,7 +39,7 @@ if (typeof window !== "undefined") {
 
 export const FileBrowser = () => {
 	const [directory, setDirectory] = useState(location?.hash?.slice(1));
-	const [files, setFiles] = useState<File[]>([]);
+	const [files, setFiles] = useState<DawdleFile[]>([]);
 	const [active, setActive] = useState(false);
 	const [loading, setLoading] = useState(true);
 
@@ -109,8 +110,8 @@ export const FileBrowser = () => {
 
 const Directory = (props: {
 	loading: boolean;
-	files: File[];
-	onClickFile: (file: File) => void;
+	files: DawdleFile[];
+	onClickFile: (file: DawdleFile) => void;
 	canGoBack: boolean;
 	goBack: () => void;
 }) => {
@@ -126,6 +127,7 @@ const Directory = (props: {
 		<div className={styles.items}>
 			{props.canGoBack && (
 				<FileBrowserItem
+					fileIndex={-1}
 					key=".."
 					file={{
 						name: "..",
@@ -137,13 +139,19 @@ const Directory = (props: {
 					onClick={props.goBack}
 				/>
 			)}
-			{props.files.map((file) => (
-				<FileBrowserItem
-					key={file.name}
-					file={file}
-					onClick={() => props.onClickFile(file)}
-				/>
-			))}
+			<ContextMenu
+				items={props.files.map((file, i) => ({
+					element: (
+						<FileBrowserItem
+							fileIndex={i}
+							key={file.name}
+							file={file}
+							onClick={() => props.onClickFile(file)}
+						/>
+					),
+					file,
+				}))}
+			/>
 		</div>
 	);
 };
@@ -178,10 +186,16 @@ const BreadCrumbs = ({
 
 const FileBrowserItem = ({
 	file,
+	fileIndex,
 	onClick,
-}: { file: File; onClick: () => void }) => {
+}: { file: DawdleFile; fileIndex: number; onClick: () => void }) => {
 	return (
-		<button type="button" className={styles.item} onClick={onClick}>
+		<button
+			type="button"
+			className={styles.item}
+			onClick={onClick}
+			data-file={fileIndex}
+		>
 			{file.name === ".." ? (
 				<FileIcon type=".." className={styles.icon} />
 			) : (

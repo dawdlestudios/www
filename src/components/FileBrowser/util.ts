@@ -1,5 +1,5 @@
 import React from "react";
-import type { File } from ".";
+import type { DawdleFile } from ".";
 
 export function formatSize(size: number): string {
 	if (size < 1024) {
@@ -17,9 +17,9 @@ export function formatSize(size: number): string {
 }
 
 export function sortFiles(
-	files: File[],
+	files: DawdleFile[],
 	sort: "date" | "name" | "type" = "name",
-): File[] {
+): DawdleFile[] {
 	// folders are always first
 	const folders = files.filter((file) => file.type === "directory");
 	const rest = files.filter((file) => file.type !== "directory");
