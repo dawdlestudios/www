@@ -21,9 +21,10 @@ export const ClaimUsername = () => {
 		e.preventDefault();
 		const data = new FormData(e.currentTarget);
 		const password = data.get("newpw") as string;
-		claimUsername(newUser as string, password, token as string)
+
+		claimUsername({ username: newUser as string, password, token: token as string })
 			.then((res) => {
-				navigate("/user/login");
+				navigate("/login");
 			})
 			.catch((e) => {
 				console.error(e);

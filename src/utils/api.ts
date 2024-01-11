@@ -20,14 +20,28 @@ export const fetchJson = async <T>(url: string) => {
 	return response.json() as Promise<T>;
 };
 
+export const approveApplication = async (id: string) =>
+	request("/api/admin/applications", "POST", { id });
+
+export const sendApplication = async ({
+	username,
+	about,
+	email,
+}: { username: string; about: string; email: string }) =>
+	request("/api/apply", "POST", { username, about, email });
+
 export const removePublicKey = async (name: string) =>
 	request("/api/public-key", "DELETE", { name });
 
 export const addPublicKey = async (name: string, key: string) =>
 	request("/api/public-key", "POST", { name, key });
 
-export const claimUsername = async (name: string, token: string, password: string) =>
-	request("/api/claim-username", "POST", { name, token, password });
+export const claimUsername = async ({
+	username,
+	token,
+	password,
+}: { username: string; token: string; password: string }) =>
+	request("/api/claim", "POST", { username, token, password });
 
 export type MeResponse = {
 	username: string;

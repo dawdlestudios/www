@@ -25,3 +25,29 @@
     margin-bottom: 1rem;
   }
 }
+
+.application {
+  background-color: #3b8d811c;
+  padding: 1rem;
+
+  > div:first-of-type {
+    display: flex;
+    gap: 1rem;
+
+    p {
+      font-weight: bold;
+    }
+    .data {
+      color: #bcbcbcba;
+    }
+  }
+
+  button {
+    margin-top: 1rem;
+    border: none;
+    border: 1px solid #ffffffba;
+    background-color: #ffffff1a;
+    color: #ffffff;
+    cursor: pointer;
+  }
+}

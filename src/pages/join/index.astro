@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "../../layouts/Layout.astro";
 ---
 
 <Layout title="join dawdle.space">
@@ -14,7 +14,7 @@ import Layout from "../layouts/Layout.astro";
       site. We will never share your email address with anyone and will never
       send you automated emails.
     </p>
-    <form>
+    <form id="joinform">
       <label for="username">Username</label>
       <input
         type="text"
@@ -59,6 +59,49 @@ import Layout from "../layouts/Layout.astro";
     </form>
   </main>
 </Layout>
+
+<script>
+  import { sendApplication } from "../../utils/api.ts";
+  import { navigate } from "astro:transitions/client";
+
+  const handleSubmit = async (e: Event) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const [username, email, about] = [
+      formData.get("username"),
+      formData.get("email"),
+      formData.get("about"),
+    ];
+
+    if (!username || !email || !about) {
+      (
+        form.querySelector("input[type=submit]") as HTMLInputElement
+      )?.setCustomValidity("Something went wrong. Please try again later.");
+      return;
+    }
+
+    sendApplication({
+      username: username as string,
+      email: email as string,
+      about: about as string,
+    })
+      .then((res) => {
+        form.reset();
+        navigate("/join/success", { history: "replace" });
+      })
+      .catch((err) => {
+        (
+          form.querySelector("input[type=submit]") as HTMLInputElement
+        )?.setCustomValidity("Something went wrong. Please try again later.");
+      });
+  };
+
+  document.addEventListener("astro:page-load", () => {
+    const form = document.getElementById("joinform");
+    form?.addEventListener("submit", handleSubmit);
+  });
+</script>
 
 <style>
   form {
