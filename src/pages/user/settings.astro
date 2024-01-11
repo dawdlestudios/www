@@ -1,20 +1,8 @@
 ---
 import SettingsLayout from "../../layouts/SettingsLayout.astro";
+import { UserSettings } from "../../components/Settings";
 ---
 
 <SettingsLayout title="dawdle.space">
-  <section class="settings">
-    <h2>User Settings</h2>
-  </section>
+  <UserSettings client:load />
 </SettingsLayout>
-
-<style>
-  .settings {
-    flex: 1;
-    display: flex;
-
-    h2 {
-      padding: 1rem;
-    }
-  }
-</style>

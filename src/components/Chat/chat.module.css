@@ -87,6 +87,10 @@
     font-size: 0.7rem;
     display: flex;
     justify-content: center;
+
+    &[data-connecting="true"] {
+      color: rgba(255, 255, 255, 0.82);
+    }
   }
 
   .messages {

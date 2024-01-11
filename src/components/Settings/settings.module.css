@@ -1,0 +1,60 @@
+.settings {
+  padding: 2rem;
+
+  h2 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 1rem;
+    background-color: #4848481d;
+    padding: 0.7rem;
+
+    li {
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+
+      > div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        > span {
+          font-size: 1rem;
+        }
+
+        code {
+          max-width: 30rem;
+          text-align: justify;
+          word-break: break-all;
+          color: #898888;
+        }
+      }
+
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .form {
+    margin-top: 2rem;
+    p {
+      margin-bottom: 1rem;
+    }
+
+    display: flex;
+    flex-direction: column;
+  }
+}

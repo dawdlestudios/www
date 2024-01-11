@@ -1,6 +1,6 @@
 import useWebSocket from "react-use-websocket";
 import styles from "./chat.module.css";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { request, type ChatResponse, type ChatMessage } from "./chat-types";
 import { getUser } from "../../utils/auth";
 import isUrlHttp from "is-url-http";
@@ -12,6 +12,11 @@ const roles: Record<string, string> = {
 
 export const Chat = () => {
 	const { messages, sendMessage, error, currentRoom } = useChat();
+
+	const [loaded, setLoaded] = useState(false);
+	useEffect(() => {
+		setLoaded(true);
+	}, []);
 
 	const messagesByDay: [string, ChatMessage[]][] = messages.reduce(
 		(acc, msg) => {
@@ -49,18 +54,26 @@ export const Chat = () => {
 			<section className={styles.main}>
 				<h2>Messages</h2>
 				<div className={styles.messages}>
-					{!error && currentRoom && (
+					{loaded && !error && currentRoom && (
 						<div className={styles.room}>Connected to #{currentRoom}</div>
 					)}
-					{messagesByDay.map(([date, msgs], i) => (
-						<div key={`${date}-${i}`}>
-							<div className={styles.date}>{date}</div>
-							{msgs.map((msg, i) => (
-								<ChatMessageComp message={msg} key={`${msg.time}-${i}`} />
-							))}
+					{loaded &&
+						messagesByDay.map(([date, msgs], i) => (
+							<div key={`${date}-${i}`}>
+								<div className={styles.date}>{date}</div>
+								{msgs.map((msg, i) => (
+									<ChatMessageComp message={msg} key={`${msg.time}-${i}`} />
+								))}
+							</div>
+						))}
+					{loaded && error && (
+						<div
+							className={styles.error}
+							data-connecting={error === "connecting..." && "true"}
+						>
+							{error}
 						</div>
-					))}
-					{error && <div className={styles.error}>{error}</div>}
+					)}
 				</div>
 				<form
 					id="chat-form"

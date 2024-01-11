@@ -42,3 +42,7 @@ Replace `<username>` with your username. If you are on Windows, you might have t
 Once you have connected to dawdle.space via SSH, you will be in your own sandboxed container. Each container has 1GB of RAM, 1 CPU core, and can only access the internet via HTTP and HTTPS. To install programs, you will need to use the `apt` package manager and `sudo` to install them. More information about this can be found on Google and ChatGPT can also help you.
 
 Additionally, by default, your container will be shut down after 30 minutes of inactivity. Keep important files in your home directory to prevent them from being deleted, as files outside of your home directory will be deleted when we upgrade our server to newer versions of Debian.
+
+## SFTP
+
+Currently, we do not support SFTP. If you need to upload files, you can use the WebDav server, the web interface or SCP.

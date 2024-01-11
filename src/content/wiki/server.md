@@ -19,3 +19,5 @@ Users get their own container with 1GB RAM and 1 CPU core. The server runs Debia
 You can also install your own programs in your container, but keep in mind that your container will be shut down after 30 minutes of inactivity and files outside of your home directory will be deleted when we upgrade our server to newer versions of Debian.
 
 Additionally, we have a few other tools like various static site generators installed, see `/usr/local/dawdle/bin`. These are updated by us regularly.
+
+The code powering dawdle.space is open source and available on [GitHub](https://github.com/dawdlestudios/dawdle-server)
