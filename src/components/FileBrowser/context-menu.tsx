@@ -3,6 +3,7 @@ import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import styles from "./context-menu.module.css";
 import { Edit, Edit2, FileIcon, FolderIcon, Trash } from "lucide-react";
 import type { DawdleFile } from ".";
+import { Dialog } from "../ui/dialog";
 
 export const ContextMenu = (props: {
 	items: {
@@ -41,7 +42,15 @@ export const ContextMenu = (props: {
 			</RadixContextMenu.Trigger>
 			<RadixContextMenu.Portal>
 				<RadixContextMenu.Content className={styles.ContextMenuContent}>
-					<Content target={target} />
+					<Content
+						onCreateFile={(name) => {
+							console.log(name);
+						}}
+						onCreateFolder={(name) => {
+							console.log(name);
+						}}
+						target={target}
+					/>
 				</RadixContextMenu.Content>
 			</RadixContextMenu.Portal>
 		</RadixContextMenu.Root>
@@ -50,18 +59,37 @@ export const ContextMenu = (props: {
 
 const Content = ({
 	target,
+	onCreateFile,
+	onCreateFolder,
 }: {
 	target: DawdleFile | null;
+	onCreateFile: (name: string) => void;
+	onCreateFolder: (name: string) => void;
 }) => {
 	if (!target) {
 		return (
 			<>
-				<RadixContextMenu.Item className={styles.ContextMenuItem}>
-					Create New Folder
-					<div className={styles.RightSlot}>
-						<FolderIcon size={16} />
-					</div>
-				</RadixContextMenu.Item>
+				<Dialog
+					content={
+						<CreateFolderDialog target={target} onCreate={onCreateFolder} />
+					}
+					title="Create New Folder"
+				>
+					{({ onClick }) => (
+						<RadixContextMenu.Item
+							onSelect={(e) => {
+								onClick();
+								e.preventDefault();
+							}}
+							className={styles.ContextMenuItem}
+						>
+							Create New Folder
+							<div className={styles.RightSlot}>
+								<FolderIcon size={16} />
+							</div>
+						</RadixContextMenu.Item>
+					)}
+				</Dialog>
 				<RadixContextMenu.Item className={styles.ContextMenuItem}>
 					Create New File
 					<div className={styles.RightSlot}>
@@ -95,5 +123,25 @@ const Content = ({
 				</div>
 			</RadixContextMenu.Item>
 		</>
+	);
+};
+
+const CreateFolderDialog = ({
+	target,
+	onCreate,
+}: {
+	target: DawdleFile | null;
+	onCreate: (name: string) => void;
+}) => {
+	const [name, setName] = React.useState("");
+
+	return (
+		<div className={styles.Form}>
+			<div>
+				<label>Name</label>
+				<input value={name} onChange={(e) => setName(e.target.value)} />
+			</div>
+			<button type="submit">Create</button>
+		</div>
 	);
 };

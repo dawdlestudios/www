@@ -2,6 +2,35 @@
 @import "@radix-ui/colors/mauve.css";
 @import "@radix-ui/colors/violet.css";
 
+.Form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    margin-top: 0.8rem;
+    margin-bottom: 0.5rem;
+    label {
+      font-size: 0.8rem;
+    }
+  }
+
+  button {
+    cursor: pointer;
+    border: 1px solid white;
+    background: none;
+    padding: 0.5rem;
+    color: #fff;
+    &:hover {
+      color: #ffffffba;
+    }
+  }
+}
+
 .ContextMenuTrigger {
   user-select: none;
   flex: 1;

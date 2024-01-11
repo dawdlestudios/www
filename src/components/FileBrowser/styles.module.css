@@ -64,6 +64,7 @@
     border: none;
     color: inherit;
     width: 100%;
+    box-sizing: border-box;
     margin-top: 0.1rem;
 
     &:hover {
