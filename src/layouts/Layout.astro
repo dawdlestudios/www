@@ -23,7 +23,7 @@ const url = new URL(Astro.request.url);
     <li data-active={url.pathname === "/"}>
       <a href="/">home</a>
     </li>
-    <li data-active={url.pathname === "/sites"}>
+    <li data-active={url.pathname.startsWith("/sites")}>
       <a href="/sites">sites</a>
     </li>
     <li data-active={url.pathname.startsWith("/wiki")}>

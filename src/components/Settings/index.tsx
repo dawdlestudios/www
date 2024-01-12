@@ -10,11 +10,19 @@ export const UserSettings = () => {
 	const { data, error, isLoading, mutate } = useSWR<MeResponse>("/api/me", fetchJson);
 
 	if (isLoading) {
-		return <p>Loading...</p>;
+		return (
+			<div className={styles.error}>
+				<p>Loading...</p>
+			</div>
+		);
 	}
 
 	if (error || !data) {
-		return <p>An error occurred.</p>;
+		return (
+			<div className={styles.error}>
+				<p>An error occurred.</p>
+			</div>
+		);
 	}
 
 	const onAddNewKey = (e: React.FormEvent<HTMLFormElement>) => {
@@ -59,7 +67,8 @@ export const UserSettings = () => {
 								removePublicKey(name)
 									.then(() => mutate())
 									.catch((e) => console.error(e));
-							}}>
+							}}
+						>
 							<X color="white" />
 						</button>
 					</li>
@@ -90,9 +99,9 @@ export const UserSettings = () => {
 				/>
 				<input type="submit" value="Change" />
 			</form>
-
+			{/* 
 			<h2>Custom Domains</h2>
-			<p>Coming soon...</p>
+			<p>Coming soon...</p> */}
 		</div>
 	);
 };

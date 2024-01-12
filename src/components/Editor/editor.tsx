@@ -9,11 +9,19 @@ import { getUser } from "../../utils/auth";
 import styles from "./editor.module.css";
 
 import type { editor } from "monaco-editor";
+import type { FileStat } from "webdav";
 
 const webdav = createWebDAVClient();
 const user = getUser();
 
 const loadFile = async (path: string) => {
+	const size = (await webdav.stat(path)) as FileStat;
+
+	// 1MB
+	if (size.size > 1000000) {
+		return null;
+	}
+
 	const content = await webdav.getFileContents(path, {
 		format: "text",
 	});
@@ -30,6 +38,7 @@ export const Editor = () => {
 	const editorRef = useRef<editor.IStandaloneCodeEditor | undefined>(undefined);
 	const [fileName, setFilename] = useState<string>();
 	const [active, setActive] = useState(false);
+	const [error, setError] = useState<string>();
 
 	const fileValue = useRef<string | null>(null);
 	const [loading, setLoading] = useState(true);
@@ -47,6 +56,12 @@ export const Editor = () => {
 	useEffect(() => {
 		const f = async () => {
 			const content = await loadFile(fileName as string);
+			if (content === null) {
+				setLoading(false);
+				setError("File too large to edit.");
+				return;
+			}
+
 			fileValue.current = content;
 			setLoading(false);
 		};
@@ -103,9 +118,10 @@ export const Editor = () => {
 
 	let loadingMessage = null;
 
-	if (active && !fileName) loadingMessage = <div>Missing file path.</div>;
+	if (active && !fileName) loadingMessage = <div className={styles.error}>Missing file path.</div>;
+
 	if (active && disabledFileTypes.includes(fileName?.split(".").pop() || ""))
-		loadingMessage = <div>File type not supported.</div>;
+		loadingMessage = <div className={styles.error}>File type not supported.</div>;
 
 	const path = active ? `home/${user}${fileName}` : "home/";
 
@@ -116,7 +132,8 @@ export const Editor = () => {
 					type="button"
 					onClick={() => {
 						window.history.back();
-					}}>
+					}}
+				>
 					<ArrowLeft size={17} />
 					back
 				</button>
@@ -137,8 +154,8 @@ export const Editor = () => {
 			</nav>
 			<div>
 				{loadingMessage && loadingMessage}
-
-				{!loading && !loadingMessage && (
+				{error && !loadingMessage && <div className={styles.error}>{error}</div>}
+				{!loading && !error && !loadingMessage && (
 					<EditorMonaco
 						onMount={onMount}
 						options={{

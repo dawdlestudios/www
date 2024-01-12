@@ -1,3 +1,10 @@
+.error {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
 .settings {
   padding: 2.5rem;
   padding-bottom: 2rem;

@@ -1,7 +1,7 @@
 import React from "react";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import styles from "./context-menu.module.css";
-import { Edit, FileIcon, FolderIcon, Trash } from "lucide-react";
+import { Edit, FileIcon, FolderIcon, Trash, Upload } from "lucide-react";
 import type { DawdleFile } from ".";
 import { Dialog } from "../ui/dialog";
 
@@ -12,6 +12,7 @@ export const ContextMenu = (props: {
 	}[];
 	refresh: () => void;
 
+	onUploadFile: () => void;
 	onEdit: (file: DawdleFile) => void;
 	onRemove: (file: DawdleFile) => void;
 	onMove: (file: DawdleFile, newPath: string) => void;
@@ -38,12 +39,14 @@ export const ContextMenu = (props: {
 					}
 
 					setTarget(null);
-				}}>
+				}}
+			>
 				{props.items.map((child) => child.element)}
 			</RadixContextMenu.Trigger>
 			<RadixContextMenu.Portal>
 				<RadixContextMenu.Content className={styles.ContextMenuContent}>
 					<Content
+						onUploadFile={props.onUploadFile}
 						onEdit={props.onEdit}
 						onRemove={props.onRemove}
 						onMove={props.onMove}
@@ -59,6 +62,7 @@ export const ContextMenu = (props: {
 
 const Content = ({
 	target,
+	onUploadFile,
 	onCreateFile,
 	onCreateFolder,
 	onMove: onRename,
@@ -66,6 +70,7 @@ const Content = ({
 	onEdit,
 }: {
 	target: DawdleFile | null;
+	onUploadFile: () => void;
 	onCreateFile: (name: string) => void;
 	onCreateFolder: (name: string) => void;
 	onMove: (oldFile: DawdleFile, newPath: string) => void;
@@ -79,14 +84,16 @@ const Content = ({
 					content={
 						<InputDialog buttonText="Create Folder" label="Folder Name" onCreate={onCreateFolder} />
 					}
-					title="Create New Folder">
+					title="Create New Folder"
+				>
 					{({ onClick }) => (
 						<RadixContextMenu.Item
 							onSelect={(e) => {
 								onClick();
 								e.preventDefault();
 							}}
-							className={styles.ContextMenuItem}>
+							className={styles.ContextMenuItem}
+						>
 							Create New Folder
 							<div className={styles.RightSlot}>
 								<FolderIcon size={16} />
@@ -103,14 +110,16 @@ const Content = ({
 							onCreate={onCreateFile}
 						/>
 					}
-					title="Create New File">
+					title="Create New File"
+				>
 					{({ onClick }) => (
 						<RadixContextMenu.Item
 							onSelect={(e) => {
 								onClick();
 								e.preventDefault();
 							}}
-							className={styles.ContextMenuItem}>
+							className={styles.ContextMenuItem}
+						>
 							Create New File
 							<div className={styles.RightSlot}>
 								<FileIcon size={16} />
@@ -118,6 +127,17 @@ const Content = ({
 						</RadixContextMenu.Item>
 					)}
 				</Dialog>
+				<RadixContextMenu.Item
+					onSelect={(e) => {
+						onUploadFile();
+					}}
+					className={styles.ContextMenuItem}
+				>
+					Upload Files
+					<div className={styles.RightSlot}>
+						<Upload size={16} />
+					</div>
+				</RadixContextMenu.Item>
 			</>
 		);
 	}
@@ -132,19 +152,20 @@ const Content = ({
 						defaultValue={target.name}
 						onCreate={(newName) => {
 							const newPath = target.fullPath.replace(new RegExp(`${target.name}$`), newName);
-
 							onRename(target, newPath);
 						}}
 					/>
 				}
-				title="Rename">
+				title="Rename"
+			>
 				{({ onClick }) => (
 					<RadixContextMenu.Item
 						onSelect={(e) => {
 							onClick();
 							e.preventDefault();
 						}}
-						className={styles.ContextMenuItem}>
+						className={styles.ContextMenuItem}
+					>
 						Rename
 						<div className={styles.RightSlot}>
 							<Edit size={16} />
@@ -157,21 +178,78 @@ const Content = ({
 					className={styles.ContextMenuItem}
 					onSelect={() => {
 						onEdit(target);
-					}}>
+					}}
+				>
 					Edit
 					<div className={styles.RightSlot}>
 						<Edit size={16} />
 					</div>
 				</RadixContextMenu.Item>
 			)}
-			{/* TODO */}
-			{/* <RadixContextMenu.Item data-delete className={styles.ContextMenuItem}>
-				Delete
+			<RadixContextMenu.Item
+				className={styles.ContextMenuItem}
+				onSelect={() => {
+					window.open(`/api/webdav/${target.fullPath}`, "_blank");
+				}}
+			>
+				Download/Open
 				<div className={styles.RightSlot}>
-					<Trash size={16} />
+					<Edit size={16} />
 				</div>
-			</RadixContextMenu.Item> */}
+			</RadixContextMenu.Item>
+			<Dialog
+				content={
+					<DeleteDialog
+						file={target}
+						onDelete={() => {
+							onRemove(target);
+						}}
+						onCancel={() => {
+							console.log("cancel");
+
+							setTimeout(() => {
+								document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+							}, 0);
+						}}
+					/>
+				}
+				title={`Delete ${target.type === "directory" ? "Folder" : "File"}`}
+			>
+				{({ onClick }) => (
+					<RadixContextMenu.Item
+						onSelect={(e) => {
+							onClick();
+							e.preventDefault();
+						}}
+						className={styles.ContextMenuItem}
+					>
+						{target.type === "directory" ? "Delete Folder" : "Delete File"}
+						<div className={styles.RightSlot}>
+							<Trash size={16} />
+						</div>
+					</RadixContextMenu.Item>
+				)}
+			</Dialog>
 		</>
+	);
+};
+
+const DeleteDialog = (props: { onDelete: () => void; file: DawdleFile; onCancel: () => void }) => {
+	return (
+		<div className={styles.Form}>
+			<p>
+				Are you sure you want to delete this {props.file.type === "directory" ? "folder" : "file"}?
+			</p>
+			<div>
+				<input disabled value={props.file.fullPath} />
+			</div>{" "}
+			<button type="button" onClick={props.onDelete}>
+				Delete
+			</button>
+			<button data-secondary type="button" onClick={props.onCancel}>
+				Cancel
+			</button>
+		</div>
 	);
 };
 

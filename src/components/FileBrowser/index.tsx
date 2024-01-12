@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import type { FileStat } from "webdav";
 import { navigate } from "astro:transitions/client";
@@ -78,11 +78,37 @@ export const FileBrowser = () => {
 
 	const path = active ? `home/${username}${directory}` : "/home/";
 
+	const uploadRef = useRef<HTMLInputElement>(null);
+
+	const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (!e.target.files) return;
+
+		const promises = Array.from(e.target.files)
+			.filter((file) => file)
+			.map(async (file) => {
+				await webdav.putFileContents(`${directory}/${file.name}`, await file.arrayBuffer());
+				refresh();
+			});
+
+		e.target.value = "";
+		Promise.all(promises).then(() => {
+			refresh();
+		});
+	};
+
 	return (
 		<div className={styles.root}>
 			<div>
 				<BreadCrumbs goto={changeDirectory} path={path} />
 			</div>
+			{/* allow multiple files */}
+			<input
+				type="file"
+				ref={uploadRef}
+				onChange={handleUpload}
+				style={{ display: "none" }}
+				multiple
+			/>
 			<Directory
 				canGoBack={directory !== ""}
 				goBack={() => {
@@ -93,6 +119,9 @@ export const FileBrowser = () => {
 				files={files}
 				path={directory}
 				refresh={refresh}
+				onUploadFile={() => {
+					uploadRef.current?.click();
+				}}
 				onClickFile={(file) => {
 					if (file.type === "directory") {
 						return changeDirectory(file.fullPath);
@@ -116,6 +145,7 @@ const Directory = (props: {
 	loading: boolean;
 	files: DawdleFile[];
 	onClickFile: (file: DawdleFile) => void;
+	onUploadFile: () => void;
 	canGoBack: boolean;
 	path: string;
 	goBack: () => void;
@@ -136,6 +166,7 @@ const Directory = (props: {
 			)}
 
 			<ContextMenu
+				onUploadFile={props.onUploadFile}
 				refresh={props.refresh}
 				onEdit={(file) => {
 					navigate(`/user/edit#${file.fullPath}`);

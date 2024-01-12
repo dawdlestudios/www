@@ -86,11 +86,11 @@ import Layout from "../../layouts/Layout.astro";
       email: email as string,
       about: about as string,
     })
-      .then((res) => {
+      .then(() => {
         form.reset();
         navigate("/join/success", { history: "replace" });
       })
-      .catch((err) => {
+      .catch(() => {
         (
           form.querySelector("input[type=submit]") as HTMLInputElement
         )?.setCustomValidity("Something went wrong. Please try again later.");
