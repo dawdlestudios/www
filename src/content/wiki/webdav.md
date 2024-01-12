@@ -2,8 +2,6 @@
 title: Using WebDav
 ---
 
-# Using WebDav
-
 WebDav is a protocol that allows you to access files on a remote server. It is
 supported by most operating systems and can be used to access files on the
 server.

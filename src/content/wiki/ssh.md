@@ -2,8 +2,6 @@
 title: Using SSH (Secure Shell)
 ---
 
-## What is SSH?
-
 SSH, or Secure Shell, is a tool for securely connecting to remote computers.
 You can use it to run commands on our server to do things like upload files or
 install and run programs. We provide you with your own shell account with some

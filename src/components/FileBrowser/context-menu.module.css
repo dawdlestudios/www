@@ -46,6 +46,7 @@
 .ContextMenuTrigger {
   user-select: none;
   flex: 1;
+  padding-bottom: 2rem;
 }
 
 .ContextMenuContent,

@@ -23,7 +23,7 @@ export const ContextMenu = (props: {
 	const [target, setTarget] = React.useState<DawdleFile | null>(null);
 
 	return (
-		<RadixContextMenu.Root>
+		<RadixContextMenu.Root modal={false}>
 			<RadixContextMenu.Trigger
 				className={styles.ContextMenuTrigger}
 				onContextMenu={(e) => {

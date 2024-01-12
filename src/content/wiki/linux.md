@@ -2,8 +2,6 @@
 title: Linux Basics
 ---
 
-# Linux Command Line Basics
-
 ## Overview
 
 Linux, a powerful and versatile operating system, excels in its command line interface (CLI). The CLI allows efficient navigation, file manipulation, and system control.

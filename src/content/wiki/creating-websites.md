@@ -38,15 +38,7 @@ Name                  URL
 public/index.html     https://<username>.dawdle.space/
 public/about.html     https://<username>.dawdle.space/about
 public/about.html     https://<username>.dawdle.space/about.html (Also works)
-public/foo/bar.html   https://<username>.dawdle.space/foo/bar
+public/foo/index.html https://<username>.dawdle.space/foo
 public/cat.jpg        https://<username>.dawdle.space/cat.jpg
+public/404.html       https://<username>.dawdle.space/anything/that/doesnt/exist
 ```
-
-## Supported file types
-
-To prevent abuse, we only allow certain file types to be used for your website. Contact staff if you need a file type added to this list.
-Only these will be served with the correct MIME type, all other files will be served as `text/plain` or `application/octet-stream`.
-
-- Images: `.jpg`, `.jpeg`, `.png`, `.gif`, `.svg`, `.webp`
-- Hypermedia: `.html`, `.htm`, `.css`, `.js`
-- Other: `.json`, `.txt`, `.mp3`, `.oog`, `woff`, `woff2`, `.pdf`, `.ico`, `.xml`, `.webmanifest`, `.ttf`, `.eot`
