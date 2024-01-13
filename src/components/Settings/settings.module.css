@@ -75,5 +75,11 @@
 
     display: flex;
     flex-direction: column;
+
+    > div {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+    }
   }
 }

@@ -20,7 +20,7 @@ key, run the following command in your terminal:
 $ ssh-keygen -t ed25519
 ```
 
-Dawdle.space only supports ed25519 keys, so make sure you use the `-t ed25519` option. You can leave the passphrase blank if you want.
+Dawdle.space only supports `ed25519` keys, so make sure you use the `-t ed25519` option. You can leave the passphrase blank if you want.
 
 Once you have generated your key, you need to add it to your account. To do
 this, go to your [settings page](/user/settings) and paste the contents of the
@@ -35,6 +35,10 @@ $ ssh <username>@dawdle.space
 
 Replace `<username>` with your username. If you are on Windows, you might have to use `ssh.exe` instead of `ssh`.
 
+## VSCode Remote SSH
+
+If you use VSCode, you can also use the [Remote SSH](https://code.visualstudio.com/docs/remote/ssh) extension to connect to dawdle.space. This allows you to edit files on the server directly from VSCode and use the terminal to run commands.
+
 ## Considerations
 
 Once you have connected to dawdle.space via SSH, you will be in your own sandboxed container. Each container has 1GB of RAM, 1 CPU core, and can only access the internet via HTTP and HTTPS. To install programs, you will need to use the `apt` package manager and `sudo` to install them. More information about this can be found on Google and ChatGPT can also help you.
@@ -43,4 +47,4 @@ Additionally, by default, your container will be shut down after 30 minutes of i
 
 ## SFTP
 
-Currently, we do not support SFTP. If you need to upload files, you can use the WebDav server, the web interface or SCP.
+Currently, we do not support SFTP. The best way to upload files is to use scp, rsync or WebDAV, or the web interface.

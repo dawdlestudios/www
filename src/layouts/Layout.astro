@@ -11,13 +11,12 @@ const url = new URL(Astro.request.url);
 
 <Base {...props}>
   <slot name="head" slot="head" />
-
   <BG />
   <header>
     <h1>dawdle.space</h1>
-    <div class="online">
+    <!-- <div class="online">
       <span>{0}</span> users connected
-    </div>
+    </div> -->
   </header>
   <ul class="tabs">
     <li data-active={url.pathname === "/"}>
@@ -36,12 +35,11 @@ const url = new URL(Astro.request.url);
       <a href="/join">join</a>
     </li>
   </ul>
-  <div class="page" transition:animate="none">
+  <div class="page">
     <slot />
   </div>
   <div class="footer">
     <a href="https://henry.dawdle.space">made by ~henry</a>
-    <a href="/contact">contact</a>
     <a href="/imprint">imprint</a>
     <a href="/privacy">privacy</a>
     <a href="/terms">terms</a>

@@ -2,13 +2,14 @@
 import "./bg.css";
 ---
 
-<div transition:persist id="asdf" class="bg"></div>
+<div transition:persist id="backgroundcontainer" class="bg"></div>
 
 <script>
   // for some reason, css keyframes reset when the element is moved to the next page AaaAAAAA 🤬
   // so we have to do it in js (HOW IS THERE A DIFFERENCE BETWEEN CSS AND JS KEYFRAMES???)
+  // ... L
 
-  const bg = document.getElementById("asdf");
+  const bg = document.getElementById("backgroundcontainer");
   const keyframes = [
     { backgroundPosition: "0 0" },
     { backgroundPosition: "-1920px 0" },
@@ -30,7 +31,7 @@ import "./bg.css";
     right: 0;
     bottom: 0;
     z-index: -1;
-    background-color: #080f14;
+    background-color: #050a0e;
     background-image: url("/bg.jpg");
     background-blend-mode: color-dodge;
   }

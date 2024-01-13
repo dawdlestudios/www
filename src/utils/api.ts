@@ -31,10 +31,13 @@ export const sendApplication = async ({
 	request("/api/apply", "POST", { username, about, email });
 
 export const removePublicKey = async (name: string) =>
-	request("/api/public-key", "DELETE", { name });
+	request("/api/public_key", "DELETE", { name });
 
 export const addPublicKey = async (name: string, key: string) =>
-	request("/api/public-key", "POST", { name, key });
+	request("/api/public_key", "POST", { name, key });
+
+export const changePassword = async (oldPassword: string, newPassword: string) =>
+	request("/api/password", "POST", { old_password: oldPassword, new_password: newPassword });
 
 export const claimUsername = async ({
 	username,

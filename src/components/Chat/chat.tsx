@@ -76,10 +76,11 @@ export const Chat = () => {
 					id="chat-form"
 					onSubmit={(e) => {
 						e.preventDefault();
-						const form = e.target as HTMLFormElement;
+						const form = e.currentTarget;
 						sendMessage(new FormData(form).get("msg") as string);
 						form.reset();
-					}}>
+					}}
+				>
 					<input name="msg" type="text" />
 					<button type="submit">Send</button>
 				</form>

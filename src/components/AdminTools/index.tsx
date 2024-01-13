@@ -57,7 +57,7 @@ const Tools = () => {
 const GuestlistRequests = () => {
 	return (
 		<div>
-			<p>asdf</p>
+			<p>Nothing here yet</p>
 		</div>
 	);
 };
@@ -134,7 +134,8 @@ const Applications = () => {
 									approveApplication(application.id)
 										.then(() => mutate())
 										.catch((e) => console.error(e));
-								}}>
+								}}
+							>
 								Approve
 							</button>
 						)}

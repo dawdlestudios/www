@@ -1,13 +1,21 @@
 import useSWR from "swr";
 import styles from "./settings.module.css";
 import { X } from "lucide-react";
-import { fetchJson, removePublicKey, type MeResponse, addPublicKey } from "../../utils/api";
+import {
+	fetchJson,
+	removePublicKey,
+	type MeResponse,
+	addPublicKey,
+	changePassword,
+} from "../../utils/api";
+import { useState } from "react";
 
 const SAMPLE_KEY =
-	"e.g ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKpHLbfvXYR+OUXeh4GSpX26FJUUbT4UV2lOunYNH3a henry@mypc";
+	"e.g ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKpHLbfvXYR+OUXeh4GSpX26FJUUbT4UV2lOunYNH3a you@hostname";
 
 export const UserSettings = () => {
 	const { data, error, isLoading, mutate } = useSWR<MeResponse>("/api/me", fetchJson);
+	const [changePasswordNote, setChangePasswordNote] = useState<string | null>(null);
 
 	if (isLoading) {
 		return (
@@ -28,17 +36,39 @@ export const UserSettings = () => {
 	const onAddNewKey = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const data = new FormData(e.currentTarget);
+		const form = e.currentTarget;
 		const [name, key] = [data.get("name") as string, data.get("key") as string];
 		addPublicKey(name, key)
 			.then(() => {
-				e.currentTarget.reset();
+				form.reset();
 				mutate();
 			})
 			.catch((e) => {
-				(e.currentTarget.querySelector("textarea[name=key]") as HTMLInputElement)?.setCustomValidity(
+				console.error(e);
+				(form.querySelector("textarea[name=key]") as HTMLInputElement)?.setCustomValidity(
 					"Invalid key",
 				);
-				e.currentTarget.reportValidity();
+				form.reportValidity();
+			});
+	};
+
+	const onChangePassword = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const form = e.currentTarget;
+		const data = new FormData(form);
+		const [currentPassword, newPassword] = [
+			data.get("currentPassword") as string,
+			data.get("newPassword") as string,
+		];
+
+		changePassword(currentPassword, newPassword)
+			.then(() => {
+				setChangePasswordNote("Password changed successfully.");
+				form.reset();
+			})
+			.catch((e) => {
+				console.error(e);
+				setChangePasswordNote("An error occurred. Is your current password correct?");
 			});
 	};
 
@@ -85,23 +115,30 @@ export const UserSettings = () => {
 				<input type="submit" value="Add" />
 			</form>
 
-			<form className={styles.pw}>
-				<h2>Password</h2>
+			<form className={styles.pw} onSubmit={onChangePassword}>
+				<h2>Update Password</h2>
 				<label htmlFor="userPassword">Current password</label>
-				<input id="userPassword" required type="password" autoComplete="current-password" />
+				<input
+					name="currentPassword"
+					id="userPassword"
+					required
+					type="password"
+					autoComplete="current-password"
+				/>
 				<label htmlFor="newUserPassword">New password</label>
 				<input
 					id="newUserPassword"
+					name="newPassword"
 					minLength={10}
 					required
 					type="password"
 					autoComplete="new-password"
 				/>
-				<input type="submit" value="Change" />
+				<div>
+					<input type="submit" value="Change" />
+					{changePasswordNote && <p>{changePasswordNote}</p>}
+				</div>
 			</form>
-			{/* 
-			<h2>Custom Domains</h2>
-			<p>Coming soon...</p> */}
 		</div>
 	);
 };

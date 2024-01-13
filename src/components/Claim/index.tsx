@@ -19,11 +19,11 @@ export const ClaimUsername = () => {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const data = new FormData(e.currentTarget);
+		const data = new FormData(e.target as HTMLFormElement);
 		const password = data.get("newpw") as string;
 
 		claimUsername({ username: newUser as string, password, token: token as string })
-			.then((res) => {
+			.then(() => {
 				navigate("/login");
 			})
 			.catch((e) => {

@@ -203,7 +203,7 @@ const Directory = (props: {
 	);
 };
 
-const BreadCrumbs = ({ path, goto }: { path: string; goto: (path: string) => void }) => {
+const BreadCrumbs = ({ path }: { path: string; goto: (path: string) => void }) => {
 	const crumbs = path.split("/").filter((crumb) => crumb !== "");
 	const [first, user, ...rest] = crumbs;
 

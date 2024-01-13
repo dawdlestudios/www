@@ -128,7 +128,7 @@ const Content = ({
 					)}
 				</Dialog>
 				<RadixContextMenu.Item
-					onSelect={(e) => {
+					onSelect={() => {
 						onUploadFile();
 					}}
 					className={styles.ContextMenuItem}

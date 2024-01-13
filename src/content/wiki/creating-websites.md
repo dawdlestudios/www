@@ -42,3 +42,5 @@ public/foo/index.html https://<username>.dawdle.space/foo
 public/cat.jpg        https://<username>.dawdle.space/cat.jpg
 public/404.html       https://<username>.dawdle.space/anything/that/doesnt/exist
 ```
+
+All trailing slashes are removed from the URL. If you're using a static site generator, you can usually configure the URL structure in the configuration file, but our redirect rules should work with almost any file structure by default.

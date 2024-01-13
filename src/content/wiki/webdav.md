@@ -8,6 +8,13 @@ server.
 
 The WebDav server is available at `https://dawdle.space/api/webdav/`. You can use your username and password to access it.
 
+# Rclone (Cross-platform)
+
+Rclone is a command-line tool that supports many different protocols, including
+WebDav. You can download it [here](https://rclone.org/downloads/).
+
+# Other Clients
+
 ## Windows
 
 The built-in WebDav client in Windows is not very reliable.
