@@ -46,21 +46,21 @@ const Tools = () => {
 				<summary>Applications</summary>
 				<Applications />
 			</details>
-			<details>
+			{/* <details>
 				<summary>Guestlist Requests</summary>
 				<GuestlistRequests />
-			</details>
+			</details> */}
 		</>
 	);
 };
 
-const GuestlistRequests = () => {
-	return (
-		<div>
-			<p>Nothing here yet</p>
-		</div>
-	);
-};
+// const GuestlistRequests = () => {
+// 	return (
+// 		<div>
+// 			<p>Nothing here yet</p>
+// 		</div>
+// 	);
+// };
 
 type Application = {
 	about: string;
@@ -76,7 +76,7 @@ type Application = {
 const Applications = () => {
 	const { data, isLoading, mutate } = useSWR<Application[]>("/api/admin/applications", request);
 
-	console.log(data);
+	const dataSorted = data?.sort((a, b) => b.date - a.date);
 
 	if (isLoading) {
 		return (
@@ -88,11 +88,11 @@ const Applications = () => {
 
 	return (
 		<div>
-			{data?.map((application) => {
+			{dataSorted?.map((application) => {
 				return (
 					<div className={styles.application} key={application.id}>
 						<table>
-							<tbody className={styles.data}>
+							<tbody>
 								<tr>
 									<td>Username</td>
 									<td>{application.username}</td>
@@ -108,17 +108,19 @@ const Applications = () => {
 								{!application.claimed && (
 									<>
 										<tr>
-											<tr>
-												<td>Approved</td>
-												<td>{application.approved ? "Approved" : "Not approved"}</td>
-											</tr>
-											<td>Claim link</td>
-											<td>
-												{application.claim_token
-													? `https://dawdle.space/user/claim?token=${application.claim_token}&user=${application.username}`
-													: ""}
-											</td>
+											<td>Approved</td>
+											<td>{application.approved ? "Approved" : "Not approved"}</td>
 										</tr>
+										{application.approved && (
+											<tr>
+												<td>Claim link</td>
+												<td>
+													{application.claim_token
+														? `https://dawdle.space/user/claim?token=${application.claim_token}&user=${application.username}`
+														: ""}
+												</td>
+											</tr>
+										)}
 									</>
 								)}
 								<tr>

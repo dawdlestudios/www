@@ -47,9 +47,10 @@ export const Chat = () => {
 						<li data-active="true">#general</li>
 					</ul>
 				</div>
-				<div className={styles.users}>
+				{/* Reenable once we actually show users */}
+				{/* <div className={styles.users}>
 					<h2>Users</h2>
-				</div>
+				</div> */}
 			</aside>
 			<section className={styles.main}>
 				<h2>Messages</h2>

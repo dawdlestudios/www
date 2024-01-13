@@ -30,24 +30,24 @@
   background-color: #3b8d811c;
   padding: 1rem;
 
-  > div:first-of-type {
-    display: flex;
-    gap: 1rem;
+  table {
+    table-layout: fixed;
+    width: 100%;
 
-    p {
-      font-weight: bold;
-    }
-    .data {
+    tr > td:first-child {
+      padding-right: 1rem;
       color: #bcbcbcba;
+      font-weight: bold;
     }
   }
 
   button {
     margin-top: 1rem;
-    border: none;
     border: 1px solid #ffffffba;
     background-color: #ffffff1a;
-    color: #ffffff;
+    color: #fff;
     cursor: pointer;
+    padding: 0.4rem 0.5rem;
+    line-height: 1.25;
   }
 }
