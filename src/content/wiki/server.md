@@ -20,4 +20,19 @@ You can also install your own programs in your container, but keep in mind that 
 
 Additionally, we have a few other tools like various static site generators installed, see `/usr/local/dawdle/bin`. These are updated by us regularly.
 
+- [Zola](https://www.getzola.org/) v0.18.0\
+  Static site generator (recommended)
+- [Hugo](https://gohugo.io/) v0.121.2\
+  Another popular static site generator
+- [MdBook](https://rust-lang.github.io/mdBook/) v0.4.36\
+  Generate book like websites from Markdown files
+- [Ripgrep](https://github.com/BurntSushi/ripgrep) v14.1.0\
+  Fast grep replacement
+- [bat](https://github.com/sharkdp/bat) v0.24.0\
+  Cat with nice syntax highlighting
+- [just](https://github.com/casey/just) v1.23.0\
+  Task runner, nice for automating things
+- [glow](https://github.com/charmbracelet/glow) v1.5.1\
+  Markdown previewer
+
 The code powering dawdle.space is open source and available on [GitHub](https://github.com/dawdlestudios/dawdle-server)

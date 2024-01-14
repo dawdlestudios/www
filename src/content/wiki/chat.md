@@ -2,8 +2,6 @@
 title: Dawdle Chat
 ---
 
-# Dawdle Chat
-
 The chat is based on a simple custom protocol. Only the last 20 messages are stored in the server's memory and are not persisted. The chat is encrypted, but not end-to-end encrypted. The server can read all messages.
 
 ## Alternative clients

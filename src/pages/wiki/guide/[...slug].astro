@@ -1,10 +1,11 @@
 ---
-import Post from "../../components/Post.astro";
-import Layout from "../../layouts/Layout.astro";
+import Post from "../../../components/Post.astro";
+import Layout from "../../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
+
 export async function getStaticPaths() {
-  const wikiEntries = await getCollection("wiki");
-  return wikiEntries.map((entry) => ({
+  const guideEntries = await getCollection("guide");
+  return guideEntries.map((entry) => ({
     params: { slug: entry.slug },
     props: { entry },
   }));

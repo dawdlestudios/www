@@ -1,5 +1,5 @@
 ---
-title: Using SSH (Secure Shell)
+title: Connecting with your Terminal using SSH
 ---
 
 SSH, or Secure Shell, is a tool for securely connecting to remote computers.

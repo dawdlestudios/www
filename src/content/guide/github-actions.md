@@ -1,5 +1,5 @@
 ---
-title: Using GitHub Actions
+title: Automating uploads with GitHub Actions
 ---
 
 GitHub Actions are a way to automate tasks on GitHub. They are similar to GitLab CI or Travis CI, but they are built into GitHub. You can use them to automatically build and deploy your website to dawdle.space whenever you push to your repository.

@@ -1,5 +1,5 @@
 ---
-title: Linux Basics
+title: Using Linux
 ---
 
 ## Overview
