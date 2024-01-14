@@ -24,7 +24,7 @@ export const Chat = () => {
 				weekday: "long",
 				month: "long",
 				day: "numeric",
-			}).format(new Date(msg.time));
+			}).format(new Date(msg.time * 1000));
 
 			const day = acc.find((d) => d[0] === date);
 			if (day) {
@@ -135,7 +135,7 @@ const ChatMessageComp = ({ message }: { message: ChatMessage }) => {
 				{Intl.DateTimeFormat("en-US", {
 					hour: "numeric",
 					minute: "numeric",
-				}).format(new Date(message.time))}
+				}).format(new Date(message.time * 1000))}
 			</div>
 		</div>
 	);
