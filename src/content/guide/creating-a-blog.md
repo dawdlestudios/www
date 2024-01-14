@@ -27,7 +27,7 @@ This will ask you a few questions, but you can just press enter to use the defau
 This will create a new folder called `website` with a few files in it. Let's take a look at them:
 
 ```bash
-$ cd website # Change into the blog folder
+$ cd website # Change into the folder
 $ ls # List the files
 ```
 
