@@ -1,8 +1,8 @@
 ---
-title: Creating a Blog
+title: Creating a Website with Zola
 ---
 
-So you want to create a site with a blog? Great! This guide will show you how to get started.
+So you want to create a more complex website than just a few HTML files, like a blog or a portfolio? Great! This guide will show you how to get started.
 
 ## Static Site Generators
 

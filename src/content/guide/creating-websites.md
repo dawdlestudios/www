@@ -15,7 +15,11 @@ If you don't want to do any coding, there are a few tools that can help you crea
 - [Markdown to HTML](https://markdowntohtml.com/)\
   A website that lets you convert Markdown to HTML
 
-If you want to create a blog, also check out the [Creating a Blog](/wiki/guide/creating-a-blog) guide for more information.
+**Static Site Generators**
+
+If you want to create a more complex website than just a few HTML files, like a blog or a portfolio, you can use a static site generator like [Zola](https://www.getzola.org/). See [Creating a Website with Zola](/wiki/guide/zola) for more information.
+
+Other static site generators you can use are [Hugo](https://gohugo.io/), or [Astro](https://astro.build/) (what this site is built with).
 
 ## HTML, CSS, and JavaScript
 
@@ -33,6 +37,9 @@ Here are some simple things you can try out:
 
 To dive in deeper, we have a few resources for you:
 
+- [The Valley of Code](https://thevalleyofcode.com/)\
+  A website that teaches you HTML, CSS, and JavaScript. Has everything from absolute beginner tutorials to more advanced stuff.
+  Reccommended by us for anyone who wants to learn web development.
 - [VS Code](https://code.visualstudio.com/)\
   If you feel limited by the editor on here, you can download VS Code and edit your files locally. The editor on here is based on VS Code, so it should feel familiar.
 - [Getting started with the Web](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web)\
