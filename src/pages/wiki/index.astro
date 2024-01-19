@@ -2,13 +2,29 @@
 import Layout from "../../layouts/Layout.astro";
 
 import { getCollection } from "astro:content";
-const wikiEntries = (await getCollection("wiki")).filter(
-  (entry) => entry.data.draft !== true
-);
+const wikiEntries = (await getCollection("wiki"))
+  .filter((entry) => entry.data.draft !== true)
+  .sort((a, b) => {
+    if (a.data.title < b.data.title) {
+      return -1;
+    } else if (a.data.title > b.data.title) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
 
-const guideEntries = (await getCollection("guide")).filter(
-  (entry) => entry.data.draft !== true
-);
+const guideEntries = (await getCollection("guide"))
+  .filter((entry) => entry.data.draft !== true)
+  .sort((a, b) => {
+    if (a.data.title < b.data.title) {
+      return -1;
+    } else if (a.data.title > b.data.title) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
 ---
 
 <Layout title="Wiki Overview">

@@ -47,4 +47,4 @@ Additionally, by default, your container will be shut down after 30 minutes of i
 
 ## SFTP
 
-Currently, we do not support SFTP. The best way to upload files is to use scp, rsync or WebDAV, or the web interface.
+Currently, we do not support SFTP. The best way to upload files is to use [rsync](/wiki/guide/rsync) or [WebDAV](/wiki/guide/webdav), or the web interface.

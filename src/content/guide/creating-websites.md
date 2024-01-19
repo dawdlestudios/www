@@ -8,8 +8,10 @@ The way dawdle.space works it that any thing you put in your `public` folder wil
 
 If you don't want to do any coding, there are a few tools that can help you create a website:
 
+- [typora](https://typora.io/)\
+  A very powerful and still easy to use Markdown editor with a bunch of [themes](https://theme.typora.io/)
 - [Marktext](https://www.marktext.cc/)\
-  A desktop app that lets you write Markdown and export it to HTML (with a bunch of themes)
+  A free alternative to typora with less features and a more confusing UI (still a good option though)
 - [Publii](https://getpublii.com/)\
   A desktop app that lets you create a website without coding
 - [Markdown to HTML](https://markdowntohtml.com/)\
@@ -19,7 +21,7 @@ If you don't want to do any coding, there are a few tools that can help you crea
 
 If you want to create a more complex website than just a few HTML files, like a blog or a portfolio, you can use a static site generator like [Zola](https://www.getzola.org/). See [Creating a Website with Zola](/wiki/guide/zola) for more information.
 
-Other static site generators you can use are [Hugo](https://gohugo.io/), or [Astro](https://astro.build/) (what this site is built with).
+Other static site generators you can use are [Hugo](https://gohugo.io/), or [Astro](https://astro.build/) (what this site is built with). These have varying levels of complexity, so you might want to try out a few to see which one you like best.
 
 ## HTML, CSS, and JavaScript
 
