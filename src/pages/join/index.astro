@@ -7,15 +7,14 @@ import Layout from "../../layouts/Layout.astro";
     <h3>Already a member? <a href="/login">Login</a></h3>
     <h2>Thanks for your interest in joining dawdle.space!</h2>
     <p>
-      To sign up for an account, please fill out the form below. Although we
-      don't require any personal information, we do ask that you provide a valid
-      email address so that we can send you a confirmation if your account is
-      approved and so that we can contact you if there are any issues with your
-      site. We will never share your email address with anyone and will never
-      send you automated emails.
+      To sign up for an account, please fill out the form below. We only ask
+      that you provide a valid email address so that we can send you a
+      confirmation if your account is approved and so that we can contact you if
+      there are any issues with your site. We will never share your email
+      address with anyone and will never send you automated emails.
     </p>
     <form id="joinform">
-      <label for="username">Username</label>
+      <label for="username">Username (required)</label>
       <input
         type="text"
         id="username"
@@ -26,7 +25,7 @@ import Layout from "../../layouts/Layout.astro";
         maxlength="20"
         placeholder="Your desired username"
       />
-      <label for="email">Email</label>
+      <label for="email">Email (required)</label>
       <input
         type="email"
         id="email"
@@ -35,7 +34,7 @@ import Layout from "../../layouts/Layout.astro";
         placeholder="Your email address"
       />
 
-      <label for="about">About yourself</label>
+      <label for="about">About yourself (optional)</label>
       <textarea
         name="about"
         id="about"
@@ -54,7 +53,9 @@ import Layout from "../../layouts/Layout.astro";
       <div></div>
       <label for="terms">
         <input type="checkbox" id="terms" name="terms" required />
-        I have read and agree to the <a href="/terms">rules/terms</a>.
+        I have read and agree to the <a target="_blank" href="/terms"
+          >rules/terms</a
+        >.
       </label>
       <input type="submit" value="Submit" />
     </form>
@@ -72,7 +73,7 @@ import Layout from "../../layouts/Layout.astro";
     const [username, email, about] = [
       formData.get("username"),
       formData.get("email"),
-      formData.get("about"),
+      formData.get("about") || "no about provided",
     ];
 
     if (!username || !email || !about) {
