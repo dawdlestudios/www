@@ -1,9 +1,9 @@
-import useWebSocket from "react-use-websocket";
-import styles from "./chat.module.css";
-import { useCallback, useEffect, useState } from "react";
-import { request, type ChatResponse, type ChatMessage } from "./chat-types";
-import { getUser } from "../../utils/auth";
 import isUrlHttp from "is-url-http";
+import { useCallback, useEffect, useState } from "react";
+import useWebSocket from "react-use-websocket";
+import { getUser } from "../../utils/auth";
+import { type ChatMessage, type ChatResponse, request } from "./chat-types";
+import styles from "./chat.module.css";
 
 const roles: Record<string, string> = {
 	henry: "admin",

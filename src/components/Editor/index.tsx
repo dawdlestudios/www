@@ -1,6 +1,6 @@
+import { loader } from "@monaco-editor/react";
 import React, { Suspense } from "react";
 import { Editor as _Editor } from "./editor";
-import { loader } from "@monaco-editor/react";
 
 const Lazy = React.lazy(async () => {
 	await initMonaco();

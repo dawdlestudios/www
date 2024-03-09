@@ -1,16 +1,16 @@
 ---
 type Props = {
-  variant: "primary" | "secondary"; // Add more variants as needed
-  invert?: boolean;
+	variant: "primary" | "secondary"; // Add more variants as needed
+	invert?: boolean;
 };
 
 const { variant = "primary", invert } = Astro.props;
 
 // Create a list of classes based on the props
 const buttonClasses = {
-  button: true,
-  [variant]: true,
-  invert: invert || false,
+	button: true,
+	[variant]: true,
+	invert: invert || false,
 };
 ---
 

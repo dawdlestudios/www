@@ -1,9 +1,9 @@
-import React from "react";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
-import styles from "./context-menu.module.css";
 import { Edit, FileIcon, FolderIcon, Trash, Upload } from "lucide-react";
+import React from "react";
 import type { DawdleFile } from ".";
 import { Dialog } from "../ui/dialog";
+import styles from "./context-menu.module.css";
 
 export const ContextMenu = (props: {
 	items: {
@@ -32,8 +32,8 @@ export const ContextMenu = (props: {
 					const file_idx = e.target?.getAttribute("data-file");
 					console.log(e.target, file_idx);
 
-					if (file_idx && props.items.length > parseInt(file_idx)) {
-						const file = props.items[parseInt(file_idx)].file;
+					if (file_idx && props.items.length > Number.parseInt(file_idx)) {
+						const file = props.items[Number.parseInt(file_idx)].file;
 						setTarget(file);
 						return;
 					}

@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
-import { ArrowLeft, Save } from "lucide-react";
 import { Editor as EditorMonaco, type OnMount } from "@monaco-editor/react";
+import { ArrowLeft, Save } from "lucide-react";
 
+import { getUser } from "../../utils/auth";
 import { createWebDAVClient } from "../FileBrowser/webdav";
 import { disabledFileTypes } from "./disabled-files";
-import { getUser } from "../../utils/auth";
 import styles from "./editor.module.css";
 
 import type { editor } from "monaco-editor";

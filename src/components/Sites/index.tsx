@@ -1,6 +1,6 @@
-import styles from "./sites.module.css";
 import useSWR from "swr";
 import { fetchJson } from "../../utils/api";
+import styles from "./sites.module.css";
 
 type Site = {
 	type: "user" | "site";

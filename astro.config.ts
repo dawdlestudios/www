@@ -27,5 +27,8 @@ export default defineConfig({
 		preview: {
 			proxy,
 		},
+		css: {
+			transformer: "lightningcss",
+		},
 	},
 });

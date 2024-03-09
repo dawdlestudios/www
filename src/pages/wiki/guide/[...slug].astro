@@ -1,14 +1,14 @@
 ---
+import { getCollection } from "astro:content";
 import Post from "../../../components/Post.astro";
 import Layout from "../../../layouts/Layout.astro";
-import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-  const guideEntries = await getCollection("guide");
-  return guideEntries.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
+	const guideEntries = await getCollection("guide");
+	return guideEntries.map((entry) => ({
+		params: { slug: entry.slug },
+		props: { entry },
+	}));
 }
 
 const { entry } = Astro.props;

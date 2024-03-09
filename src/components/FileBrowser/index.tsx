@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import type { FileStat } from "webdav";
 import { navigate } from "astro:transitions/client";
+import type { FileStat } from "webdav";
 
 import styles from "./styles.module.css";
 
 import { getUser } from "../../utils/auth";
-import { createWebDAVClient } from "./webdav";
-import { icons, type FileType } from "./icons";
-import { formatSize, sortFiles } from "./util";
 import { ContextMenu } from "./context-menu";
+import { type FileType, icons } from "./icons";
+import { formatSize, sortFiles } from "./util";
+import { createWebDAVClient } from "./webdav";
 
 export type DawdleFile = {
 	name: string;

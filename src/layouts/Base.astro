@@ -1,12 +1,12 @@
 ---
-import "@fontsource-variable/victor-mono";
 import { ViewTransitions } from "astro:transitions";
-import "./../global.css";
+import "@fontsource-variable/victor-mono";
 import { Head } from "astro-capo";
+import "./../global.css";
 
 interface Props {
-  title: string;
-  maxWidth?: string;
+	title: string;
+	maxWidth?: string;
 }
 
 const { title, maxWidth } = Astro.props;

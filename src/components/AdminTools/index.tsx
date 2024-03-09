@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import styles from "./style.module.css";
-import { approveApplication, request } from "../../utils/api";
 import useSWR from "swr";
+import { approveApplication, request } from "../../utils/api";
+import styles from "./style.module.css";
 
 export const AdminTools = () => {
 	const [admin, setAdmin] = useState<boolean | undefined>(undefined);

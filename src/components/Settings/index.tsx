@@ -1,14 +1,14 @@
-import useSWR from "swr";
-import styles from "./settings.module.css";
 import { X } from "lucide-react";
+import { useState } from "react";
+import useSWR from "swr";
 import {
-	fetchJson,
-	removePublicKey,
 	type MeResponse,
 	addPublicKey,
 	changePassword,
+	fetchJson,
+	removePublicKey,
 } from "../../utils/api";
-import { useState } from "react";
+import styles from "./settings.module.css";
 
 const SAMPLE_KEY =
 	"e.g ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKpHLbfvXYR+OUXeh4GSpX26FJUUbT4UV2lOunYNH3a you@hostname";

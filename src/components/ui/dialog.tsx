@@ -1,7 +1,7 @@
 import * as RadixDialog from "@radix-ui/react-dialog";
-import styles from "./dialog.module.css";
 import { X } from "lucide-react";
 import { useState } from "react";
+import styles from "./dialog.module.css";
 
 export const Dialog = ({
 	children,
@@ -27,7 +27,8 @@ export const Dialog = ({
 					setTimeout(() => {
 						document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
 					}, 0);
-			}}>
+			}}
+		>
 			{children({
 				onClick: () => setOpen(true),
 			})}
