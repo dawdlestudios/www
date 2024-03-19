@@ -18,17 +18,9 @@ export default defineConfig({
 	compressHTML: true,
 	prefetch: true,
 	vite: {
-		ssr: {
-			noExternal: ["monaco-editor"],
-		},
-		server: {
-			proxy,
-		},
-		preview: {
-			proxy,
-		},
-		css: {
-			transformer: "lightningcss",
-		},
+		ssr: { noExternal: ["monaco-editor"] },
+		server: { proxy },
+		preview: { proxy },
+		css: { transformer: "lightningcss" },
 	},
 });
