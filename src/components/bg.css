@@ -1,8 +1,0 @@
-@keyframes __bg_slide {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: -1920px 0;
-  }
-}

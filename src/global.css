@@ -15,6 +15,18 @@ html {
   font-family: "Victor Mono Variable", monospace;
 }
 
+#backgroundcontainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-color: #050a0e;
+  background-image: url("/bg.jpg");
+  background-blend-mode: color-dodge;
+}
+
 body {
   margin: 0;
   padding: 0;

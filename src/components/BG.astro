@@ -1,7 +1,3 @@
----
-import "./bg.css";
----
-
 <div transition:persist id="backgroundcontainer" class="bg"></div>
 
 <script>
@@ -22,17 +18,3 @@ import "./bg.css";
 
   bg!.animate(keyframes, options);
 </script>
-
-<style>
-  .bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    background-color: #050a0e;
-    background-image: url("/bg.jpg");
-    background-blend-mode: color-dodge;
-  }
-</style>
