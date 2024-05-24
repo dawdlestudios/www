@@ -5,7 +5,7 @@ import Base from "../../layouts/Base.astro";
 
 <Base title="Chat">
   <main>
-    <Chat client:only />
+    <Chat client:only="react" />
   </main>
 </Base>
 
@@ -13,7 +13,7 @@ import Base from "../../layouts/Base.astro";
   main {
     margin: 0;
     padding: 0;
-    background-color: #080f14;
+    background-color: var(--background);
     color: #fff;
     display: flex;
     flex: 1;

@@ -14,7 +14,7 @@
   .breadcrumbs {
     padding: 0.5rem;
     margin-top: 0.5rem;
-    background: #141f28;
+    background: var(--background-light);
     display: flex;
     align-items: center;
 

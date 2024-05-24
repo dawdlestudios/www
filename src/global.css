@@ -1,8 +1,23 @@
+:root {
+  --background: #030503ed;
+  --background-light: #101112;
+  --code-background: #63ffa11a;
+  --text: #ededed;
+  --heading: #e5e5e5;
+  --link-color: #ffffff;
+
+  --accent: #fefefe;
+  --border-color: var(--accent);
+  --border-width: 1px;
+  --border-radius: 8px;
+  --border: var(--border-width) solid var(--border-color);
+}
+
 html {
   overflow-y: scroll;
   scrollbar-width: thin;
-  scrollbar-color: #939b9a #080f14;
-  color: #fff;
+  scrollbar-color: #939b9a var(--background);
+  color: var(--text);
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -22,7 +37,7 @@ html {
   right: 0;
   bottom: 0;
   z-index: -1;
-  background-color: #050a0e;
+  background-color: #05050594;
   background-image: url("/bg.jpg");
   background-blend-mode: color-dodge;
 }
@@ -47,11 +62,15 @@ p {
 }
 
 a {
-  opacity: 0.8;
+  opacity: 0.7;
   text-decoration: underline;
   text-decoration-style: dotted;
-  color: #8be2ff;
-  transition: color 0.1s ease-in-out;
+  color: var(--link-color);
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 * {

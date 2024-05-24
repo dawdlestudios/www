@@ -21,7 +21,7 @@
 
   button {
     cursor: pointer;
-    border: 1px solid white;
+    border: var(--border);
     background: none;
     padding: 0.5rem;
     color: #fff;
@@ -52,7 +52,7 @@
 .ContextMenuContent,
 .ContextMenuSubContent {
   min-width: 220px;
-  background-color: #141f28;
+  background-color: var(--background-light);
   border-radius: 6px;
   overflow: hidden;
   padding: 0.4rem 0.4rem;

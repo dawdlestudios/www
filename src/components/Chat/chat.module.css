@@ -46,9 +46,9 @@
     flex-direction: column;
     flex: 1;
     overflow-y: scroll;
-    background-color: #141f28;
+    background-color: var(--background-light);
     padding: 1rem 1.25rem;
-    border-left: 1px solid white;
+    border-left: var(--border);
 
     form {
       display: flex;
@@ -58,16 +58,18 @@
       input {
         flex: 1;
         padding: 0.5rem;
-        border: 1px solid white;
-        background-color: #141f28;
+        border: var(--border);
+        border-radius: var(--border-radius);
+        background-color: var(--background-light);
         color: white;
         margin: 0;
       }
 
       button {
         padding: 0.5rem;
-        border: 1px solid white;
-        background-color: #141f28;
+        border: var(--border);
+        border-radius: var(--border-radius);
+        background-color: var(--background-light);
         color: white;
       }
     }

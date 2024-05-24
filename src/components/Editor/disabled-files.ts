@@ -110,7 +110,6 @@ export const disabledFileTypes = [
 	"tar",
 	"tax2016",
 	"tax2019",
-	"xml",
 	"aif",
 	"iff",
 	"m3u",
