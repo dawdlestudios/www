@@ -1,8 +1,9 @@
 :root {
-  --background: #030503ed;
+  --background: #050705ee;
   --background-light: #101112;
   --code-background: #63ffa11a;
   --text: #ededed;
+  --text-dark: #999999;
   --heading: #e5e5e5;
   --link-color: #ffffff;
 
@@ -37,7 +38,7 @@ html {
   right: 0;
   bottom: 0;
   z-index: -1;
-  background-color: #05050594;
+  background-color: #040705ee;
   background-image: url("/bg.jpg");
   background-blend-mode: color-dodge;
 }
