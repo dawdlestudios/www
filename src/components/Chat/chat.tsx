@@ -161,18 +161,21 @@ const useChat = () => {
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
 	const [error, setError] = useState<string | undefined>("connecting...");
 
-	const addMessage = (username: string, message: string, room: string, time: number) => {
-		if (room !== currentRoom) return;
-		setMessages((prev) => [
-			...prev,
-			{
-				room,
-				username,
-				message,
-				time,
-			},
-		]);
-	};
+	const addMessage = useCallback(
+		(username: string, message: string, room: string, time: number) => {
+			if (room !== currentRoom) return;
+			setMessages((prev) => [
+				...prev,
+				{
+					room,
+					username,
+					message,
+					time,
+				},
+			]);
+		},
+		[currentRoom],
+	);
 
 	const handleWsMessage = useCallback(
 		(event: MessageEvent) => {

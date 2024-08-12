@@ -10,7 +10,7 @@
 		"astro": "astro"
 	},
 	"dependencies": {
-		"@astrojs/react": "^3.6.0",
+		"@astrojs/react": "^3.6.2",
 		"@astrojs/sitemap": "^3.1.6",
 		"@fontsource-variable/lexend": "^5.0.20",
 		"@fontsource-variable/victor-mono": "^5.0.5",
@@ -21,22 +21,22 @@
 		"@radix-ui/react-dialog": "^1.1.1",
 		"@types/react": "^18.3.3",
 		"@types/react-dom": "^18.3.0",
-		"astro": "^4.11.1",
+		"astro": "^4.13.3",
 		"astro-capo": "^0.0.1",
 		"emmet-monaco-es": "^5.4.0",
 		"is-url-http": "^2.3.8",
-		"lightningcss": "^1.25.1",
-		"lucide-react": "^0.396.0",
+		"lightningcss": "^1.26.0",
+		"lucide-react": "^0.427.0",
 		"monaco-editor": "^0.50.0",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"react-use-websocket": "^4.8.1",
 		"swr": "^2.2.5",
-		"typescript": "^5.5.2",
-		"webdav": "^5.6.0"
+		"typescript": "^5.5.4",
+		"webdav": "^5.7.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.8.2"
+		"@biomejs/biome": "^1.8.3"
 	},
 	"trustedDependencies": ["@biomejs/biome", "esbuild", "sharp"]
 }
