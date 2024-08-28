@@ -1,5 +1,6 @@
 ---
 import BG from "../components/BG.astro";
+import { LoginLink } from "../components/auth";
 import Base from "../layouts/Base.astro";
 interface Props {
 	title: string;
@@ -14,16 +15,10 @@ const url = new URL(Astro.request.url);
   <BG />
   <header>
     <h1>dawdle.space</h1>
-    <!-- <div class="online">
-      <span>{0}</span> users connected
-    </div> -->
   </header>
   <ul class="tabs">
     <li data-active={url.pathname === "/"}>
       <a href="/">home</a>
-    </li>
-    <li data-active={url.pathname.startsWith("/sites")}>
-      <a href="/sites">sites</a>
     </li>
     <li data-active={url.pathname.startsWith("/wiki")}>
       <a href="/wiki">wiki</a>
@@ -31,9 +26,7 @@ const url = new URL(Astro.request.url);
     <li data-active={url.pathname.startsWith("/chat")}>
       <a href="/chat">chat</a>
     </li>
-    <li id="nav-join" transition:persist>
-      <a href="/join">join</a>
-    </li>
+    <LoginLink client:only="react" transition:persist />
   </ul>
   <div class="page">
     <slot />
@@ -45,16 +38,6 @@ const url = new URL(Astro.request.url);
     <a href="/terms">terms</a>
   </div>
 </Base>
-
-<script>
-  import { getUser } from "../utils/auth";
-  const username = getUser();
-  if (username) {
-    const el = document.querySelector("#nav-join a") as HTMLAnchorElement;
-    el.textContent = username;
-    el.href = "/user";
-  }
-</script>
 
 <style>
   .footer {
@@ -84,7 +67,7 @@ const url = new URL(Astro.request.url);
     overflow: hidden;
     border-bottom: none;
 
-    li a {
+    :global(li a) {
       padding: 0 1.2rem;
       color: var(--text-dark);
       font-weight: 400;
@@ -95,7 +78,7 @@ const url = new URL(Astro.request.url);
       }
     }
 
-    li {
+    :global(li) {
       &[data-active] {
         background: var(--border-color);
         a {
@@ -107,7 +90,7 @@ const url = new URL(Astro.request.url);
       border-right: var(--border);
     }
 
-    li:last-of-type {
+    :global(.login)  {
       margin-left: auto;
       border-right: none;
     }
@@ -117,7 +100,7 @@ const url = new URL(Astro.request.url);
       min-width: 100%;
       max-width: calc(100vw - 2rem);
 
-      li {
+      :global(li) {
         text-align: center;
         flex: 1;
         border-right: none;
