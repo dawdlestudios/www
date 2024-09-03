@@ -9,7 +9,7 @@ import {
 } from "../../utils/api";
 import styles from "./settings.module.css";
 import { useQuery } from "../../utils/query";
-import { getUser, useUser } from "../../utils/auth";
+import { getRole, getUser, useUser } from "../../utils/auth";
 import { Dialog } from "../ui/dialog";
 
 const SAMPLE_KEY =
@@ -101,6 +101,11 @@ export const UserSettings = () => {
 
 	return (
 		<div className={styles.settings}>
+			{getRole() === "admin" && (
+				<a href="/admin" className={styles.adminLink}>
+					<h2>Open Admin Panel</h2>
+				</a>
+			)}
 			<h2>
 				Public Keys
 				<Dialog

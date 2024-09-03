@@ -19,3 +19,13 @@ export const useUser = () => {
 
 	return username;
 };
+
+export const getRole = () => {
+	if (typeof window === "undefined") return "";
+
+	const username = document.cookie
+		.split("; ")
+		.find((row) => row.startsWith("clientside_role="))
+		?.split("=")[1];
+	return username;
+};
