@@ -1,5 +1,7 @@
 ---
+import { Username } from "../components/auth";
 import Layout from "./Layout.astro";
+import { SettingsHeader } from "../components/Settings";
 
 interface Props {
 	title: string;
@@ -9,20 +11,7 @@ const url = new URL(Astro.request.url);
 ---
 
 <Layout title={title}>
-  <main id="settings">
-    <h2>
-      Welcome&nbsp;<span data-username></span>!
-      <a href="#" data-user-page
-        >&#10697; <span data-username></span>.dawdle.space</a
-      >
-    </h2>
-    <p>
-      You can upload files to your account below. Alternatively, you can also
-      connect via <a href="/wiki/ssh">SSH</a> or using a folder on your computer
-      with <a href="/wiki/webdav">WebDAV</a>. If your new here, check out the
-      <a href="/wiki">wiki</a> for more information.
-    </p>
-  </main>
+  <SettingsHeader  client:load />
   <ul>
     <li data-active={url.pathname === "/user"}>
       <a href="/user">Your Files</a>
@@ -63,24 +52,7 @@ const url = new URL(Astro.request.url);
 </script>
 
 <style>
-  h2 {
-    font-size: 1.2rem;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-
-    a {
-      margin-left: auto;
-    }
-  }
-
-  main {
-    background: var(--background-light);
-    padding: 2rem;
-  }
+  
 
   ul {
     display: flex;

@@ -16,3 +16,7 @@ export const LoginLink = () => {
 		</li>
 	);
 };
+
+export const Username = () => {
+	return <span>{username}</span>;
+};

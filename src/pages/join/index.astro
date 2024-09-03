@@ -6,20 +6,13 @@ import Layout from "../../layouts/Layout.astro";
   <main>
     <h3>Already a member? <a href="/login">Login</a></h3>
     <h2>Thanks for your interest in joining dawdle.space!</h2>
-    <p>
-      To sign up for an account, please fill out the form below. We only ask
-      that you provide a valid email address so that we can send you a
-      confirmation if your account is approved and so that we can contact you if
-      there are any issues with your site. We will never share your email
-      address with anyone and will never send you automated emails.
-    </p>
     <form id="joinform">
       <label for="username">Username (required)</label>
       <input
         type="text"
         id="username"
         name="username"
-        pattern="^[a-z0-9-]+$"
+        pattern="^[A-Za-z0-9]{1,20}$"
         required
         minlength="3"
         maxlength="20"
@@ -45,9 +38,13 @@ import Layout from "../../layouts/Layout.astro";
 
       <p>
         <br />
+        We will never share your email address with anyone and will never send you automated emails, it is only
+        used for sending you your confirmation email and for contacting you if
+        there are any issues with your site.
+        <br />
+        <br />
         While we try to keep light moderation, we do have a few rules so we can keep
         the site safe and fun for everyone.
-        <br />
         <br />
       </p>
       <div></div>
@@ -110,6 +107,10 @@ import Layout from "../../layouts/Layout.astro";
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
+
+    label {
+      margin-top: 1rem;
+    }
   }
 
   h3 {

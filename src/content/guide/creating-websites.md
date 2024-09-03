@@ -10,18 +10,28 @@ If you don't want to do any coding, there are a few tools that can help you crea
 
 - [typora](https://typora.io/)\
   A very powerful and still easy to use Markdown editor with a bunch of [themes](https://theme.typora.io/)
-- [Marktext](https://www.marktext.cc/)\
-  A free alternative to typora with less features and a more confusing UI (still a good option though)
 - [Publii](https://getpublii.com/)\
   A desktop app that lets you create a website without coding
-- [Markdown to HTML](https://markdowntohtml.com/)\
-  A website that lets you convert Markdown to HTML
 
-**Static Site Generators**
+## Markdown
 
-If you want to create a more complex website than just a few HTML files, like a blog or a portfolio, you can use a static site generator like [Zola](https://www.getzola.org/). See [Creating a Website with Zola](/wiki/guide/zola) for more information.
+Dawdle.space supports Markdown, a simple markup language that lets you write formatted text. You can use it to create headings, lists, links, and more. Following is a simple example. The
+text between the `---` is called front matter, and it's used to set metadata for the page.
 
-Other static site generators you can use are [Hugo](https://gohugo.io/), or [Astro](https://astro.build/) (what this site is built with). These have varying levels of complexity, so you might want to try out a few to see which one you like best.
+`index.md`:
+
+```markdown
+---
+title: My First Post
+---
+
+# Hello World!
+
+This is my first post. Here's a list:
+
+- Item 1
+- Item 2
+```
 
 ## HTML, CSS, and JavaScript
 
@@ -36,6 +46,14 @@ Here are some simple things you can try out:
 - `<br>` will create a line break
 - `<p>Some text</p>` will create a paragraph
 - `<img src="https://example.com/image.png">` will create an image
+
+## Static Site Generators
+
+If you want to create a more complex website than just a few HTML files, like a blog or a portfolio, you can use a static site generator like [Zola](https://www.getzola.org/). See [Creating a Website with Zola](/wiki/guide/zola) for more information.
+
+Other static site generators you can use are [Hugo](https://gohugo.io/), or [Astro](https://astro.build/) (what this site is built with). These have varying levels of complexity, so you might want to try out a few to see which one you like best.
+
+## More Resources
 
 To dive in deeper, we have a few resources for you:
 

@@ -1,5 +1,5 @@
 ---
-title: Using Linux
+title: Linux Cheat Sheet
 ---
 
 ## Overview

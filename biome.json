@@ -14,6 +14,9 @@
 			"recommended": true,
 			"suspicious": {
 				"noArrayIndexKey": "off"
+			},
+			"complexity": {
+				"noUselessFragments": "off"
 			}
 		}
 	}

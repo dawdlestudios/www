@@ -9,3 +9,13 @@ export const getUser = () => {
 		?.split("=")[1];
 	return username;
 };
+
+export const useUser = () => {
+	const [username, setUsername] = useState<string | undefined>(undefined);
+
+	useEffect(() => {
+		setUsername(getUser());
+	}, []);
+
+	return username;
+};

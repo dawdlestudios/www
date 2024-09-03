@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { PlusIcon, X } from "lucide-react";
 import { useState } from "react";
 import {
 	type MeResponse,
@@ -9,10 +9,30 @@ import {
 } from "../../utils/api";
 import styles from "./settings.module.css";
 import { useQuery } from "../../utils/query";
-import { getUser } from "../../utils/auth";
+import { getUser, useUser } from "../../utils/auth";
+import { Dialog } from "../ui/dialog";
 
 const SAMPLE_KEY =
 	"e.g ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKpHLbfvXYR+OUXeh4GSpX26FJUUbT4UV2lOunYNH3a you@hostname";
+
+export const SettingsHeader = () => {
+	const username = useUser();
+
+	return (
+		<main id="settings" className={styles.header}>
+			<h2>
+				{(username && `Welcome ${username}!`) || <>&nbsp;</>}
+				{username && <a href={`https://${username}.dawdle.space`}>&#10697; {username}.dawdle.space</a>}
+			</h2>
+			<p>
+				You can upload files to your account below. Alternatively, you can also connect via{" "}
+				<a href="/wiki/guide/ssh">SSH</a> or using a folder on your computer with{" "}
+				<a href="/wiki/guide/webdav">WebDAV</a>. If your new here, check out the{" "}
+				<a href="/wiki">wiki</a> for more information.
+			</p>
+		</main>
+	);
+};
 
 export const UserSettings = () => {
 	const { data, error, isLoading, refetch } = useQuery({
@@ -77,14 +97,37 @@ export const UserSettings = () => {
 			});
 	};
 
+	const onMinecraftUsernameChange = (e: React.FormEvent<HTMLFormElement>) => {};
+
 	return (
 		<div className={styles.settings}>
-			<h2>Public Keys</h2>
+			<h2>
+				Public Keys
+				<Dialog
+					content={
+						<form className={styles.keys} onSubmit={onAddNewKey}>
+							<p>Only Ed25519 keys in OpenSSH format are supported.</p>
+							<label htmlFor="add_key_name">Name</label>
+							<input id="add_key_name" required type="text" name="name" />
+							<label htmlFor="add_key">Key</label>
+							<textarea rows={4} id="add_key" required name="key" placeholder={SAMPLE_KEY} />
+							<input type="submit" value="Add" />
+						</form>
+					}
+					title="Add a new public key"
+				>
+					{({ onClick }) => (
+						<button onClick={onClick} type="button">
+							<PlusIcon /> New
+						</button>
+					)}
+				</Dialog>
+			</h2>
 			<p>
 				To connect using <a href="/wiki/ssh">SSH</a>, add your public key here.
 			</p>
 			<ul>
-				{data.public_keys?.length === 0 && (
+				{(!data.public_keys || data.public_keys?.length === 0) && (
 					<li>
 						<p>No keys added yet.</p>
 					</li>
@@ -110,18 +153,11 @@ export const UserSettings = () => {
 				))}
 			</ul>
 
-			<form className={styles.keys} onSubmit={onAddNewKey}>
-				<b>Add a new key</b>
-				<p>Only Ed25519 keys in OpenSSH format are supported.</p>
-				<label htmlFor="add_key_name">Name</label>
-				<input id="add_key_name" required type="text" name="name" />
-				<label htmlFor="add_key">Key</label>
-				<textarea id="add_key" required name="key" placeholder={SAMPLE_KEY} />
-				<input type="submit" value="Add" />
-			</form>
-
-			<form className={styles.pw} onSubmit={onChangePassword}>
-				<h2>Update Password</h2>
+			<form className={styles.formInline} onSubmit={onChangePassword}>
+				<h2>
+					Security
+					<input type="submit" value="Save" />
+				</h2>
 				<label htmlFor="userPassword">Current password</label>
 				<input
 					name="currentPassword"
@@ -139,11 +175,17 @@ export const UserSettings = () => {
 					type="password"
 					autoComplete="new-password"
 				/>
-				<div>
-					<input type="submit" value="Change" />
-					{changePasswordNote && <p>{changePasswordNote}</p>}
-				</div>
+				<div>{changePasswordNote && <p>{changePasswordNote}</p>}</div>
 			</form>
+
+			{/* <form className={styles.formInline} onSubmit={onMinecraftUsernameChange}>
+				<h2>
+					Game Servers
+					<input type="submit" value="Save" />
+				</h2>
+				<label htmlFor="minecraftUsername">Minecraft Username</label>
+				<input id="minecraftUsername" type="text" name="minecraftUsername" />
+			</form> */}
 		</div>
 	);
 };

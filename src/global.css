@@ -89,12 +89,16 @@ textarea {
   color: #fff;
 }
 
-input[type="submit"] {
-  margin-top: 1rem;
+input[type="submit"],
+button {
   display: inline-flex;
   background-color: #fff;
   color: #000;
   border: 1px solid #000;
   cursor: pointer;
   width: fit-content;
+}
+
+input[type="submit"] {
+  margin-top: 0.6rem;
 }
