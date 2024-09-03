@@ -1,36 +1,26 @@
-import { useEffect, useState } from "react";
-import useSWR from "swr";
-import { approveApplication, request } from "../../utils/api";
+import { approveApplication, fetchJson, request } from "../../utils/api";
 import styles from "./style.module.css";
+import { useQuery } from "../../utils/query";
 
 export const AdminTools = () => {
-	const [admin, setAdmin] = useState<boolean | undefined>(undefined);
+	const { isLoading, isError } = useQuery({
+		queryKey: ["admin"],
+		queryFn: () => request("/api/admin", "POST"),
+	});
 
-	useEffect(() => {
-		request("/api/admin", "POST")
-			.then(() => {
-				setAdmin(true);
-			})
-			.catch(() => {
-				setAdmin(false);
-			});
-	}, []);
-
-	if (typeof admin === "undefined") {
+	if (isLoading)
 		return (
 			<main className={styles.main}>
 				<h2>Checking status...</h2>
 			</main>
 		);
-	}
 
-	if (!admin) {
+	if (isError)
 		return (
 			<main className={styles.main}>
 				<h2>Unauthorized</h2>
 			</main>
 		);
-	}
 
 	return (
 		<main className={styles.main1}>
@@ -46,21 +36,9 @@ const Tools = () => {
 				<summary>Applications</summary>
 				<Applications />
 			</details>
-			{/* <details>
-				<summary>Guestlist Requests</summary>
-				<GuestlistRequests />
-			</details> */}
 		</>
 	);
 };
-
-// const GuestlistRequests = () => {
-// 	return (
-// 		<div>
-// 			<p>Nothing here yet</p>
-// 		</div>
-// 	);
-// };
 
 type Application = {
 	about: string;
@@ -74,17 +52,19 @@ type Application = {
 };
 
 const Applications = () => {
-	const { data, isLoading, mutate } = useSWR<Application[]>("/api/admin/applications", request);
+	const { data, isLoading, refetch } = useQuery({
+		queryKey: ["admin", "applications"],
+		queryFn: () => fetchJson<Application[]>("/api/admin/applications"),
+	});
 
 	const dataSorted = data?.sort((a, b) => b.date - a.date);
 
-	if (isLoading) {
+	if (isLoading)
 		return (
 			<div>
 				<p>Loading...</p>
 			</div>
 		);
-	}
 
 	return (
 		<div>
@@ -134,7 +114,7 @@ const Applications = () => {
 								type="button"
 								onClick={() => {
 									approveApplication(application.id)
-										.then(() => mutate())
+										.then(() => refetch())
 										.catch((e) => console.error(e));
 								}}
 							>

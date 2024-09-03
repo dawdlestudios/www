@@ -1,6 +1,5 @@
 import { X } from "lucide-react";
 import { useState } from "react";
-import useSWR from "swr";
 import {
 	type MeResponse,
 	addPublicKey,
@@ -9,12 +8,18 @@ import {
 	removePublicKey,
 } from "../../utils/api";
 import styles from "./settings.module.css";
+import { useQuery } from "../../utils/query";
+import { getUser } from "../../utils/auth";
 
 const SAMPLE_KEY =
 	"e.g ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKpHLbfvXYR+OUXeh4GSpX26FJUUbT4UV2lOunYNH3a you@hostname";
 
 export const UserSettings = () => {
-	const { data, error, isLoading, mutate } = useSWR<MeResponse>("/api/me", fetchJson);
+	const { data, error, isLoading, refetch } = useQuery({
+		queryKey: ["me"],
+		queryFn: () => fetchJson<MeResponse>("/api/me"),
+	});
+
 	const [changePasswordNote, setChangePasswordNote] = useState<string | null>(null);
 
 	if (isLoading) {
@@ -37,11 +42,11 @@ export const UserSettings = () => {
 		e.preventDefault();
 		const data = new FormData(e.currentTarget);
 		const form = e.currentTarget;
-		const [name, key] = [data.get("name") as string, data.get("key") as string];
-		addPublicKey(name, key)
+
+		addPublicKey(data.get("name") as string, data.get("key") as string)
 			.then(() => {
 				form.reset();
-				mutate();
+				refetch();
 			})
 			.catch((e) => {
 				console.error(e);
@@ -95,7 +100,7 @@ export const UserSettings = () => {
 							type="button"
 							onClick={() => {
 								removePublicKey(name)
-									.then(() => mutate())
+									.then(() => refetch())
 									.catch((e) => console.error(e));
 							}}
 						>

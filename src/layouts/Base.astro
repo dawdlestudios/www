@@ -1,7 +1,6 @@
 ---
 import { ViewTransitions } from "astro:transitions";
 import "@fontsource-variable/victor-mono";
-import { Head } from "astro-capo";
 import "./../global.css";
 
 interface Props {
@@ -11,9 +10,9 @@ interface Props {
 
 const { title, maxWidth } = Astro.props;
 ---
-
+ 
 <html lang="en" transition:animate="none">
-  <Head>
+  <head>
     <ViewTransitions />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />

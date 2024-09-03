@@ -1,4 +1,3 @@
-import isUrlHttp from "is-url-http";
 import { useCallback, useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 import { getUser } from "../../utils/auth";
@@ -8,6 +7,15 @@ import styles from "./chat.module.css";
 const roles: Record<string, string> = {
 	henry: "admin",
 	guest: "guest",
+};
+
+const isHttp = (url: string) => {
+	try {
+		const { href } = new URL(url);
+		return /^https?:\/\//i.test(href) && href;
+	} catch (err) {
+		return false;
+	}
 };
 
 export const Chat = () => {
@@ -106,7 +114,7 @@ const ChatMessageComp = ({ message }: { message: ChatMessage }) => {
 			<div className={styles.message}>
 				{message.message.split(" ").map((line, i) => {
 					let formattedMessage: JSX.Element | undefined = undefined;
-					if (isUrlHttp(line))
+					if (isHttp(line))
 						formattedMessage = (
 							<a href={line} target="_blank" rel="noopener noreferrer" key={`link-${i}`}>
 								{line}

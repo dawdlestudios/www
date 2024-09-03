@@ -10,6 +10,15 @@ import styles from "./editor.module.css";
 
 import type { editor } from "monaco-editor";
 import type { FileStat } from "webdav";
+import { useQuery } from "../../utils/query";
+
+const zshFiles = [".zshrc", ".zshenv", ".zprofile", ".zlogin", ".zlogout", ".zsh", ".zsh-theme"];
+const dawdleTheme: editor.IStandaloneThemeData = {
+	base: "vs-dark",
+	inherit: true,
+	rules: [],
+	colors: { "editor.background": "#080f14" },
+};
 
 const webdav = createWebDAVClient();
 const user = getUser();
@@ -38,42 +47,22 @@ export const Editor = () => {
 	const editorRef = useRef<editor.IStandaloneCodeEditor | undefined>(undefined);
 	const [fileName, setFilename] = useState<string>();
 	const [active, setActive] = useState(false);
-	const [error, setError] = useState<string>();
 
-	const fileValue = useRef<string | null>(null);
-	const [loading, setLoading] = useState(true);
+	const { data, isLoading, error } = useQuery({
+		queryKey: ["webdav", fileName],
+		queryFn: () => loadFile(fileName as string),
+	});
 
 	useEffect(() => {
 		setFilename(window?.location?.hash.slice(1));
 		setActive(true);
 		editorRef.current?.render();
-
-		return () => {
-			editorRef.current?.dispose();
-		};
+		return () => editorRef.current?.dispose();
 	}, []);
-
-	useEffect(() => {
-		const f = async () => {
-			const content = await loadFile(fileName as string);
-			if (content === null) {
-				setLoading(false);
-				setError("File too large to edit.");
-				return;
-			}
-
-			fileValue.current = content;
-			setLoading(false);
-		};
-
-		if (fileName && loading) f();
-	}, [fileName, loading]);
 
 	const onSave = () => {
 		const value = editorRef.current?.getValue();
-		if (value && fileName) {
-			saveFile(fileName, value);
-		}
+		if (value && fileName) saveFile(fileName, value);
 	};
 
 	const onMount: OnMount = (editor, monaco) => {
@@ -86,27 +75,12 @@ export const Editor = () => {
 		editor.setModel(null);
 
 		let lang = undefined;
-		if (
-			[".zshrc", ".zshenv", ".zprofile", ".zlogin", ".zlogout", ".zsh", ".zsh-theme"].includes(
-				fileName.split("/").pop() as string,
-			)
-		) {
-			lang = "shell";
-		}
+		if (zshFiles.includes(fileName.split("/").pop() as string)) lang = "shell";
 
-		editor.setModel(
-			monaco.editor.createModel(fileValue.current || "", lang, monaco.Uri.file(fileName)),
-		);
+		editor.setModel(monaco.editor.createModel(data || "", lang, monaco.Uri.file(fileName)));
 
 		editorRef.current = editor;
-		monaco.editor.defineTheme("dawdle", {
-			base: "vs-dark",
-			inherit: true,
-			rules: [],
-			colors: {
-				"editor.background": "#080f14",
-			},
-		});
+		monaco.editor.defineTheme("dawdle", dawdleTheme);
 		monaco.editor.setTheme("dawdle");
 		monaco.editor.addCommand({ id: "save", run: onSave });
 
@@ -128,12 +102,7 @@ export const Editor = () => {
 	return (
 		<div className={styles.root}>
 			<nav>
-				<button
-					type="button"
-					onClick={() => {
-						window.history.back();
-					}}
-				>
+				<button type="button" onClick={() => window.history.back()}>
 					<ArrowLeft size={17} />
 					back
 				</button>
@@ -154,15 +123,13 @@ export const Editor = () => {
 			</nav>
 			<div>
 				{loadingMessage && loadingMessage}
-				{error && !loadingMessage && <div className={styles.error}>{error}</div>}
-				{!loading && !error && !loadingMessage && (
+				{error && !loadingMessage && <div className={styles.error}>{error.message}</div>}
+				{!isLoading && !error && !loadingMessage && (
 					<EditorMonaco
 						onMount={onMount}
 						options={{
 							fontFamily: "Victor Mono Variable",
-							padding: {
-								top: 20,
-							},
+							padding: { top: 20 },
 							model: null,
 						}}
 					/>

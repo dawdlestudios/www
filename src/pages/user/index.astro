@@ -6,7 +6,7 @@ import SettingsLayout from "../../layouts/SettingsLayout.astro";
 
 <SettingsLayout title="dawdle.space">
   <section class="files">
-    <FileBrowser transition:persist="filebrowser" client:load />
+    <FileBrowser transition:persist="filebrowser" client:only="react" />
   </section>
 </SettingsLayout>
 

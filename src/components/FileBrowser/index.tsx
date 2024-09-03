@@ -10,6 +10,7 @@ import { ContextMenu } from "./context-menu";
 import { type FileType, icons } from "./icons";
 import { formatSize, sortFiles } from "./util";
 import { createWebDAVClient } from "./webdav";
+import { useQuery } from "../../utils/query";
 
 export type DawdleFile = {
 	name: string;
@@ -39,18 +40,20 @@ if (typeof window !== "undefined") {
 
 export const FileBrowser = () => {
 	const [directory, setDirectory] = useState(location?.hash?.slice(1));
-	const [files, setFiles] = useState<DawdleFile[]>([]);
-	const [active, setActive] = useState(false);
-	const [loading, setLoading] = useState(true);
+	const path = `home/${username}${directory}`;
+	const uploadRef = useRef<HTMLInputElement>(null);
 
-	const loadDirectory = useCallback(async (path: string) => {
-		setLoading(true);
-		const files = (await webdav.getDirectoryContents(path)) as FileStat[];
-		setFiles(sortFiles(files.map(toFile)));
-		setLoading(false);
-	}, []);
-
-	useEffect(() => setActive(true), []);
+	const {
+		data: files,
+		isLoading,
+		refetch,
+	} = useQuery({
+		queryKey: ["webdav", "dir", directory],
+		queryFn: async () => {
+			const files = (await webdav.getDirectoryContents(directory)) as FileStat[];
+			return sortFiles(files.map(toFile));
+		},
+	});
 
 	const changeDirectory = useCallback((path: string) => {
 		setDirectory(path);
@@ -68,32 +71,17 @@ export const FileBrowser = () => {
 		};
 	});
 
-	useEffect(() => {
-		loadDirectory(directory);
-	}, [loadDirectory, directory]);
-
-	const refresh = useCallback(() => {
-		loadDirectory(directory);
-	}, [loadDirectory, directory]);
-
-	const path = active ? `home/${username}${directory}` : "/home/";
-
-	const uploadRef = useRef<HTMLInputElement>(null);
-
 	const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.files) return;
 
 		const promises = Array.from(e.target.files)
 			.filter((file) => file)
-			.map(async (file) => {
-				await webdav.putFileContents(`${directory}/${file.name}`, await file.arrayBuffer());
-				refresh();
-			});
+			.map(async (file) =>
+				webdav.putFileContents(`${directory}/${file.name}`, await file.arrayBuffer()),
+			);
 
 		e.target.value = "";
-		Promise.all(promises).then(() => {
-			refresh();
-		});
+		Promise.all(promises).then(() => refetch());
 	};
 
 	return (
@@ -115,17 +103,13 @@ export const FileBrowser = () => {
 					const newDir = directory.split("/").slice(0, -1).join("/");
 					changeDirectory(newDir);
 				}}
-				loading={loading}
-				files={files}
+				loading={isLoading}
+				files={files || []}
 				path={directory}
-				refresh={refresh}
-				onUploadFile={() => {
-					uploadRef.current?.click();
-				}}
+				refresh={refetch}
+				onUploadFile={() => uploadRef.current?.click()}
 				onClickFile={(file) => {
-					if (file.type === "directory") {
-						return changeDirectory(file.fullPath);
-					}
+					if (file.type === "directory") return changeDirectory(file.fullPath);
 					navigate(`/user/edit#${file.fullPath}`);
 				}}
 			/>
@@ -154,7 +138,7 @@ const Directory = (props: {
 	if (props.loading) {
 		return (
 			<div className={styles.items}>
-				<div className={styles.loading}>{/* loading... */}</div>
+				<div className={styles.loading} />
 			</div>
 		);
 	}

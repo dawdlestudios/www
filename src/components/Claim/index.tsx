@@ -1,11 +1,12 @@
 import { navigate } from "astro/virtual-modules/transitions-router.js";
 import { useState } from "react";
 import { claimUsername } from "../../utils/api";
-import { useUser } from "../../utils/auth";
 import styles from "./claim.module.css";
+import { getUser } from "../../utils/auth";
+
+const user = getUser();
 
 export const ClaimUsername = () => {
-	const user = useUser();
 	const [error, setError] = useState<string | null>(null);
 
 	const searchParams = new URLSearchParams(window?.location.search);

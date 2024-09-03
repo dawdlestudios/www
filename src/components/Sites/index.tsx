@@ -1,5 +1,5 @@
-import useSWR from "swr";
 import { fetchJson } from "../../utils/api";
+import { useQuery } from "../../utils/query";
 import styles from "./sites.module.css";
 
 type Site = {
@@ -9,7 +9,10 @@ type Site = {
 };
 
 export const SitesList = () => {
-	const { data, isLoading, error } = useSWR<Site[]>("/api/sites", fetchJson);
+	const { data, isLoading, error } = useQuery({
+		queryKey: ["sites"],
+		queryFn: () => fetchJson<Site[]>("/api/sites"),
+	});
 
 	const users = data?.filter((site) => site.type === "user" && site.username !== "test");
 	const sites = data?.filter((site) => site.type === "site");
