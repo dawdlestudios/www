@@ -4,5 +4,5 @@ import SettingsLayout from "../../layouts/SettingsLayout.astro";
 ---
 
 <SettingsLayout title="dawdle.space">
-  <UserSettings client:load />
+  <UserSettings client:only="react" />
 </SettingsLayout>

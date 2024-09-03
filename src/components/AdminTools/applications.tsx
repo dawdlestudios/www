@@ -1,7 +1,13 @@
 import "./table";
 
 import styles from "./style.module.css";
-import { fetchJson } from "../../utils/api";
+import {
+	approveApplication,
+	deleteApplication,
+	fetchJson,
+	unapproveApplication,
+	updateApplicationUsername,
+} from "../../utils/api";
 import { useQuery } from "../../utils/query";
 import { AgGridReact, type CustomCellRendererProps } from "ag-grid-react";
 import { CheckIcon, EllipsisVerticalIcon } from "lucide-react";
@@ -24,8 +30,6 @@ export const AdminApplications = () => {
 		queryFn: () => fetchJson<Application[]>("/api/admin/applications"),
 	});
 
-	const dataSorted = data?.sort((a, b) => b.date - a.date);
-
 	if (isLoading)
 		return (
 			<div>
@@ -36,16 +40,26 @@ export const AdminApplications = () => {
 	return (
 		<div className={`ag-theme-quartz-dark ${styles.table}`}>
 			<AgGridReact
+				gridOptions={{
+					autoSizeStrategy: {
+						type: "fitGridWidth",
+					},
+				}}
+				rowData={data}
 				columnDefs={[
 					{
 						headerName: "Date",
 						field: "date",
-						// format just the date
 						valueFormatter: (params) => Intl.DateTimeFormat("en-US").format(new Date(params.value)),
 					},
 					{
 						headerName: "Username",
-						editable: true,
+						editable: (c) => !c.data?.approved,
+						onCellValueChanged: (e) => {
+							updateApplicationUsername(e.data.id, e.newValue)
+								.then(() => refetch())
+								.catch((e) => console.error(e));
+						},
 						field: "username",
 					},
 					{
@@ -88,17 +102,26 @@ export const AdminApplications = () => {
 										!application.approved && {
 											label: "Approve",
 											onClick: () => {
-												// approveApplication(application.id)
-												// 	.then(() => refetch())
-												// 	.catch((e) => console.error(e));
+												approveApplication(application.id)
+													.then(() => refetch())
+													.catch((e) => console.error(e));
 											},
 										},
+										application.approved &&
+											!application.claimed && {
+												label: "Unapprove",
+												onClick: () => {
+													unapproveApplication(application.id)
+														.then(() => refetch())
+														.catch((e) => console.error(e));
+												},
+											},
 										{
 											label: "Delete",
 											onClick: () => {
-												// deleteApplication(application.id)
-												// 	.then(() => refetch())
-												// 	.catch((e) => console.error(e));
+												deleteApplication(application.id)
+													.then(() => refetch())
+													.catch((e) => console.error(e));
 											},
 										},
 										application.approved && {
@@ -117,69 +140,7 @@ export const AdminApplications = () => {
 						},
 					},
 				]}
-				gridOptions={{
-					autoSizeStrategy: {
-						type: "fitGridWidth",
-					},
-				}}
-				rowData={dataSorted}
 			/>
-			{/* {?.map((application) => {
-				return (
-					<div className={styles.application} key={application.id}>
-						<table>
-							<tbody>
-								<tr>
-									<td>Username</td>
-									<td>{application.username}</td>
-								</tr>
-								<tr>
-									<td>Email</td>
-									<td>{application.email}</td>
-								</tr>
-								<tr>
-									<td>About</td>
-									<td>{application.about}</td>
-								</tr>
-								{!application.claimed && (
-									<>
-										<tr>
-											<td>Approved</td>
-											<td>{application.approved ? "Approved" : "Not approved"}</td>
-										</tr>
-										{application.approved && (
-											<tr>
-												<td>Claim link</td>
-												<td>
-													{application.claim_token
-														? `https://dawdle.space/user/claim?token=${application.claim_token}&user=${application.username}`
-														: ""}
-												</td>
-											</tr>
-										)}
-									</>
-								)}
-								<tr>
-									<td>Claimed</td>
-									<td>{application.claimed ? "yes" : "no"}</td>
-								</tr>
-							</tbody>
-						</table>
-						{!application.approved && (
-							<button
-								type="button"
-								onClick={() => {
-									approveApplication(application.id)
-										.then(() => refetch())
-										.catch((e) => console.error(e));
-								}}
-							>
-								Approve
-							</button>
-						)}
-					</div>
-				);
-			})} */}
 		</div>
 	);
 };

@@ -21,7 +21,16 @@ export const fetchJson = async <T>(url: string) => {
 };
 
 export const approveApplication = async (id: string) =>
-	request("/api/admin/applications", "POST", { id });
+	request("/api/admin/applications/approve", "POST", { id });
+
+export const unapproveApplication = async (id: string) =>
+	request("/api/admin/applications/unapprove", "POST", { id });
+
+export const deleteApplication = async (id: string) =>
+	request("/api/admin/applications", "DELETE", { id });
+
+export const updateApplicationUsername = async (id: string, username: string) =>
+	request("/api/admin/applications/username", "POST", { id, username });
 
 export const sendApplication = async ({
 	username,
