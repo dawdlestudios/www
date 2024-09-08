@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 import { getUser } from "../../utils/auth";
 import { type ChatMessage, type ChatResponse, request } from "./chat-types";
@@ -26,6 +26,15 @@ export const Chat = () => {
 		setLoaded(true);
 	}, []);
 
+	if (typeof window !== "undefined")
+		useLayoutEffect(() => {
+			if (!messages.length) return;
+			const chat = document.getElementById("chat");
+			if (chat) {
+				chat.scrollTo(0, chat.scrollHeight);
+			}
+		}, [messages]);
+
 	const messagesByDay: [string, ChatMessage[]][] = messages.reduce(
 		(acc, msg) => {
 			const date = Intl.DateTimeFormat("en-US", {
@@ -48,21 +57,18 @@ export const Chat = () => {
 
 	return (
 		<div className={styles.chat}>
-			<aside className={styles.sidebar}>
+			{/* <aside className={styles.sidebar}>
 				<div className={styles.rooms}>
 					<h2>Rooms</h2>
 					<ul>
 						<li data-active="true">#general</li>
 					</ul>
 				</div>
-				{/* Reenable once we actually show users */}
-				{/* <div className={styles.users}>
-					<h2>Users</h2>
-				</div> */}
-			</aside>
+				
+			</aside> */}
 			<section className={styles.main}>
-				<h2>Messages</h2>
-				<div className={styles.messages}>
+				{/* <h2>Messages</h2> */}
+				<div className={styles.messages} id="chat">
 					{loaded && !error && currentRoom && (
 						<div className={styles.room}>Connected to #{currentRoom}</div>
 					)}
@@ -90,7 +96,7 @@ export const Chat = () => {
 						form.reset();
 					}}
 				>
-					<input name="msg" type="text" />
+					<input autoComplete="off" name="msg" type="text" />
 					<button type="submit">Send</button>
 				</form>
 			</section>

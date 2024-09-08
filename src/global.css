@@ -10,7 +10,7 @@
   --accent: #fefefe;
   --border-color: var(--accent);
   --border-width: 1px;
-  --border-radius: 8px;
+  --border-radius: 0;
   --border: var(--border-width) solid var(--border-color);
 }
 

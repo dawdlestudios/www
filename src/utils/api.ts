@@ -48,6 +48,9 @@ export const addPublicKey = async (name: string, key: string) =>
 export const changePassword = async (oldPassword: string, newPassword: string) =>
 	request("/api/password", "POST", { old_password: oldPassword, new_password: newPassword });
 
+export const updateMinecraft = async (username: string) =>
+	request("/api/minecraft", "POST", { username });
+
 export const claimUsername = async ({
 	username,
 	token,
@@ -58,4 +61,5 @@ export const claimUsername = async ({
 export type MeResponse = {
 	username: string;
 	public_keys: string[];
+	minecraft_username?: string;
 };

@@ -6,25 +6,21 @@ import Layout from "../layouts/Layout.astro";
   <main>
     <pre>
     |              ||
- ___| ___       ___||  ___      ___  ___  ___  ___  ___ 
-|   ||   ||   /|   /| |___)    |___ |   ||   ||    |___
-|___||__/||/\/ |__/ | |__   o   __/ |__/ |__/||___ |___
-                                    |</pre>
+ ___| ___       ___||  ___     ___  ___  ___  ___  ___ 
+|   ||   ||   /|   /| |___)   |___ |   ||   ||    |___
+|___||__/||/\/ |__/ | |__   .  __/ |__/ |__/||___ |___
+                                   |</pre>
     <p>
       <b>dawdle.space</b> is a community for sharing art, free software, and building fun websites.
     </p>
     <p>
       <br />
-      Get you own space at <code>[username].dawdle.space</code> - a personal website
+      <a href="/join">Join</a> to get you own space at <code>[username].dawdle.space</code> - a personal website
       for your art, blogs, games, writing, and more.
     </p>
     <p>
-      <br />
-      If that sounds like something you'd like to be a part of, you can apply for an account
-      <a href="/join">here</a>.
-      <br />
-      <br />
-      We also have a small update feed <a href="/updates">here</a> if you want to see what's new.
+      <br /><!-- You can find some of the sites on dawdle.space <a href="/explore">here</a>. -->
+      We also have a small <a href="/updates">update feed</a> if you want to see what's new.
     </p>
   </main>
 </Layout>
@@ -50,10 +46,10 @@ import Layout from "../layouts/Layout.astro";
     max-width: 40rem;
 
     pre {
-      font-weight: 100;
-      line-height: 1.3;
+      font-weight: 600;      line-height: 1.3;
       color: var(--accent);
       animation: breathe 2s infinite alternate;
+      filter: drop-shadow(0px 0px 3px #04ffff);
 
       @media (max-width: 600px) {
         font-size: calc(2.2vw);
@@ -69,6 +65,7 @@ import Layout from "../layouts/Layout.astro";
     p {
       margin-top: 0.5rem;
       line-height: 1.7;
+      filter: drop-shadow(0 0 3px #04dcffa3);
     }
 
     ul {

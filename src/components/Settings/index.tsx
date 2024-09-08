@@ -6,6 +6,7 @@ import {
 	changePassword,
 	fetchJson,
 	removePublicKey,
+	updateMinecraft,
 } from "../../utils/api";
 import styles from "./settings.module.css";
 import { useQuery } from "../../utils/query";
@@ -41,6 +42,7 @@ export const UserSettings = () => {
 	});
 
 	const [changePasswordNote, setChangePasswordNote] = useState<string | null>(null);
+	const [changeMinecraftNote, setChangeMinecraftNote] = useState<string | null>(null);
 
 	if (isLoading) {
 		return (
@@ -63,7 +65,7 @@ export const UserSettings = () => {
 		const data = new FormData(e.currentTarget);
 		const form = e.currentTarget;
 
-		addPublicKey(data.get("name") as string, data.get("key") as string)
+		addPublicKey(data.get("add_key_name") as string, data.get("key") as string)
 			.then(() => {
 				form.reset();
 				refetch();
@@ -97,7 +99,24 @@ export const UserSettings = () => {
 			});
 	};
 
-	const onMinecraftUsernameChange = (e: React.FormEvent<HTMLFormElement>) => {};
+	const onMinecraftUsernameChange = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const form = e.currentTarget;
+		const data = new FormData(form);
+		const username = data.get("minecraftUsername") as string;
+
+		updateMinecraft(username)
+			.then(() => {
+				setChangeMinecraftNote("Minecraft username updated successfully.");
+				refetch();
+			})
+			.catch((e) => {
+				console.error(e);
+				setChangeMinecraftNote("An error occurred.");
+			});
+
+		return false;
+	};
 
 	return (
 		<div className={styles.settings}>
@@ -113,9 +132,16 @@ export const UserSettings = () => {
 						<form className={styles.keys} onSubmit={onAddNewKey}>
 							<p>Only Ed25519 keys in OpenSSH format are supported.</p>
 							<label htmlFor="add_key_name">Name</label>
-							<input id="add_key_name" required type="text" name="name" />
+							<input autoComplete="off" id="add_key_name" required type="text" name="add_key_name" />
 							<label htmlFor="add_key">Key</label>
-							<textarea rows={4} id="add_key" required name="key" placeholder={SAMPLE_KEY} />
+							<textarea
+								autoComplete="off"
+								rows={4}
+								id="add_key"
+								required
+								name="key"
+								placeholder={SAMPLE_KEY}
+							/>
 							<input type="submit" value="Add" />
 						</form>
 					}
@@ -183,14 +209,20 @@ export const UserSettings = () => {
 				<div>{changePasswordNote && <p>{changePasswordNote}</p>}</div>
 			</form>
 
-			{/* <form className={styles.formInline} onSubmit={onMinecraftUsernameChange}>
+			<form className={styles.formInline} onSubmit={onMinecraftUsernameChange}>
 				<h2>
 					Game Servers
 					<input type="submit" value="Save" />
 				</h2>
 				<label htmlFor="minecraftUsername">Minecraft Username</label>
-				<input id="minecraftUsername" type="text" name="minecraftUsername" />
-			</form> */}
+				<input
+					defaultValue={data.minecraft_username}
+					id="minecraftUsername"
+					type="text"
+					name="minecraftUsername"
+				/>
+				<div>{changeMinecraftNote && <p>{changeMinecraftNote}</p>}</div>
+			</form>
 		</div>
 	);
 };

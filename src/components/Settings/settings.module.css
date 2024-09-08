@@ -15,6 +15,19 @@
       margin-left: auto;
     }
   }
+
+  @media (max-width: 600px) {
+    padding: 1rem;
+    font-size: 0.9rem;
+    h2 {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      a {
+        margin-left: 0;
+      }
+    }
+  }
 }
 
 form.keys {

@@ -24,17 +24,12 @@ export const SitesList = () => {
 
 			{!isLoading && (
 				<>
-					<h1>Members</h1>
 					<ul>
 						{users?.map((user) => (
 							<li key={user.username}>
-								{">>"} <a href={`https://${user.username}.dawdle.space`}>~{user.username}</a>
+								{">>"} <a href={`https://${user.username}.dawdle.space`}>{user.username}</a>'s site
 							</li>
 						))}
-					</ul>
-
-					<h1>Sites</h1>
-					<ul>
 						{sites?.map((site) => {
 							const actualHostname = site.hostname?.includes(".")
 								? site.hostname
@@ -42,7 +37,7 @@ export const SitesList = () => {
 							return (
 								<li key={site.hostname}>
 									{">>"} <a href={`https://${actualHostname}`}>{site.hostname}</a> by{" "}
-									<a href={`https://${site.username}.dawdle.space`}>~{site.username}</a>
+									<a href={`https://${site.username}.dawdle.space`}>{site.username}</a>
 								</li>
 							);
 						})}

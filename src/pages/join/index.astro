@@ -18,9 +18,10 @@ import Layout from "../../layouts/Layout.astro";
         maxlength="20"
         placeholder="Your desired username"
       />
-      <label for="email">Email (required)</label>
+      <label for="email">Email/Discord Username (required)</label>
       <input
-        type="email"
+        type="text"
+        autocomplete="email"
         id="email"
         name="email"
         required
