@@ -1,26 +1,20 @@
 import "./table";
 
 import styles from "./style.module.css";
-import {
-	approveApplication,
-	deleteApplication,
-	fetchJson,
-	unapproveApplication,
-	updateApplicationUsername,
-} from "../../utils/api";
+import { fetchJson } from "../../utils/api";
 import { useQuery } from "../../utils/query";
-import { AgGridReact, type CustomCellRendererProps } from "ag-grid-react";
-import { CheckIcon, EllipsisVerticalIcon } from "lucide-react";
-import { Dropdown } from "../ui/dropdown";
+import { AgGridReact } from "ag-grid-react";
 
 type User = {
 	username: string;
 	created_at: string;
 	role?: string;
+	minecraft_username?: string;
+	minecraft_uuid?: string;
 };
 
 export const AdminUsers = () => {
-	const { data, isLoading, refetch } = useQuery({
+	const { data, isLoading } = useQuery({
 		queryKey: ["admin", "users"],
 		queryFn: () => fetchJson<User[]>("/api/admin/users"),
 	});
@@ -56,21 +50,25 @@ export const AdminUsers = () => {
 						field: "role",
 					},
 					{
-						pinned: "right",
-						lockPosition: true,
-						sortable: false,
-						resizable: false,
-						width: 40,
-						cellClass: styles.edit,
-						cellRenderer: (ctx: CustomCellRendererProps) => {
-							const user = ctx.data as User;
-							return (
-								<Dropdown fields={[]}>
-									<EllipsisVerticalIcon />
-								</Dropdown>
-							);
-						},
+						headerName: "Minecraft Username",
+						field: "minecraft_username",
 					},
+					// {
+					// 	pinned: "right",
+					// 	lockPosition: true,
+					// 	sortable: false,
+					// 	resizable: false,
+					// 	width: 40,
+					// 	cellClass: styles.edit,
+					// 	cellRenderer: (ctx: CustomCellRendererProps) => {
+					// 		const user = ctx.data as User;
+					// 		return (
+					// 			<Dropdown fields={[]}>
+					// 				<EllipsisVerticalIcon />
+					// 			</Dropdown>
+					// 		);
+					// 	},
+					// },
 				]}
 			/>
 		</div>
