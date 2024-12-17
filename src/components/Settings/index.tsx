@@ -8,10 +8,10 @@ import {
 	removePublicKey,
 	updateMinecraft,
 } from "../../utils/api";
-import styles from "./settings.module.css";
-import { useQuery } from "../../utils/query";
 import { getRole, getUser, useUser } from "../../utils/auth";
+import { useQuery } from "../../utils/query";
 import { Dialog } from "../ui/dialog";
+import styles from "./settings.module.css";
 
 const SAMPLE_KEY =
 	"e.g ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHKpHLbfvXYR+OUXeh4GSpX26FJUUbT4UV2lOunYNH3a you@hostname";

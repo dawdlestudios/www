@@ -1,13 +1,13 @@
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import { Edit, FileIcon, FolderIcon, Trash, Upload } from "lucide-react";
-import React from "react";
+import React, { useId, type ReactElement } from "react";
 import type { DawdleFile } from ".";
 import { Dialog } from "../ui/dialog";
 import styles from "./context-menu.module.css";
 
 export const ContextMenu = (props: {
 	items: {
-		element: JSX.Element;
+		element: ReactElement;
 		file: DawdleFile;
 	}[];
 	refresh: () => void;
@@ -261,13 +261,14 @@ const InputDialog = (props: {
 	onCreate: (name: string) => void;
 }) => {
 	const [name, setName] = React.useState(props.defaultValue || "");
+	const id = useId();
 
 	return (
 		<div className={styles.Form}>
 			{props.description && <p>{props.description}</p>}
 			<div>
-				<label>{props.label}</label>
-				<input value={name} onChange={(e) => setName(e.target.value)} />
+				<label htmlFor={id}>{props.label}</label>
+				<input id={id} value={name} onChange={(e) => setName(e.target.value)} />
 			</div>
 			<button type="button" onClick={() => props.onCreate(name)}>
 				{props.buttonText}

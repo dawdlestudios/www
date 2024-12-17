@@ -19,5 +19,8 @@
 				"noUselessFragments": "off"
 			}
 		}
+	},
+	"files": {
+		"ignore": ["**/node_modules/*", "**/dist/*", "**/.astro/*"]
 	}
 }

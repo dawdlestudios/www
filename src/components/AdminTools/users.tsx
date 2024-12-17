@@ -1,9 +1,9 @@
 import "./table";
 
-import styles from "./style.module.css";
+import { AgGridReact } from "ag-grid-react";
 import { fetchJson } from "../../utils/api";
 import { useQuery } from "../../utils/query";
-import { AgGridReact } from "ag-grid-react";
+import styles from "./style.module.css";
 
 type User = {
 	username: string;

@@ -1,6 +1,6 @@
 import * as RadixDialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { type ReactElement, useState } from "react";
 import styles from "./dialog.module.css";
 
 export const Dialog = ({
@@ -9,8 +9,8 @@ export const Dialog = ({
 	description,
 	title,
 }: {
-	children: ({ onClick }: { onClick: () => void }) => JSX.Element;
-	content: JSX.Element;
+	children: ({ onClick }: { onClick: () => void }) => ReactElement;
+	content: ReactElement;
 	title?: string;
 	description?: string;
 }) => {

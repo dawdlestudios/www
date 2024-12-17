@@ -1,155 +1,155 @@
 .chat {
-  height: 100%;
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  gap: 1rem;
+	height: 100%;
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	gap: 1rem;
 
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    width: 10rem;
-    padding: 1rem 1.25rem;
+	.sidebar {
+		display: flex;
+		flex-direction: column;
+		width: 10rem;
+		padding: 1rem 1.25rem;
 
-    .rooms {
-      margin-bottom: 2rem;
+		.rooms {
+			margin-bottom: 2rem;
 
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        margin-top: 0.7rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
+			ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				margin-top: 0.7rem;
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
 
-        li {
-          &[data-active="true"] {
-            color: white;
-          }
+				li {
+					&[data-active="true"] {
+						color: white;
+					}
 
-          cursor: pointer;
-          text-decoration: underline;
-          text-decoration-style: dotted;
-          color: rgb(183, 183, 183);
-        }
-      }
-    }
+					cursor: pointer;
+					text-decoration: underline;
+					text-decoration-style: dotted;
+					color: rgb(183, 183, 183);
+				}
+			}
+		}
 
-    @media (max-width: 600px) {
-      display: none;
-    }
-  }
+		@media (max-width: 600px) {
+			display: none;
+		}
+	}
 
-  section.main {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    background-color: var(--background-light);
-    padding: 1rem;
-    border-left: var(--border);
+	section.main {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		background-color: var(--background-light);
+		padding: 1rem;
+		border-left: var(--border);
 
-    form {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
+		form {
+			display: flex;
+			gap: 1rem;
+			margin-top: 1rem;
 
-      input {
-        flex: 1;
-        padding: 0.5rem;
-        border: var(--border);
-        border-radius: var(--border-radius);
-        background-color: var(--background-light);
-        color: white;
-        margin: 0;
-        outline: none;
-      }
+			input {
+				flex: 1;
+				padding: 0.5rem;
+				border: var(--border);
+				border-radius: var(--border-radius);
+				background-color: var(--background-light);
+				color: white;
+				margin: 0;
+				outline: none;
+			}
 
-      button {
-        padding: 0.5rem;
-        border: var(--border);
-        border-radius: var(--border-radius);
-        background-color: var(--background-light);
-        color: white;
-      }
-    }
-  }
+			button {
+				padding: 0.5rem;
+				border: var(--border);
+				border-radius: var(--border-radius);
+				background-color: var(--background-light);
+				color: white;
+			}
+		}
+	}
 
-  .room {
-    color: rgba(255, 255, 255, 0.82);
-    font-weight: 300;
-    font-size: 0.7rem;
-    display: flex;
-    justify-content: center;
-  }
+	.room {
+		color: rgba(255, 255, 255, 0.82);
+		font-weight: 300;
+		font-size: 0.7rem;
+		display: flex;
+		justify-content: center;
+	}
 
-  .error {
-    color: red;
-    font-weight: bold;
-    font-size: 0.7rem;
-    display: flex;
-    justify-content: center;
+	.error {
+		color: red;
+		font-weight: bold;
+		font-size: 0.7rem;
+		display: flex;
+		justify-content: center;
 
-    &[data-connecting="true"] {
-      color: rgba(255, 255, 255, 0.82);
-    }
-  }
+		&[data-connecting="true"] {
+			color: rgba(255, 255, 255, 0.82);
+		}
+	}
 
-  .messages {
-    display: flex;
-    overflow-y: scroll;
-    flex-direction: column;
-    gap: 0.2rem;
-    flex: 1;
-    padding: 0 0.5rem;
+	.messages {
+		display: flex;
+		overflow-y: scroll;
+		flex-direction: column;
+		gap: 0.2rem;
+		flex: 1;
+		padding: 0 0.5rem;
 
-    > div {
-      margin-top: 1rem;
+		> div {
+			margin-top: 1rem;
 
-      > div {
-        width: 100%;
-        display: flex;
-        margin-top: 0.2rem;
-      }
+			> div {
+				width: 100%;
+				display: flex;
+				margin-top: 0.2rem;
+			}
 
-      .date {
-        color: rgba(255, 255, 255, 0.82);
-        font-weight: 300;
-        font-size: 0.7rem;
-        display: flex;
-        justify-content: center;
-      }
+			.date {
+				color: rgba(255, 255, 255, 0.82);
+				font-weight: 300;
+				font-size: 0.7rem;
+				display: flex;
+				justify-content: center;
+			}
 
-      .username {
-        color: rgba(255, 255, 255, 0.831);
-        font-weight: bold;
-        font-weight: 800;
-        margin-right: 0.5rem;
+			.username {
+				color: rgba(255, 255, 255, 0.831);
+				font-weight: bold;
+				font-weight: 800;
+				margin-right: 0.5rem;
 
-        &[data-role="admin"] {
-          color: #ff0000a4;
-        }
+				&[data-role="admin"] {
+					color: #ff0000a4;
+				}
 
-        &[data-me="true"] {
-          color: #00ff00;
-        }
-      }
+				&[data-me="true"] {
+					color: #00ff00;
+				}
+			}
 
-      .message {
-        color: rgba(255, 255, 255, 0.82);
-        font-weight: 300;
-        flex: 1;
+			.message {
+				color: rgba(255, 255, 255, 0.82);
+				font-weight: 300;
+				flex: 1;
 
-        .mention {
-          font-weight: 900;
-        }
-      }
+				.mention {
+					font-weight: 900;
+				}
+			}
 
-      .time {
-        color: rgba(255, 255, 255, 0.82);
-        font-weight: 300;
-        font-size: 0.7rem;
-      }
-    }
-  }
+			.time {
+				color: rgba(255, 255, 255, 0.82);
+				font-weight: 300;
+				font-size: 0.7rem;
+			}
+		}
+	}
 }

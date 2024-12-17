@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { type ReactElement, useCallback, useEffect, useLayoutEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 import { getUser } from "../../utils/auth";
 import { type ChatMessage, type ChatResponse, request } from "./chat-types";
@@ -119,7 +119,7 @@ const ChatMessageComp = ({ message }: { message: ChatMessage }) => {
 
 			<div className={styles.message}>
 				{message.message.split(" ").map((line, i) => {
-					let formattedMessage: JSX.Element | undefined = undefined;
+					let formattedMessage: ReactElement | undefined = undefined;
 					if (isHttp(line))
 						formattedMessage = (
 							<a href={line} target="_blank" rel="noopener noreferrer" key={`link-${i}`}>

@@ -1,54 +1,54 @@
 :root {
-  --background: #050705ee;
-  --background-light: #101112;
-  --code-background: #63ffa11a;
-  --text: #ededed;
-  --text-dark: #999999;
-  --heading: #e5e5e5;
-  --link-color: #ffffff;
+	--background: #050705ee;
+	--background-light: #101112;
+	--code-background: #63ffa11a;
+	--text: #ededed;
+	--text-dark: #999999;
+	--heading: #e5e5e5;
+	--link-color: #ffffff;
 
-  --accent: #fefefe;
-  --border-color: var(--accent);
-  --border-width: 1px;
-  --border-radius: 0;
-  --border: var(--border-width) solid var(--border-color);
+	--accent: #fefefe;
+	--border-color: var(--accent);
+	--border-width: 1px;
+	--border-radius: 0;
+	--border: var(--border-width) solid var(--border-color);
 }
 
 html {
-  overflow-y: scroll;
-  scrollbar-width: thin;
-  scrollbar-color: #939b9a var(--background);
-  color: var(--text);
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  height: 100dvh;
-  box-sizing: border-box;
-  display: flex;
+	overflow-y: scroll;
+	scrollbar-width: thin;
+	scrollbar-color: #939b9a var(--background);
+	color: var(--text);
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+	height: 100dvh;
+	box-sizing: border-box;
+	display: flex;
 }
 
 * {
-  font-family: "Victor Mono Variable", monospace;
+	font-family: "Victor Mono Variable", monospace;
 }
 
 #backgroundcontainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-  background-color: #040705ee;
-  background-image: url("/bg.jpg");
-  background-blend-mode: color-dodge;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: -1;
+	background-color: #040705ee;
+	background-image: url("/bg.jpg");
+	background-blend-mode: color-dodge;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
 }
 
 h1,
@@ -58,47 +58,47 @@ h4,
 h5,
 h6,
 p {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 a {
-  opacity: 0.7;
-  text-decoration: underline;
-  text-decoration-style: dotted;
-  color: var(--link-color);
-  transition: all 0.1s ease-in-out;
+	opacity: 0.7;
+	text-decoration: underline;
+	text-decoration-style: dotted;
+	color: var(--link-color);
+	transition: all 0.1s ease-in-out;
 
-  &:hover {
-    opacity: 1;
-  }
+	&:hover {
+		opacity: 1;
+	}
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 input,
 textarea {
-  resize: none;
-  margin-top: 0.2rem;
-  margin-bottom: 0.5rem;
-  border: 1px solid #ccc;
-  background-color: #ffffff1b;
-  padding: 0.4rem 0.6rem;
-  color: #fff;
+	resize: none;
+	margin-top: 0.2rem;
+	margin-bottom: 0.5rem;
+	border: 1px solid #ccc;
+	background-color: #ffffff1b;
+	padding: 0.4rem 0.6rem;
+	color: #fff;
 }
 
 input[type="submit"],
 button {
-  display: inline-flex;
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
-  cursor: pointer;
-  width: fit-content;
+	display: inline-flex;
+	background-color: #fff;
+	color: #000;
+	border: 1px solid #000;
+	cursor: pointer;
+	width: fit-content;
 }
 
 input[type="submit"] {
-  margin-top: 0.6rem;
+	margin-top: 0.6rem;
 }

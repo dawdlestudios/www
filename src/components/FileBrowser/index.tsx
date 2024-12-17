@@ -6,11 +6,11 @@ import type { FileStat } from "webdav";
 import styles from "./styles.module.css";
 
 import { getUser } from "../../utils/auth";
+import { useQuery } from "../../utils/query";
 import { ContextMenu } from "./context-menu";
 import { type FileType, icons } from "./icons";
 import { formatSize, sortFiles } from "./util";
 import { createWebDAVClient } from "./webdav";
-import { useQuery } from "../../utils/query";
 
 export type DawdleFile = {
 	name: string;

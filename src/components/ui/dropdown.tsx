@@ -1,5 +1,5 @@
-import styles from "./dropdown.module.css";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import styles from "./dropdown.module.css";
 
 type DropdownField = {
 	label: string | React.ReactNode;

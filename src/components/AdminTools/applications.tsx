@@ -1,6 +1,7 @@
 import "./table";
 
-import styles from "./style.module.css";
+import { AgGridReact, type CustomCellRendererProps } from "ag-grid-react";
+import { CheckIcon, EllipsisVerticalIcon } from "lucide-react";
 import {
 	approveApplication,
 	deleteApplication,
@@ -9,9 +10,8 @@ import {
 	updateApplicationUsername,
 } from "../../utils/api";
 import { useQuery } from "../../utils/query";
-import { AgGridReact, type CustomCellRendererProps } from "ag-grid-react";
-import { CheckIcon, EllipsisVerticalIcon } from "lucide-react";
 import { Dropdown } from "../ui/dropdown";
+import styles from "./style.module.css";
 
 type Application = {
 	about: string;

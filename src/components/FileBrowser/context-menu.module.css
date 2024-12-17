@@ -3,136 +3,136 @@
 @import "@radix-ui/colors/violet.css";
 
 .Form {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 
-  > div {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+	> div {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
 
-    margin-top: 0.8rem;
-    margin-bottom: 0.5rem;
-    label {
-      font-size: 0.8rem;
-    }
-  }
+		margin-top: 0.8rem;
+		margin-bottom: 0.5rem;
+		label {
+			font-size: 0.8rem;
+		}
+	}
 
-  button {
-    cursor: pointer;
-    border: var(--border);
-    background: none;
-    padding: 0.5rem;
-    color: #fff;
-    margin-top: 0.8rem;
+	button {
+		cursor: pointer;
+		border: var(--border);
+		background: none;
+		padding: 0.5rem;
+		color: #fff;
+		margin-top: 0.8rem;
 
-    &:hover {
-      color: #ffffff;
-      background: #ffffff1f;
-    }
+		&:hover {
+			color: #ffffff;
+			background: #ffffff1f;
+		}
 
-    &[data-secondary] {
-      background: #ffffff1a;
+		&[data-secondary] {
+			background: #ffffff1a;
 
-      &:hover {
-        color: #fff;
-        background: #ffffff45;
-      }
-    }
-  }
+			&:hover {
+				color: #fff;
+				background: #ffffff45;
+			}
+		}
+	}
 }
 
 .ContextMenuTrigger {
-  user-select: none;
-  flex: 1;
-  padding-bottom: 2rem;
+	user-select: none;
+	flex: 1;
+	padding-bottom: 2rem;
 }
 
 .ContextMenuContent,
 .ContextMenuSubContent {
-  min-width: 220px;
-  background-color: var(--background-light);
-  border-radius: 6px;
-  overflow: hidden;
-  padding: 0.4rem 0.4rem;
+	min-width: 220px;
+	background-color: var(--background-light);
+	border-radius: 6px;
+	overflow: hidden;
+	padding: 0.4rem 0.4rem;
 }
 
 .ContextMenuItem,
 .ContextMenuCheckboxItem,
 .ContextMenuRadioItem,
 .ContextMenuSubTrigger {
-  cursor: pointer;
-  font-size: 13px;
-  line-height: 1;
-  color: #e6f8fe;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  padding: 0.4rem 0.5rem;
-  position: relative;
-  user-select: none;
-  outline: none;
+	cursor: pointer;
+	font-size: 13px;
+	line-height: 1;
+	color: #e6f8fe;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	padding: 0.4rem 0.5rem;
+	position: relative;
+	user-select: none;
+	outline: none;
 }
 .ContextMenuSubTrigger[data-state="open"] {
-  background-color: #1d2b36;
-  color: #64a5ba;
+	background-color: #1d2b36;
+	color: #64a5ba;
 }
 .ContextMenuItem[data-disabled],
 .ContextMenuCheckboxItem[data-disabled],
 .ContextMenuRadioItem[data-disabled],
 .ContextMenuSubTrigger[data-disabled] {
-  color: var(--mauve-8);
-  pointer-events: "none";
+	color: var(--mauve-8);
+	pointer-events: "none";
 }
 
 .ContextMenuItem[data-highlighted],
 .ContextMenuCheckboxItem[data-highlighted],
 .ContextMenuRadioItem[data-highlighted],
 .ContextMenuSubTrigger[data-highlighted] {
-  background-color: #3f5363;
-  color: var(--violet-1);
+	background-color: #3f5363;
+	color: var(--violet-1);
 }
 
 .ContextMenuLabel {
-  padding-left: 25px;
-  font-size: 12px;
-  line-height: 25px;
-  color: var(--mauve-11);
+	padding-left: 25px;
+	font-size: 12px;
+	line-height: 25px;
+	color: var(--mauve-11);
 }
 
 .ContextMenuSeparator {
-  height: 1px;
-  background-color: var(--violet-6);
-  margin: 5px;
+	height: 1px;
+	background-color: var(--violet-6);
+	margin: 5px;
 }
 
 .ContextMenuItemIndicator {
-  position: absolute;
-  left: 0;
-  width: 25px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+	position: absolute;
+	left: 0;
+	width: 25px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .RightSlot {
-  margin-left: auto;
-  padding-left: 20px;
-  color: rgba(255, 255, 255, 0.716);
+	margin-left: auto;
+	padding-left: 20px;
+	color: rgba(255, 255, 255, 0.716);
 }
 [data-delete] > .RightSlot {
-  color: #ff5a52;
+	color: #ff5a52;
 }
 
 [data-highlighted] > .RightSlot {
-  color: white;
+	color: white;
 }
 
 [data-delete][data-highlighted] > .RightSlot {
-  color: #ff5a52;
+	color: #ff5a52;
 }
 
 [data-disabled] .RightSlot {
-  color: var(--mauve-8);
+	color: var(--mauve-8);
 }

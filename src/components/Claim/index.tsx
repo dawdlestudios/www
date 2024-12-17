@@ -1,8 +1,8 @@
 import { navigate } from "astro/virtual-modules/transitions-router.js";
 import { useState } from "react";
 import { claimUsername } from "../../utils/api";
-import styles from "./claim.module.css";
 import { getUser } from "../../utils/auth";
+import styles from "./claim.module.css";
 
 const user = getUser();
 
