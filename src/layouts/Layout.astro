@@ -67,7 +67,7 @@ const url = new URL(Astro.request.url);
     overflow: hidden;
     border-bottom: none;
 
-    :global(li a) {
+    ::global(li a) {
       padding: 0 1.2rem;
       color: var(--text-dark);
       font-weight: 400;
@@ -78,7 +78,7 @@ const url = new URL(Astro.request.url);
       }
     }
 
-    :global(li) {
+    ::global(li) {
       &[data-active] {
         background: var(--border-color);
         a {
@@ -90,7 +90,7 @@ const url = new URL(Astro.request.url);
       border-right: var(--border);
     }
 
-    :global(.login)  {
+    ::global(.login)  {
       margin-left: auto;
       border-right: none;
     }
@@ -100,7 +100,7 @@ const url = new URL(Astro.request.url);
       min-width: 100%;
       max-width: calc(100vw - 2rem);
 
-      :global(li) {
+      ::global(li) {
         text-align: center;
         flex: 1;
         border-right: none;
@@ -169,7 +169,7 @@ const url = new URL(Astro.request.url);
     color: var(--text);
     overflow: auto;
 
-    :global(h1, h2, h3) {
+    ::global(h1, h2, h3) {
       color: var(--heading);
     }
   }

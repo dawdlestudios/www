@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import "@fontsource-variable/victor-mono";
 import "./../global.css";
 
@@ -10,10 +10,10 @@ interface Props {
 
 const { title, maxWidth } = Astro.props;
 ---
- 
+
 <html lang="en" transition:animate="none">
   <head>
-    <ViewTransitions />
+    <ClientRouter />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" href="data:," />
@@ -23,10 +23,10 @@ const { title, maxWidth } = Astro.props;
   <body>
     <slot />
     <style define:vars={{ maxWidth }}>
-      :global(body) {
+      ::global(body) {
         --max-width: var(--maxWidth);
       }
     </style>
-    <script type="module" src="https://a.explodingcamera.com/script.js" data-entity="dawdle.space"></script>
+    <script is:inline type="module" src="https://a.explodingcamera.com/script.js" data-entity="dawdle.space"></script>
   </body>
 </html>

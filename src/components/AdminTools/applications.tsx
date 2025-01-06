@@ -1,7 +1,7 @@
 import "./table";
 
 import { AgGridReact, type CustomCellRendererProps } from "ag-grid-react";
-import { CheckIcon, EllipsisVerticalIcon } from "lucide-react";
+import { EllipsisVerticalIcon } from "lucide-react";
 import {
 	approveApplication,
 	deleteApplication,

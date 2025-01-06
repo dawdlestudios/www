@@ -8,7 +8,7 @@ import {
 	removePublicKey,
 	updateMinecraft,
 } from "../../utils/api";
-import { getRole, getUser, useUser } from "../../utils/auth";
+import { getRole, useUser } from "../../utils/auth";
 import { useQuery } from "../../utils/query";
 import { Dialog } from "../ui/dialog";
 import styles from "./settings.module.css";
